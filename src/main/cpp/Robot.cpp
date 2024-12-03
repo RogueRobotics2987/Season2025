@@ -39,7 +39,7 @@ void Robot::AutonomousInit() {
   if (m_autonomousCommand) {
     m_autonomousCommand->Schedule();
   }
-}
+} // cknutson 2
 
 void Robot::AutonomousPeriodic() {}
 
