@@ -73,7 +73,7 @@ void Robot::TeleopPeriodic() {
    * Apply values to left and right side. We will only need to set the leaders
    * since the other motors are in follower mode.
    */
-  m_leftLeader.Set(forward);
+  m_leftLeader.Set(Curve.apply(forward));
   // m_rightLeader.Set(forward - rotation);
 }
 

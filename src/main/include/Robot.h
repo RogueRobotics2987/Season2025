@@ -5,7 +5,7 @@
 #pragma once
 
 #include <optional>
-
+#include "TeleopCurve.h"
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
 #include <frc2/command/CommandPtr.h>
@@ -19,6 +19,7 @@ class Robot : public frc::TimedRobot {
  private:
   SparkMax m_leftLeader{9, SparkMax::MotorType::kBrushless};
   frc::XboxController joystick{0};
+  TeleopCurve Curve;
  public:
   Robot();
   void RobotPeriodic() override;
