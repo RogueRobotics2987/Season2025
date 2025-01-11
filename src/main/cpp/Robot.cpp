@@ -5,8 +5,18 @@
 #include "Robot.h"
 
 #include <frc2/command/CommandScheduler.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <rev/config/SparkMaxConfig.h>
 
-Robot::Robot() {}
+Robot::Robot() {
+  SparkMaxConfig globalConfig;
+  globalConfig.SmartCurrentLimit(50).SetIdleMode(
+      SparkMaxConfig::IdleMode::kBrake);
+
+  m_leftLeader.Configure(globalConfig,
+                         SparkMax::ResetMode::kResetSafeParameters,
+                         SparkMax::PersistMode::kPersistParameters);
+}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
@@ -18,6 +28,7 @@ Robot::Robot() {}
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
+  frc::SmartDashboard::PutNumber("Left Out", m_leftLeader.GetAppliedOutput());
 }
 
 /**
@@ -56,7 +67,15 @@ void Robot::TeleopInit() {
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  double forward = -joystick.GetLeftY();
+  /*
+   * Apply values to left and right side. We will only need to set the leaders
+   * since the other motors are in follower mode.
+   */
+  m_leftLeader.Set(forward);
+  // m_rightLeader.Set(forward - rotation);
+}
 
 /**
  * This function is called periodically during test mode.

@@ -7,11 +7,18 @@
 #include <optional>
 
 #include <frc/TimedRobot.h>
+#include <frc/XboxController.h>
 #include <frc2/command/CommandPtr.h>
+#include <rev/SparkMax.h>
 
 #include "RobotContainer.h"
 
+using namespace rev::spark;
+
 class Robot : public frc::TimedRobot {
+ private:
+  SparkMax m_leftLeader{9, SparkMax::MotorType::kBrushless};
+  frc::XboxController joystick{0};
  public:
   Robot();
   void RobotPeriodic() override;
