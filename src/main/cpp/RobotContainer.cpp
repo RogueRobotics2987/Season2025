@@ -5,13 +5,24 @@
 #include "RobotContainer.h"
 
 #include <frc2/command/button/Trigger.h>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/CommandPtr.h>
+#include <frc2/command/Command.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
+#include <pathplanner/lib/path/PathPlannerPath.h>
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <memory>
 
 #include "commands/Autos.h"
 #include "commands/ExampleCommand.h"
 
+using namespace pathplanner;
+
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
-
+  autoChooser = AutoBuilder::buildAutoChooser();
+  frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
   // Configure the button bindings
   ConfigureBindings();
 }
@@ -31,5 +42,5 @@ void RobotContainer::ConfigureBindings() {
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  return autos::ExampleAuto(&m_subsystem);
+  return autoChooser.GetSelected();
 }
