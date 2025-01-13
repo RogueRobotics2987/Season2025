@@ -4,32 +4,48 @@
 
 #include "RobotContainer.h"
 
-#include <frc2/command/button/Trigger.h>
+#include <frc2/command/Commands.h>
 
-#include "commands/Autos.h"
-#include "commands/ExampleCommand.h"
-
-RobotContainer::RobotContainer() {
-  // Initialize all of your commands and subsystems here
-
-  // Configure the button bindings
-  ConfigureBindings();
+RobotContainer::RobotContainer()
+{
+    // Initialize all of your commands and subsystems here
+    
+    // Configure the button bindings
+    ConfigureBindings();
 }
 
-void RobotContainer::ConfigureBindings() {
-  // Configure your trigger bindings here
+void RobotContainer::ConfigureBindings()
+{
+    // Note that X is defined as forward according to WPILib convention,
+    // and Y is defined as to the left according to WPILib convention.
+    drivetrain.SetDefaultCommand(
+        // Drivetrain will execute this command periodically
+        drivetrain.ApplyRequest([this]() -> auto&& {
+            return drive.WithVelocityX(-joystick.GetLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                .WithVelocityY(-joystick.GetLeftX() * MaxSpeed) // Drive left with negative X (left)
+                .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate); // Drive counterclockwise with negative X (left)
+        })
+    );
 
-  // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-  frc2::Trigger([this] {
-    return m_subsystem.ExampleCondition();
-  }).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
+    joystick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
+    joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
+        return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
+    }));
 
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
-  m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
+    // Run SysId routines when holding back/start and X/Y.
+    // Note that each routine should be run exactly once in a single log.
+    (joystick.Back() && joystick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));
+    (joystick.Back() && joystick.X()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kReverse));
+    (joystick.Start() && joystick.Y()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kForward));
+    (joystick.Start() && joystick.X()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kReverse));
+
+    // reset the field-centric heading on left bumper press
+    joystick.LeftBumper().OnTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
+
+    drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
 }
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  // An example command will be run in autonomous
-  return autos::ExampleAuto(&m_subsystem);
+frc2::CommandPtr RobotContainer::GetAutonomousCommand()
+{
+    return frc2::cmd::Print("No autonomous command configured");
 }

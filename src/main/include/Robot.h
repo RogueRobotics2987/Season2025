@@ -17,16 +17,19 @@ class Robot : public frc::TimedRobot {
   void RobotPeriodic() override;
   void DisabledInit() override;
   void DisabledPeriodic() override;
+  void DisabledExit() override;
   void AutonomousInit() override;
   void AutonomousPeriodic() override;
+  void AutonomousExit() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
+  void TeleopExit() override;
+  void TestInit() override;
   void TestPeriodic() override;
-  void SimulationInit() override;
-  void SimulationPeriodic() override;
+  void TestExit() override;
 
  private:
-  // Have it empty by default so that if testing teleop it
+ // Have it empty by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
   std::optional<frc2::CommandPtr> m_autonomousCommand;
 

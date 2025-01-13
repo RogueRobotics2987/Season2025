@@ -29,6 +29,8 @@ void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}
 
+void Robot::DisabledExit() {}
+
 /**
  * This autonomous runs the autonomous command selected by your {@link
  * RobotContainer} class.
@@ -42,6 +44,8 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {}
+
+void Robot::AutonomousExit() {}
 
 void Robot::TeleopInit() {
   // This makes sure that the autonomous stops running when
@@ -58,20 +62,18 @@ void Robot::TeleopInit() {
  */
 void Robot::TeleopPeriodic() {}
 
+void Robot::TeleopExit() {}
+
+void Robot::TestInit() {
+  frc2::CommandScheduler::GetInstance().CancelAll();
+}
+
 /**
  * This function is called periodically during test mode.
  */
 void Robot::TestPeriodic() {}
 
-/**
- * This function is called once when the robot is first started up.
- */
-void Robot::SimulationInit() {}
-
-/**
- * This function is called periodically whilst in simulation.
- */
-void Robot::SimulationPeriodic() {}
+void Robot::TestExit() {}
 
 #ifndef RUNNING_FRC_TESTS
 int main() {
