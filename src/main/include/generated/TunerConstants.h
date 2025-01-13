@@ -18,7 +18,7 @@ class TunerConstants {
     // output type specified by SwerveModuleConstants::SteerMotorClosedLoopOutput
     static constexpr configs::Slot0Configs steerGains = configs::Slot0Configs{}
         .WithKP(100).WithKI(0).WithKD(0.5)
-        .WithKS(0.1).WithKV(2.66).WithKA(0)
+        .WithKS(0.1).WithKV(0).WithKA(0)
         .WithStaticFeedforwardSign(signals::StaticFeedforwardSignValue::UseClosedLoopSign);
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants::DriveMotorClosedLoopOutput
@@ -70,15 +70,15 @@ public:
 
     // Theoretical free speed (m/s) at 12 V applied output;
     // This needs to be tuned to your individual robot
-    static constexpr units::meters_per_second_t kSpeedAt12Volts = 4.73_mps;
+    static constexpr units::meters_per_second_t kSpeedAt12Volts = 5_mps;
 
 private:
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
-    static constexpr units::scalar_t kCoupleRatio = 3.5714285714285716;
+    static constexpr units::scalar_t kCoupleRatio = 0;
 
-    static constexpr units::scalar_t kDriveGearRatio = 6.746031746031747;
-    static constexpr units::scalar_t kSteerGearRatio = 21.428571428571427;
+    static constexpr units::scalar_t kDriveGearRatio = 0;
+    static constexpr units::scalar_t kSteerGearRatio = 0;
     static constexpr units::inch_t kWheelRadius = 2_in;
 
     static constexpr bool kInvertLeftSide = false;
@@ -128,7 +128,7 @@ private:
     static constexpr int kFrontLeftDriveMotorId = 3;
     static constexpr int kFrontLeftSteerMotorId = 7;
     static constexpr int kFrontLeftEncoderId = 11;
-    static constexpr units::turn_t kFrontLeftEncoderOffset = 0.328857421875_tr;
+    static constexpr units::turn_t kFrontLeftEncoderOffset = 0.15283203125_tr;
     static constexpr bool kFrontLeftSteerMotorInverted = true;
     static constexpr bool kFrontLeftEncoderInverted = false;
 
@@ -139,7 +139,7 @@ private:
     static constexpr int kFrontRightDriveMotorId = 4;
     static constexpr int kFrontRightSteerMotorId = 8;
     static constexpr int kFrontRightEncoderId = 12;
-    static constexpr units::turn_t kFrontRightEncoderOffset = -0.16357421875_tr;
+    static constexpr units::turn_t kFrontRightEncoderOffset = -0.133544921875_tr;
     static constexpr bool kFrontRightSteerMotorInverted = true;
     static constexpr bool kFrontRightEncoderInverted = false;
 
@@ -150,7 +150,7 @@ private:
     static constexpr int kBackLeftDriveMotorId = 2;
     static constexpr int kBackLeftSteerMotorId = 6;
     static constexpr int kBackLeftEncoderId = 10;
-    static constexpr units::turn_t kBackLeftEncoderOffset = -0.169189453125_tr;
+    static constexpr units::turn_t kBackLeftEncoderOffset = 0.038330078125_tr;
     static constexpr bool kBackLeftSteerMotorInverted = true;
     static constexpr bool kBackLeftEncoderInverted = false;
 
@@ -161,7 +161,7 @@ private:
     static constexpr int kBackRightDriveMotorId = 1;
     static constexpr int kBackRightSteerMotorId = 5;
     static constexpr int kBackRightEncoderId = 9;
-    static constexpr units::turn_t kBackRightEncoderOffset = -0.201416015625_tr;
+    static constexpr units::turn_t kBackRightEncoderOffset = -0.433349609375_tr;
     static constexpr bool kBackRightSteerMotorInverted = true;
     static constexpr bool kBackRightEncoderInverted = false;
 
