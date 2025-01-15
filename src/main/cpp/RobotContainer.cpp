@@ -21,8 +21,8 @@ using namespace pathplanner;
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
-  autoChooser = AutoBuilder::buildAutoChooser();
-  frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
+  m_chooser = AutoBuilder::buildAutoChooser();
+  frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
   // Configure the button bindings
   ConfigureBindings();
 }
@@ -42,5 +42,5 @@ void RobotContainer::ConfigureBindings() {
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  return autoChooser.GetSelected();
+  return m_chooser.GetSelected();
 }
