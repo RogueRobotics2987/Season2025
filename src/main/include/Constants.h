@@ -19,3 +19,13 @@ namespace OperatorConstants {
 inline constexpr int kDriverControllerPort = 0;
 
 }  // namespace OperatorConstants
+
+
+namespace CoralSubsystemConstants {
+    inline constexpr int CANIdLeftElevator = 1;
+    inline constexpr int CANIdRightElevator = 2;
+    inline constexpr int CANIdGrabberArm = 3;
+    inline constexpr int CANIdLeftIntake = 4;
+    inline constexpr int CANIdRightIntake = 5;
+    inline constexpr SparkMax::MotorType NeoMotorType = SparkMax::MotorType::kBrushless;
+}
