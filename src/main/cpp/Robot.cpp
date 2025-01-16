@@ -6,16 +6,15 @@
 
 #include <frc2/command/CommandScheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <rev/config/SparkMaxConfig.h>
+using namespace ctre::phoenix6;
 
 Robot::Robot() {
-  SparkMaxConfig globalConfig;
-  globalConfig.SmartCurrentLimit(50).SetIdleMode(
-      SparkMaxConfig::IdleMode::kBrake);
+  // start with factory-default configs
+   configs::MotorOutputConfigs currentConfigs{};
 
-  m_leftLeader.Configure(globalConfig,
-                         SparkMax::ResetMode::kResetSafeParameters,
-                         SparkMax::PersistMode::kPersistParameters);
+   // The left motor is CCW+
+   currentConfigs.Inverted = signals::InvertedValue::CounterClockwise_Positive;
+   m_leftLeader.GetConfigurator().Apply(currentConfigs);
 }
 
 /**
@@ -28,7 +27,6 @@ Robot::Robot() {
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-  frc::SmartDashboard::PutNumber("Left Out", m_leftLeader.GetAppliedOutput());
 }
 
 /**
@@ -73,7 +71,10 @@ void Robot::TeleopPeriodic() {
    * Apply values to left and right side. We will only need to set the leaders
    * since the other motors are in follower mode.
    */
-  m_leftLeader.Set(Curve.apply(forward));
+  // modify control requests
+   m_leftOut.Output = Curve.apply(forward);
+    // send control requests
+   m_leftLeader.SetControl(m_leftOut);
   // m_rightLeader.Set(forward - rotation);
 }
 

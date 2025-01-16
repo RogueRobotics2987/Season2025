@@ -9,17 +9,11 @@
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
 #include <frc2/command/CommandPtr.h>
-#include <rev/SparkMax.h>
-
+#include <ctre/phoenix6/TalonFX.hpp>
 #include "RobotContainer.h"
 
-using namespace rev::spark;
-
 class Robot : public frc::TimedRobot {
- private:
-  SparkMax m_leftLeader{9, SparkMax::MotorType::kBrushless};
-  frc::XboxController joystick{0};
-  TeleopCurve Curve;
+
  public:
   Robot();
   void RobotPeriodic() override;
@@ -34,7 +28,11 @@ class Robot : public frc::TimedRobot {
   void SimulationPeriodic() override;
 
  private:
-  // Have it empty by default so that if testing teleop it
+  ctre::phoenix6::hardware::TalonFX m_leftLeader{0};
+  ctre::phoenix6::controls::DutyCycleOut m_leftOut{0};
+  frc::XboxController joystick{0};
+  TeleopCurve Curve;
+   // Have it empty by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
   std::optional<frc2::CommandPtr> m_autonomousCommand;
 
