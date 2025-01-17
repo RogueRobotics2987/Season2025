@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <rev/SparkMax.h>
+
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants.  This should not be used for any other
@@ -27,5 +29,7 @@ namespace CoralSubsystemConstants {
     inline constexpr int CANIdGrabberArm = 3;
     inline constexpr int CANIdLeftIntake = 4;
     inline constexpr int CANIdRightIntake = 5;
-    inline constexpr SparkMax::MotorType NeoMotorType = SparkMax::MotorType::kBrushless;
+    inline constexpr rev::spark::SparkMax::MotorType NeoMotorType = rev::spark::SparkMax::MotorType::kBrushless;
+    inline constexpr double restingArmAngle = -90;
+    inline constexpr double restingElevatorHeight = 0;
 }
