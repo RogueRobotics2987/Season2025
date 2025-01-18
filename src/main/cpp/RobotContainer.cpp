@@ -8,9 +8,6 @@
 
 RobotContainer::RobotContainer()
 {
-    // Initialize all of your commands and subsystems here
-    
-    // Configure the button bindings
     ConfigureBindings();
 }
 
@@ -22,7 +19,7 @@ void RobotContainer::ConfigureBindings()
         // Drivetrain will execute this command periodically
         drivetrain.ApplyRequest([this]() -> auto&& {
             return drive.WithVelocityX(joystick.GetLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                .WithVelocityY(-joystick.GetLeftX() * MaxSpeed) // Drive left with negative X (left)
+                .WithVelocityY(joystick.GetLeftX() * MaxSpeed) // Drive left with negative X (left)
                 .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate); // Drive counterclockwise with negative X (left)
         })
     );
