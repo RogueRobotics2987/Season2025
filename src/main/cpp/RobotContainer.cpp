@@ -22,8 +22,8 @@ using namespace pathplanner;
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-    m_chooser = AutoBuilder::buildAutoChooser();
-    frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
+    //m_chooser = AutoBuilder::buildAutoChooser();
+    //frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
     
     // Configure the button bindings
     ConfigureBindings();
@@ -58,7 +58,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     joystick.LeftBumper().OnTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
-    drivetrain.GetState().Pose
+    drivetrain.GetState().Pose;
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     frc2::Trigger([this] {
@@ -71,5 +71,5 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-    return m_chooser.GetSelected();
+    //return m_chooser.GetSelected();
 }

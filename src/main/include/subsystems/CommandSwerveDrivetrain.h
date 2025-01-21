@@ -108,6 +108,10 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     frc2::sysid::SysIdRoutine *m_sysIdRoutineToApply = &m_sysIdRoutineTranslation;
 
 public:
+
+   CommandSwerveDrivetrain(const CommandSwerveDrivetrain& other_object) {
+
+}
     /**
      * \brief Constructs a CTRE SwerveDrivetrain using the specified constants.
      *
@@ -221,6 +225,8 @@ public:
             return SetControl(request());
         });
     }
+
+    CommandSwerveDrivetrain(const CommandSwerveDrivetrain &other_object);
 
     void Periodic() override;
 
