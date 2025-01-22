@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ctre/phoenix6/SignalLogger.hpp"
-
+//#include "ctre/phoenix6/SignalLogger.hpp"
+#include "frc/DataLogManager.h"
 #include <frc/DriverStation.h>
 #include <frc/Notifier.h>
 #include <frc2/command/CommandPtr.h>

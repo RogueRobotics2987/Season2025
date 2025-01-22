@@ -1,6 +1,7 @@
 #pragma once
 
-#include "ctre/phoenix6/SignalLogger.hpp"
+//#include "ctre/phoenix6/SignalLogger.hpp"
+#include "frc/DataLogManager.h"
 #include <frc/smartdashboard/Mechanism2d.h>
 #include <frc/smartdashboard/MechanismLigament2d.h>
 #include <networktables/NetworkTableInstance.h>
@@ -68,7 +69,8 @@ public:
      */
     Telemetry(units::meters_per_second_t maxSpeed) : MaxSpeed{maxSpeed}
     {
-        ctre::phoenix6::SignalLogger::Start();
+        //ctre::phoenix6::SignalLogger::Start();
+        frc::DataLogManager::Start();
     }
 
     /** Accept the swerve drive state and telemeterize it to SmartDashboard and SignalLogger. */
