@@ -20,10 +20,16 @@ void setup() {
 } 
 void GBChase () {
   for(int i = 0; i < 144; i++) {
+    if (digitalRead(buttonPin) == 0){
+      return;
+    }
     strip.setPixelColor(i, 25, 0, 0);
     strip.show();
   }
   for(int i = 0; i < 144; i++) {
+     if (digitalRead(buttonPin) == 0){
+      return;
+    }  
     strip.setPixelColor(i, 0, 0, 25);
     strip.show();
   }
