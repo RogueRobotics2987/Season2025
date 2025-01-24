@@ -8,8 +8,10 @@ class TeleopCurve{
     public:
     TeleopCurve(){};
 
-    double apply(double input){
+    static double apply(double input){
         double output = input*input*input;
         return output; 
     }
 };
+
+// TeleopCurve::apply(joystick.GetLeftX());
