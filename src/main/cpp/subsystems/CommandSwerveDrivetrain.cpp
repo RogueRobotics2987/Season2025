@@ -14,10 +14,39 @@ using namespace subsystems;
 // 1. comment out autobuilder stuff to get code to compile
 // 2. add cout to copy constructor below to make sure this constructor is actually called in the code. build and deploy.
 // 3. once you see the cout in the log window, then add the path planner autobuilder stuff here
-CommandSwerveDrivetrain::CommandSwerveDrivetrain(const CommandSwerveDrivetrain& other_object) {
+//CommandSwerveDrivetrain::CommandSwerveDrivetrain(const CommandSwerveDrivetrain& other_object) {
 
     //std::cout << "the copy constructor is not being overridden!";
 
+//}
+
+void CommandSwerveDrivetrain::ConfigureAutoBuilder(){
+    auto config = pathplanner::RobotConfig::fromGUISettings();
+    pathplanner::AutoBuilder::configure(
+        [this] {return GetState().Pose; },
+        [this] (frc::Pose2d const &pose) {return ResetPose(pose); },
+        [this] {return GetState().Speeds; },
+        [this](frc::ChassisSpeeds const &speeds, pathplanner::DriveFeedforwards const &feedforwards) {
+            return SetControl(
+                m_pathApplyRobotSpeeds.WithSpeeds(speeds)
+                    .WithWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX)
+                    .WithWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY)
+            );
+        },
+        std::make_shared<pathplanner::PPHolonomicDriveController>(
+            // PID constants for translation
+            pathplanner::PIDConstants{10.0, 0.0, 0.0},
+            // PID constants for rotation
+            pathplanner::PIDConstants{7.0, 0.0, 0.0}
+        ),
+        std::move(config),
+        // Assume the path needs to be flipped for Red vs Blue, this is normally the case
+        [] {
+            auto const alliance = frc::DriverStation::GetAlliance().value_or(frc::DriverStation::Alliance::kBlue);
+            return alliance == frc::DriverStation::Alliance::kRed;
+        },
+        this // Subsystem for requirements
+    );
 }
 
 void CommandSwerveDrivetrain::Periodic()

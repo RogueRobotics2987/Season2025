@@ -12,6 +12,8 @@
 
 using namespace ctre::phoenix6;
 
+//TunerSwerveDrivetrain();
+
 namespace subsystems {
 
 /**
@@ -109,9 +111,9 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
 
 public:
 
-   CommandSwerveDrivetrain(const CommandSwerveDrivetrain& other_object) {
+   //CommandSwerveDrivetrain(const CommandSwerveDrivetrain& other_object) {
 
-}
+//}
     /**
      * \brief Constructs a CTRE SwerveDrivetrain using the specified constants.
      *

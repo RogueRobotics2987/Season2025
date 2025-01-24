@@ -29,6 +29,9 @@ class Robot : public frc::TimedRobot {
   void TestExit() override;
 
  private:
+ /* example has:
+  frc2::Command *m_autonmousCommand;
+ */
   std::optional<frc2::CommandPtr> m_autonomousCommand;
 
   RobotContainer m_container;
