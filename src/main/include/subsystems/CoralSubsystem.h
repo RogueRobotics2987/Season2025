@@ -36,12 +36,32 @@ class CoralSubsystem : public frc2::SubsystemBase {
     enum PossibleStates _state = EMPTY;
 
     // the motors on the robot
-    SparkMax _elavatorLeft{CoralSubsystemConstants::CANIdLeftElevator, SparkMax::MotorType::kBrushless};
-    SparkMax _elavatorRight{CoralSubsystemConstants::CANIdRightElevator, SparkMax::MotorType::kBrushless};
-    SparkMax _grabberArm{CoralSubsystemConstants::CANIdGrabberArm, SparkMax::MotorType::kBrushless};
-    SparkMax _intakeLeft{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};
-    SparkMax _intakeRight{CoralSubsystemConstants::CANIdRightIntake, SparkMax::MotorType::kBrushless};
+    
+    // elevatorLeft
+    SparkMax _elevatorLeft{CoralSubsystemConstants::CANIdLeftElevator, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorLeftclosedLoopController = _elevatorLeft.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorLeftencoder = _elevatorLeft.GetEncoder();
 
+    // elevatorRight
+    SparkMax _elevatorRight{CoralSubsystemConstants::CANIdRightElevator, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorRightclosedLoopController = _elevatorRight.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorRightencoder = _elevatorRight.GetEncoder();
+
+    // grabberArm
+    SparkMax _grabberArm{CoralSubsystemConstants::CANIdGrabberArm, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _grabberArmclosedLoopController = _grabberArm.GetClosedLoopController();
+    SparkRelativeEncoder _grabberArmencoder = _grabberArm.GetEncoder();
+
+    // intakeLeft
+    SparkMax _intakeLeft{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _intakeLeftclosedLoopController = _intakeLeft.GetClosedLoopController();
+    SparkRelativeEncoder _intakeLeftencoder = _intakeLeft.GetEncoder();
+
+    // intakeRight
+    SparkMax _intakeRight{CoralSubsystemConstants::CANIdRightIntake, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _intakeRightclosedLoopController = _intakeRight.GetClosedLoopController();
+    SparkRelativeEncoder _intakeRightencoder = _intakeRight.GetEncoder();
+    
     // Initializes a DigitalInput on DIO 0
     frc::DigitalInput _funnelSensor{0};
     frc::DigitalInput _troughSensor{1};
