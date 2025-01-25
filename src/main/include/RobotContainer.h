@@ -9,7 +9,6 @@
 #include <frc2/command/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
 
-#include "subsystems/ExampleSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Constants.h"
 #include "Telemetry.h"
@@ -51,12 +50,8 @@ private: // Why are there two privates?
     // Replace with CommandPS4Controller or CommandJoystick if needed
     frc2::CommandXboxController m_driverController{
         OperatorConstants::kDriverControllerPort};
-    
-    // The robot's subsystems are defined here...
-    ExampleSubsystem m_subsystem;
 
     //frc::SendableChooser<frc2::Command> m_chooser;
 
-   
     void ConfigureBindings();
 };

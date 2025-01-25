@@ -14,9 +14,6 @@
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <memory> 
 
-#include "commands/Autos.h"
-#include "commands/ExampleCommand.h"
-
 using namespace pathplanner;
 
 RobotContainer::RobotContainer()
@@ -60,13 +57,14 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     drivetrain.GetState().Pose;
 
+    // TODO: This should be deleted once the code is stable.
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    frc2::Trigger([this] {
-    return m_subsystem.ExampleCondition();
-    }).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
+    //frc2::Trigger([this] {
+    //return m_subsystem.ExampleCondition();
+    //}).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
     // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
     // pressed, cancelling on release.
-    m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
+    //m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()

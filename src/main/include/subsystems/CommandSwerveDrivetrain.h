@@ -111,10 +111,6 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     frc2::sysid::SysIdRoutine *m_sysIdRoutineToApply = &m_sysIdRoutineTranslation;
 
 public:
-
-   //CommandSwerveDrivetrain(const CommandSwerveDrivetrain& other_object) {
-
-//}
     /**
      * \brief Constructs a CTRE SwerveDrivetrain using the specified constants.
      *
@@ -233,7 +229,8 @@ public:
         });
     }
 
-    CommandSwerveDrivetrain(const CommandSwerveDrivetrain &other_object);
+    // TODO: I don't think this is supposed to be here. 
+    //CommandSwerveDrivetrain(const CommandSwerveDrivetrain &other_object);
 
     void Periodic() override;
 
@@ -261,10 +258,8 @@ public:
         return m_sysIdRoutineToApply->Dynamic(direction);
     }
 
-
-private:
-    void ConfigureAutoBuilder();
-    void StartSimThread();
-};
-
+    private:
+        void ConfigureAutoBuilder();
+        void StartSimThread();
+    };
 }
