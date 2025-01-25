@@ -23,8 +23,11 @@ class TunerConstants {
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants::DriveMotorClosedLoopOutput
     static constexpr configs::Slot0Configs driveGains = configs::Slot0Configs{}
-        .WithKP(0.1).WithKI(0).WithKD(0)
-        .WithKS(0).WithKV(0.124);
+        .WithKP(0.148).WithKI(0).WithKD(0)
+        .WithKS(0.248).WithKV(0.117);
+        
+        /* .WithKP(0.1).WithKI(0).WithKD(0)
+        .WithKS(0).WithKV(0.124); */
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
@@ -84,7 +87,7 @@ private:
     static constexpr bool kInvertLeftSide = false;
     static constexpr bool kInvertRightSide = true;
 
-    static constexpr int kPigeonId = 1;
+    static constexpr int kPigeonId = 0;
 
     // These are only used for simulation
     static constexpr units::kilogram_square_meter_t kSteerInertia = 0.01_kg_sq_m;
