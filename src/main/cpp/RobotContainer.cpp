@@ -19,8 +19,8 @@ using namespace pathplanner;
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-    //m_chooser = pathplanner::AutoBuilder::buildAutoChooser();
-    //frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
+    m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests");
+    frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
     
     // Configure the button bindings
     ConfigureBindings();
@@ -33,8 +33,8 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.ApplyRequest([this]() -> auto&& {
-            return drive.WithVelocityX(joystick.GetLeftY() * MaxSpeed) // Drive forward with positive Y (forward)
-                .WithVelocityY(joystick.GetLeftX() * MaxSpeed) // Drive left with positive X (left)
+            return drive.WithVelocityX(-joystick.GetLeftY() * MaxSpeed) // Drive forward with positive Y (forward)
+                .WithVelocityY(-joystick.GetLeftX() * MaxSpeed) // Drive left with positive X (left)
                 .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate); // Drive counterclockwise with negative X (left)
         })
     );
@@ -56,18 +56,15 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     drivetrain.GetState().Pose;
-
-    // TODO: This should be deleted once the code is stable.
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    //frc2::Trigger([this] {
-    //return m_subsystem.ExampleCondition();
-    //}).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
-    // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-    // pressed, cancelling on release.
-    //m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-    //return m_chooser.GetSelected();
+    //return m_chooser.GetSelected(); //*m_chooser compiles when this is not being returned
+
+    //auto path = PathPlannerPath::fromPathFile("TestMoveOutPath");
+
+    return PathPlannerAuto("TestAuto").ToPtr();
+
+    //return AutoBuilder::followPath(path);
 }

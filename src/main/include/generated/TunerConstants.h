@@ -25,9 +25,6 @@ class TunerConstants {
     static constexpr configs::Slot0Configs driveGains = configs::Slot0Configs{}
         .WithKP(0.148).WithKI(0).WithKD(0)
         .WithKS(0.248).WithKV(0.117);
-        
-        /* .WithKP(0.1).WithKI(0).WithKD(0)
-        .WithKS(0).WithKV(0.124); */
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors

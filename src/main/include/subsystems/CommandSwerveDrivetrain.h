@@ -229,9 +229,6 @@ public:
         });
     }
 
-    // TODO: I don't think this is supposed to be here. 
-    //CommandSwerveDrivetrain(const CommandSwerveDrivetrain &other_object);
-
     void Periodic() override;
 
     /**
