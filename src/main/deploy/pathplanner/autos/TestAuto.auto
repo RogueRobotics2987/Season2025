@@ -9,6 +9,12 @@
           "data": {
             "pathName": "TestSquarePathTurning"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
+          }
         }
       ]
     }

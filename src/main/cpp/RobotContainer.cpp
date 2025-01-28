@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
+#include "PlaceL4CMD.h"
+#include "subsystems/CoralSubsystem.h"
 
 #include <frc2/command/Commands.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
@@ -15,13 +17,15 @@
 #include <memory> 
 
 using namespace pathplanner;
-
+     
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
     m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests");
     frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
-    
+
+   // NamedCommands::registerCommand("PlaceL4CMD", std::make_shared<frc2::Place_armAndElevatorL4);
+
     // Configure the button bindings
     ConfigureBindings();
 }

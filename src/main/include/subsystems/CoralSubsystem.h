@@ -26,6 +26,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void Set_coralPlace(bool setCoralPlace);
   void ResetState();
   void Set_armAndElevator(double setArmAngle, double setElevatorHeight);
+  void Place_armAndElevatorL4(double setArmAngle, double setElevatorHeight, bool setCoralPlace);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

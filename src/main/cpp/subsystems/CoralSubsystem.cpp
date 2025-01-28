@@ -115,6 +115,12 @@ void CoralSubsystem::Set_armAndElevator(double setArmAngle, double setElevatorHe
     _elevatorHeight = setElevatorHeight;
 }
 
+void CoralSubsystem::Place_armAndElevatorL4(double setArmAngle, double setElevatorHeight, bool setCoralPlace) {
+    _armAngle = setArmAngle;
+    _elevatorHeight = setElevatorHeight;
+    _coralPlace = setCoralPlace;
+}
+
 // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() {
 
@@ -133,7 +139,7 @@ void CoralSubsystem::Periodic() {
             // arm at loading position
             // both claw motors off
 
-            _elavatorLeft.GetPIDController()
+            _elavatorLeft.GetPIDController();
 
             if (_funnelBB == true) {
                 _state = CORAL_IN_FUNNEL;
