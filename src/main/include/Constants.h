@@ -24,7 +24,7 @@ inline constexpr int kDriverControllerPort = 0;
 
 
 namespace CoralSubsystemConstants {
-    inline constexpr int CANIdLeftElevator = 1;
+    inline constexpr int CANIdLeftElevator = 48;
     inline constexpr int CANIdRightElevator = 2;
     inline constexpr int CANIdGrabberArm = 3;
     inline constexpr int CANIdLeftIntake = 4;

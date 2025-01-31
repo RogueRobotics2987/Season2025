@@ -100,6 +100,11 @@ CoralSubsystem::CoralSubsystem(){
     _grabberArm.Configure(_grabberArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeLeft.Configure(_intakeLeftConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeRight.Configure(_intakeRightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+
+    _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
+    _troughBB = frc::SmartDashboard::SetDefaultBoolean("Trough Beam Break", false);
+    _coralPlace = frc::SmartDashboard::SetDefaultBoolean("Coral Place", false);
+    _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
 
 void CoralSubsystem::Set_coralPlace(bool setCoralPlace) {
@@ -117,13 +122,17 @@ void CoralSubsystem::Set_armAndElevator(double setArmAngle, double setElevatorHe
 
 // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() {
-
+    frc::SmartDashboard::PutString("Periodic Running", "true");
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
-    _funnelBB = _funnelSensor.Get();
+/*    _funnelBB = _funnelSensor.Get();
     _troughBB = _troughSensor.Get();
-    _clawBB = _clawSensor.Get();
-    
+    _clawBB = _clawSensor.Get();*/
+    _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
+    _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
+    _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
+    _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
+
     switch (_state) {
 
         case EMPTY:
@@ -132,8 +141,7 @@ void CoralSubsystem::Periodic() {
             // elevator at loading position
             // arm at loading position
             // both claw motors off
-
-            _elavatorLeft.GetPIDController()
+            _elevatorLeftclosedLoopController.SetReference(0, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 
             if (_funnelBB == true) {
                 _state = CORAL_IN_FUNNEL;
