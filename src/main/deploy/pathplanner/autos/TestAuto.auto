@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestSquarePathTurning"
+            "pathName": "TestMoveOutPath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "PlaceL4CMD"
           }
         }
       ]

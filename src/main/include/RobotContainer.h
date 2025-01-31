@@ -44,7 +44,7 @@ public:
 
     RobotContainer();
     
-    frc2::CommandPtr GetAutonomousCommand(); //raw pointer because pathplanner LIB sendable chooser
+    frc2::CommandPtr GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 
 private: // Why are there two privates? 
     // Replace with CommandPS4Controller or CommandJoystick if needed

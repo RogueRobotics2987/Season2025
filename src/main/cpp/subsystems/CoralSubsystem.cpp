@@ -139,7 +139,7 @@ void CoralSubsystem::Periodic() {
             // arm at loading position
             // both claw motors off
 
-            _elavatorLeft.GetPIDController();
+            //_elevatorLeft.GetPIDController();
 
             if (_funnelBB == true) {
                 _state = CORAL_IN_FUNNEL;

@@ -2,26 +2,34 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "PlaceL4CMD.h"
+#include "commands/PlaceL4CMD.h"
 #include "subsystems/CoralSubsystem.h"
 
-CommanPlaceL4::CommanPlaceL4() {
+#include <iostream>
+
+PlaceL4CMD::PlaceL4CMD() {
   // Use addRequirements() here to declare subsystem dependencies.
+   //PlaceL4CMD(CoralSubsystem& subsystem) : m_subsystem(subsystem) {
+    // Add the subsystem as a requirement
+    //AddRequirements(m_coralsubsystem); 
+  //}
+
 }
 
 // Called when the command is initially scheduled.
-void CommanPlaceL4::Initialize() {}
+void PlaceL4CMD::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void CommanPlaceL4::Execute() {
-  void Place_armAndElevatorL4(double setArmAngle, double setElevatorHeight, bool setCoralPlace);
+void PlaceL4CMD::Execute() {
+  //void Place_armAndElevatorL4(double setArmAngle, double setElevatorHeight, bool setCoralPlace);
+  std::cout << "WOW!" << std::endl;
 
 }
 
 // Called once the command ends or is interrupted.
-void CommanPlaceL4::End(bool interrupted) {}
+void PlaceL4CMD::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool CommanPlaceL4::IsFinished() {
+bool PlaceL4CMD::IsFinished() {
   return false;
 }
