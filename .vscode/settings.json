@@ -14,5 +14,22 @@
     "**/.factorypath": true,
     "**/*~": true
   },
-  "C_Cpp.default.configurationProvider": "vscode-wpilib"
+  "C_Cpp.default.configurationProvider": "vscode-wpilib",
+  "files.associations": {
+    "array": "cpp",
+    "atomic": "cpp",
+    "string": "cpp",
+    "vector": "cpp",
+    "exception": "cpp",
+    "iterator": "cpp",
+    "functional": "cpp",
+    "initializer_list": "cpp",
+    "iosfwd": "cpp",
+    "new": "cpp",
+    "ratio": "cpp",
+    "stdexcept": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "utility": "cpp"
+  }
 }
