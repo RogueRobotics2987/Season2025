@@ -7,7 +7,7 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/sysid/SysIdRoutine.h>
-
+#include <networktables/DoubleArrayTopic.h>
 #include "generated/TunerConstants.h"
 
 using namespace ctre::phoenix6;
@@ -24,7 +24,6 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     static constexpr units::second_t kSimLoopPeriod = 5_ms;
     std::unique_ptr<frc::Notifier> m_simNotifier;
     units::second_t m_lastSimTime;
-
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     static constexpr frc::Rotation2d kBlueAlliancePerspectiveRotation{0_deg};
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
@@ -111,6 +110,8 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     frc2::sysid::SysIdRoutine *m_sysIdRoutineToApply = &m_sysIdRoutineTranslation;
 
 public:
+    nt::DoubleArraySubscriber positionSub;
+    nt::DoubleArraySubscriber orientationSub;
     /**
      * \brief Constructs a CTRE SwerveDrivetrain using the specified constants.
      *
@@ -130,6 +131,7 @@ public:
         }
 
         ConfigureAutoBuilder();
+        MapleInit();
     }
 
     /**
@@ -157,6 +159,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
+        MapleInit();
     }
 
     /**
@@ -191,6 +194,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
+        MapleInit();
     }
 
     /**
@@ -257,6 +261,7 @@ public:
 
     private:
         void ConfigureAutoBuilder();
+        void MapleInit();
         void StartSimThread();
     };
 }
