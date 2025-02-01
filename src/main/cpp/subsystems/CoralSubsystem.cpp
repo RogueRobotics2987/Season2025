@@ -114,9 +114,15 @@ void CoralSubsystem::Set_armAndElevator(double setArmAngle, double setElevatorHe
     _armAngle = setArmAngle;
     _elevatorHeight = setElevatorHeight;
 }
-
-// This method will be called once per scheduler run
+ 
+ // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() {
+        
+    frc::SmartDashboard::PutBoolean("_funnelBB", _funnelSensor.Get()); 
+    frc::SmartDashboard::PutNumber("_state", _state); 
+    frc::SmartDashboard::PutBoolean("_troughBB", _troughSensor.Get());
+    frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
+    frc::SmartDashboard::PutBoolean("_light2", _light2.Get());
 
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
@@ -127,34 +133,46 @@ void CoralSubsystem::Periodic() {
     switch (_state) {
 
         case EMPTY:
+            _light1.Set(true);
+            _light2.Set(true);
             // code
             // claw ready to grab coral
             // elevator at loading position
             // arm at loading position
             // both claw motors off
 
-            _elavatorLeft.GetPIDController()
-
-            if (_funnelBB == true) {
+            if (_funnelBB == false) {
                 _state = CORAL_IN_FUNNEL;
             }
-            break;
-
-        case CORAL_IN_FUNNEL:
-            // code
-            // wait until coral is in trough
-            if (_troughBB == true) {
+            if(_troughBB == false){
                 _state = CORAL_IN_TROUGH;
             }
             break;
 
+        case CORAL_IN_FUNNEL:
+            _light1.Set(false);
+            // code
+            // wait until coral is in trough
+            //if (_troughBB == true) {
+            //  _state = CORAL_IN_TROUGH;
+            //}
+            if(_funnelBB == true){
+                _state = EMPTY;
+            }
+        
+            break;
+
         case CORAL_IN_TROUGH:
+            _light2.Set(false);
             // code
             // lower arm and turn on intake motors
             // lower elevator to pick up position
             // turn on both claw motors
-            if (_clawBB == true) {
-                _state = ALLOW_CORAL_MOVE;
+            // if (_clawBB == true) {
+            //     _state = ALLOW_CORAL_MOVE;
+            // }
+            if(_troughBB == true){
+                _state = EMPTY;
             }
             break;
 
