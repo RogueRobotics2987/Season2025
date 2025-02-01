@@ -10,10 +10,13 @@
 #include <frc/DigitalInput.h>
 
 using namespace rev::spark;
+using namespace CoralSubsystemConstants;
 
 enum PossibleStates {
+  START_CALIBRATION,
+  ZERO,
   EMPTY,
-  CORAL_IN_FUNNEL,
+  // CORAL_IN_FUNNEL,
   CORAL_IN_TROUGH,
   ALLOW_CORAL_MOVE,
   CORAL_PLACE
@@ -38,14 +41,19 @@ class CoralSubsystem : public frc2::SubsystemBase {
     // the motors on the robot
     
     // elevatorLeft
-    SparkMax _elevatorLeft{CoralSubsystemConstants::CANIdLeftElevator, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorLeftclosedLoopController = _elevatorLeft.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorLeftencoder = _elevatorLeft.GetEncoder();
+    SparkMax _elevatorLeaderFirstStage{CoralSubsystemConstants::CANIdLeaderElevatorFirstStage, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorLeaderFirstStageClosedLoopController = _elevatorLeaderFirstStage.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorLeaderFirstStageEncoder = _elevatorLeaderFirstStage.GetEncoder();
 
     // elevatorRight
-    SparkMax _elevatorRight{CoralSubsystemConstants::CANIdRightElevator, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorRightclosedLoopController = _elevatorRight.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorRightencoder = _elevatorRight.GetEncoder();
+    SparkMax _elevatorFollowerFirstStage{CoralSubsystemConstants::CANIdFollowerElevatorFirstStage, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorFollowerFirstStageClosedLoopController = _elevatorFollowerFirstStage.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorFollowerFirstStageEncoder = _elevatorFollowerFirstStage.GetEncoder();
+
+    // elevatorSecondStage
+    SparkMax _elevatorSecondStage{CoralSubsystemConstants::CANIdElevatorSecondStage, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorSecondStageClosedLoopController = _elevatorSecondStage.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorSecondStageEncoder = _elevatorSecondStage.GetEncoder();
 
     // grabberArm
     SparkMax _grabberArm{CoralSubsystemConstants::CANIdGrabberArm, SparkMax::MotorType::kBrushless};
