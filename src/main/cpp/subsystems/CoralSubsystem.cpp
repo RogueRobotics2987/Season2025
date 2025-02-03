@@ -150,7 +150,7 @@ void CoralSubsystem::Set_armAndElevator(double setArmAngle, double setElevatorHe
 
     if (setElevatorHeight < safetyElevatorHeight) { // checking if the set point doesnt go under intake pose
         if (setArmAngle < safetyArmAngle) {
-            setArmAngle = safetyArmAngle; // TODO: if elevator at 8 inches is this still safe?
+            setArmAngle = safetyArmAngle; // TODO: if elevator at 8 inches is this still safe? ANSWER: yes it is safe
         }
     }
 
@@ -216,7 +216,6 @@ void CoralSubsystem::Periodic() {
             break;
 
         case EMPTY:
-            // code
             // claw ready to grab coral
             // elevator at loading position
             // arm at loading position
@@ -229,7 +228,6 @@ void CoralSubsystem::Periodic() {
             break;
 
         // case CORAL_IN_FUNNEL:
-        //     // code
         //     // wait until coral is in trough
         //     if (_troughBB == true) {
         //         _state = CORAL_IN_TROUGH;
@@ -237,17 +235,17 @@ void CoralSubsystem::Periodic() {
         //     break;
 
         case CORAL_IN_TROUGH:
-            // code
-            // lower arm and turn on intake motors
-            // lower elevator to pick up position
-            // turn on both claw motors
+            // TODO: Intake auto on button press
+                // lower arm and turn on intake motors
+                // lower elevator to pick up position
+                // turn on both claw motors
+
             if (_clawBB == true) {
                 _state = ALLOW_CORAL_MOVE;
             }
             break;
 
         case ALLOW_CORAL_MOVE:
-            // code
             // change lights
             // allow it to move using presets
             // let the drivers do what they want
@@ -257,7 +255,6 @@ void CoralSubsystem::Periodic() {
             break;
 
         case CORAL_PLACE:
-            // code
             // arm swings down to place coral
             // if claw BB == false && armPose == lowered (change state to EMPTY)
             // arm move to place angle
