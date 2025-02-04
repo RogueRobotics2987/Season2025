@@ -71,24 +71,36 @@ void CommandSwerveDrivetrain::Periodic()
     }
 
     // Grabs the position and orintation values from the network table 'MAPLE'
-    std::vector<double> position = positionSub.Get();
-    std::vector<double> orientation = orientationSub.Get();
+    std::vector<double> position = positionSub.Get(); //elements x, y, z
+    std::vector<double> orientation = orientationSub.Get(); //elements roll, pitch, yaw
+    double xPose = position[0]; // taking x
+    double yPose = position[1]; // taking y
+    double yawAngle = orientation[2]; // taking yaw
+   
+    units::meter_t xPoseInMeters = units::meter_t {xPose}; 
+    units::meter_t yPoseInMeters = units::meter_t {yPose};
+    units::angle::degree_t yawAngleInDegree = units::angle::degree_t {yawAngle};
+   
+    frc::Rotation2d yawRotation2D = frc::Rotation2d(yawAngleInDegree);
 
-    units::time::second_t epochStatupTime = GetCurrentTime();   //find utils for currenttime () 
-    AddVisionMeasurement(Pose2D, ) //make pose2d()
+    frc::Pose2d pose2D(xPoseInMeters, yPoseInMeters, yawRotation2D);
+    
+    units::time::second_t epochStartupTime = utils::GetCurrentTime();   //find utils for currenttime () 
+    units::time::second_t convertedEpochStartupTime = utils::FPGAToCurrentTime(epochStartupTime);
+    AddVisionMeasurement(pose2D, convertedEpochStartupTime); //make pose2d()
 
-    // TODO: TEST PRINT OF THE VALUES; Delete these once testing is complete - we don't want to print 6 lines every cycle.
-    // std::cout << "position XYZ: ";
-    // for (double pos : position) {
-    //     std::cout << pos << " ";
-    // }
-    // std::cout << std::endl;
+    //TODO: TEST PRINT OF THE VALUES; Delete these once testing is complete - we don't want to print 6 lines every cycle.
+    std::cout << "position XYZ: ";
+    for (double pos : position) {
+        std::cout << pos << " ";
+    }
+    std::cout << std::endl;
 
-    // std::cout << "orientation RPY: ";
-    // for (double angle : orientation) {
-    //     std::cout << angle << " ";
-    // }
-    // std::cout << std::endl;
+    std::cout << "orientation RPY: ";
+    for (double angle : orientation) {
+        std::cout << angle << " ";
+    }
+    std::cout << std::endl;
 }
 
 void CommandSwerveDrivetrain::StartSimThread()
