@@ -31,7 +31,10 @@ void RobotContainer::ConfigureBindings()
         return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
     }));
     joystick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void {
-         frc::SmartDashboard::PutBoolean("brandonjoystick", true); 
+         frc::SmartDashboard::PutBoolean("brandonjoystick", true);
+         }).ToPtr());
+    joystick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void {
+         frc::SmartDashboard::PutBoolean("brandonjoystick", false);
          }).ToPtr());
 
     // Run SysId routines when holding back/start and X/Y.
