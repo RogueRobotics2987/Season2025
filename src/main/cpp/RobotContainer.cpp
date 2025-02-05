@@ -3,8 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
-
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
+#include <frc2/command/InstantCommand.h>
 
 RobotContainer::RobotContainer()
 {
@@ -13,6 +14,7 @@ RobotContainer::RobotContainer()
 
 void RobotContainer::ConfigureBindings()
 {
+    
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
     drivetrain.SetDefaultCommand(
@@ -28,6 +30,9 @@ void RobotContainer::ConfigureBindings()
     joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
         return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
     }));
+    joystick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void {
+         frc::SmartDashboard::PutBoolean("brandonjoystick", true); 
+         }).ToPtr());
 
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
