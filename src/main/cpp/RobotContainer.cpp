@@ -30,13 +30,11 @@ void RobotContainer::ConfigureBindings()
     joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
         return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
     }));
-    joystick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void {
-         frc::SmartDashboard::PutBoolean("brandonjoystick", true);
-         }).ToPtr());
+    joystick.POVUp().WhileTrue(m_coralSubsystem.SetElevatorLevelCommand(3));
     joystick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void {
          frc::SmartDashboard::PutBoolean("brandonjoystick", false);
          }).ToPtr());
-
+    
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     (joystick.Back() && joystick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));

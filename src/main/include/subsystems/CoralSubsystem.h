@@ -8,6 +8,7 @@
 #include <Constants.h>
 #include <rev/SparkMax.h>
 #include <frc/DigitalInput.h>
+#include <frc2/command/CommandPtr.h>
 
 using namespace rev::spark;
 using namespace CoralSubsystemConstants;
@@ -22,6 +23,8 @@ enum PossibleStates {
   CORAL_PLACE
  };
 
+
+
 class CoralSubsystem : public frc2::SubsystemBase {
  public:
   CoralSubsystem();
@@ -29,6 +32,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void Set_coralPlace(bool setCoralPlace);
   void ResetState();
   void Set_armAndElevator(double setArmAngle, double setElevatorHeight);
+  frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -37,6 +41,9 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
  private:
     enum PossibleStates _state = EMPTY;
+
+    int ElevatorLevel = 0;
+
 
     // the motors on the robot
     

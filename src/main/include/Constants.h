@@ -42,4 +42,8 @@ namespace CoralSubsystemConstants {
     inline constexpr double minArmAngle = 0; // this number is in degrees
     inline constexpr double safetyArmAngle = 45;
     inline constexpr double safetyElevatorHeight = 22.5;
+    inline constexpr double L1 = 0.74;
+    inline constexpr double L2 = 1.07;
+    inline constexpr double L3 = 1.24;
+    inline constexpr double L4 = 1.42;
 }

@@ -249,6 +249,7 @@ void CoralSubsystem::Periodic() {
             // change lights
             // allow it to move using presets
             // let the drivers do what they want
+
             if (_coralPlace == true) {
                 _state = CORAL_PLACE;
             }
@@ -268,4 +269,11 @@ void CoralSubsystem::Periodic() {
     }
 
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
+    frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
+}
+
+frc2::CommandPtr  CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
+    return this->RunOnce(
+        [this, DesiredLevel] {ElevatorLevel = DesiredLevel;}
+    );
 }
