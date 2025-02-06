@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
-#include "commands/PlaceL4CMD.h"
+//#include "commands/PlaceL4CMD.h"
 #include "subsystems/CoralSubsystem.h"
 
 #include <frc2/command/Commands.h>
@@ -25,9 +25,9 @@ RobotContainer::RobotContainer()
     // frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
 
     //public:
-    RobotContainer(); {
-    NamedCommands::registerCommand("PlaceL4CMD", std::move(PlaceL4CMD().ToPtr()));
-    }
+    // RobotContainer(); {
+    // NamedCommands::registerCommand("PlaceL4CMD", std::move(PlaceL4CMD().ToPtr()));
+    // }
     // Configure the button bindings
     ConfigureBindings();
 }
