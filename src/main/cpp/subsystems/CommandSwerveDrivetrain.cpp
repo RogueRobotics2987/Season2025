@@ -89,18 +89,22 @@ void CommandSwerveDrivetrain::Periodic()
     units::time::second_t convertedEpochStartupTime = utils::FPGAToCurrentTime(epochStartupTime);
     AddVisionMeasurement(pose2D, convertedEpochStartupTime); //make pose2d()
 
-    //TODO: TEST PRINT OF THE VALUES; Delete these once testing is complete - we don't want to print 6 lines every cycle.
-    std::cout << "position XYZ: ";
-    for (double pos : position) {
-        std::cout << pos << " ";
-    }
-    std::cout << std::endl;
 
-    std::cout << "orientation RPY: ";
-    for (double angle : orientation) {
-        std::cout << angle << " ";
-    }
-    std::cout << std::endl;
+    std::cout << xPose << std::endl;
+    std::cout << yPose << std::endl;
+    std::cout << yawAngle << std::endl;
+    //TODO: TEST PRINT OF THE VALUES; Delete these once testing is complete - we don't want to print 6 lines every cycle.
+    // std::cout << "position XYZ: ";
+    // for (double pos : position) {
+    //     std::cout << pos << " ";
+    // }
+    // std::cout << std::endl;
+
+    // std::cout << "orientation RPY: ";
+    // for (double angle : orientation) {
+    //     std::cout << angle << " ";
+    // }
+    // std::cout << std::endl;
 }
 
 void CommandSwerveDrivetrain::StartSimThread()
