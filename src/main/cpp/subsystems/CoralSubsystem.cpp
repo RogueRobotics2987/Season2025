@@ -122,13 +122,13 @@ CoralSubsystem::CoralSubsystem(){
     _intakeLeft.Configure(_intakeLeftConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeRight.Configure(_intakeRightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
-    _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
+    // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
     _troughBB = frc::SmartDashboard::SetDefaultBoolean("Trough Beam Break", false);
     _coralPlace = frc::SmartDashboard::SetDefaultBoolean("Coral Place", false);
     _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
 
-void CoralSubsystem::Set_coralPlace(bool setCoralPlace) {
+void CoralSubsystem::SetCoralPlace(bool setCoralPlace) {
     _coralPlace = setCoralPlace;
 }
 
@@ -136,7 +136,12 @@ void CoralSubsystem::ResetState(){
     _state = EMPTY;
 }
 
-void CoralSubsystem::Set_armAndElevator(double setArmAngle, double setElevatorHeight) {
+void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
+    _intakeLeft.Set(intakeSpeed);
+    _intakeRight.Set(intakeSpeed);
+}
+
+void CoralSubsystem::SetArmAndElevator(double setArmAngle, double setElevatorHeight) {
     double elevatorFirstStageHeight;
     double elevatorSecondStageHeight;
     double heightError;
@@ -152,6 +157,10 @@ void CoralSubsystem::Set_armAndElevator(double setArmAngle, double setElevatorHe
         if (setArmAngle < safetyArmAngle) {
             setArmAngle = safetyArmAngle; // TODO: if elevator at 8 inches is this still safe? ANSWER: yes it is safe
         }
+    }
+
+    if (setElevatorHeight < 8) { // sets the arm angle to 90 if elevator is lower than 8 inches
+        _grabberArm.Set(90);
     }
 
     if (setElevatorHeight <= secondStageMaxElevatorHeight) { // calculates the height of the elevator when below 2nd stage max height
@@ -171,6 +180,10 @@ void CoralSubsystem::Set_armAndElevator(double setArmAngle, double setElevatorHe
         setArmAngle = minArmAngle;
     }
 
+    if (setArmAngle < maxArmAngle && setArmAngle > minArmAngle){
+        _grabberArm.Set(setArmAngle);
+    }
+
     frc::SmartDashboard::PutNumber("Elevator First Stage SetPoint: ", elevatorFirstStageHeight);
     frc::SmartDashboard::PutNumber("Elevator Second Stage SetPoint: ", elevatorSecondStageHeight);
     frc::SmartDashboard::PutNumber("Arm Angle SetPoint: ", setArmAngle);
@@ -186,10 +199,13 @@ void CoralSubsystem::Periodic() {
     frc::SmartDashboard::PutString("Periodic Running", "true");
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
+
+    // TODO: is this code needed?
 /*    _funnelBB = _funnelSensor.Get();
     _troughBB = _troughSensor.Get();
     _clawBB = _clawSensor.Get();*/
-    _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
+
+    // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
     _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
     _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
     _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
@@ -220,13 +236,14 @@ void CoralSubsystem::Periodic() {
             // elevator at loading position
             // arm at loading position
             // both claw motors off
-            Set_armAndElevator(restingArmAngle, restingElevatorHeight);
+            SetArmAndElevator(restingArmAngle, restingElevatorHeight);
 
             if (_troughBB == true) {
                 _state = CORAL_IN_TROUGH;
             }
             break;
 
+        // this state is not being used for now
         // case CORAL_IN_FUNNEL:
         //     // wait until coral is in trough
         //     if (_troughBB == true) {
@@ -235,12 +252,15 @@ void CoralSubsystem::Periodic() {
         //     break;
 
         case CORAL_IN_TROUGH:
-            // TODO: Intake auto on button press
+            // auto intake:
                 // lower arm and turn on intake motors
                 // lower elevator to pick up position
                 // turn on both claw motors
+            SetIntakeMotors(intakeSpeed);
+            SetArmAndElevator(intakeArmAngle, intakeHeight);
 
-            if (_clawBB == true) {
+            if (_clawBB == true) { 
+                SetArmAndElevator(restingArmAngle, restingElevatorHeight);
                 _state = ALLOW_CORAL_MOVE;
             }
             break;
@@ -248,17 +268,24 @@ void CoralSubsystem::Periodic() {
         case ALLOW_CORAL_MOVE:
             // change lights
             // allow it to move using presets
-            // let the drivers do what they want
+            // allow drives to move it manually
+
+            // these numbers will be used for preset elevator heights (these numbers will be changed these numbers are in meters)
+            // L1 height for elevator = 0.74
+            // L2 height for elevator = 1.07
+            // L3 height for elevator = 1.24
+            // L4 height for elevator = 1.42
+
             if (_coralPlace == true) {
                 _state = CORAL_PLACE;
             }
             break;
 
         case CORAL_PLACE:
-            // arm swings down to place coral
-            // if claw BB == false && armPose == lowered (change state to EMPTY)
-            // arm move to place angle
-            if (_clawBB == false) { // TODO: check arm angle
+
+            _grabberArmencoder.GetPosition();
+
+            if (_clawBB == false && _grabberArmencoder.GetPosition() <= armLowered) {
                 _state = EMPTY;
             }
             break;

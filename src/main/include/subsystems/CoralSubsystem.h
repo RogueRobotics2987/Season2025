@@ -26,9 +26,10 @@ class CoralSubsystem : public frc2::SubsystemBase {
  public:
   CoralSubsystem();
 
-  void Set_coralPlace(bool setCoralPlace);
+  void SetCoralPlace(bool setCoralPlace);
   void ResetState();
-  void Set_armAndElevator(double setArmAngle, double setElevatorHeight);
+  void SetIntakeMotors(double intakeSpeed); 
+  void SetArmAndElevator(double setArmAngle, double setElevatorHeight);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -62,7 +63,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
     // intakeLeft
     SparkMax _intakeLeft{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _intakeLeftclosedLoopController = _intakeLeft.GetClosedLoopController();
+    SparkClosedLoopController _intakeLeftclosedLoopController = _intakeLeft.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _intakeLeftencoder = _intakeLeft.GetEncoder();
 
     // intakeRight
@@ -71,11 +72,11 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkRelativeEncoder _intakeRightencoder = _intakeRight.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
-    frc::DigitalInput _funnelSensor{0};
+    // frc::DigitalInput _funnelSensor{0};
     frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawSensor{2};
 
-    bool _funnelBB = false;
+    // bool _funnelBB = false;
     bool _troughBB = false;
     bool _clawBB = false;
     bool _coralPlace = false;
