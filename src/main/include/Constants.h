@@ -25,7 +25,7 @@ inline constexpr int kDriverControllerPort = 0;
 
 namespace CoralSubsystemConstants {
     // 0 arm angle is when the arm is pointing down and 0 height is when the elevator is all the way down
-    // all elevator measurement are in inches and will need changed to meters
+    // all elevator measurement are in meters
     // all angle measurements are in degrees
     inline constexpr rev::spark::SparkMax::MotorType NeoMotorType = rev::spark::SparkMax::MotorType::kBrushless;
     inline constexpr int CANIdLeaderElevatorFirstStage = 48;
@@ -35,17 +35,17 @@ namespace CoralSubsystemConstants {
     inline constexpr int CANIdLeftIntake = 4;
     inline constexpr int CANIdRightIntake = 5;
     inline constexpr double restingArmAngle = 0; 
-    inline constexpr double restingElevatorHeight = 22.5; 
+    inline constexpr double restingElevatorHeight = 0.57; 
     inline constexpr double elevatorZeroReverseSpeed = -0.25;
-    inline constexpr double firstStageMaxElevatorHeight = 24; 
-    inline constexpr double firstStageMinElevatorHeight = 8; 
-    inline constexpr double secondStageMaxElevatorHeight = 25.5; 
-    inline constexpr double maxElevatorHeight = 51; 
+    inline constexpr double firstStageMaxElevatorHeight = 0.60; 
+    inline constexpr double firstStageMinElevatorHeight = 0.20; 
+    inline constexpr double secondStageMaxElevatorHeight = 0.64; 
+    inline constexpr double maxElevatorHeight = 1.29; 
     inline constexpr double maxArmAngle = 175; 
     inline constexpr double minArmAngle = 0; 
     inline constexpr double safetyArmAngle = 45;
-    inline constexpr double safetyElevatorHeight = 22.5;
-    inline constexpr double intakeHeight = 17.5;
+    inline constexpr double safetyElevatorHeight = 0.57;
+    inline constexpr double intakeHeight = 0.44;
     inline constexpr double intakeArmAngle = 0;
     inline constexpr double intakeSpeed = 0.1; // this number is lower for testing
     inline constexpr double placingArmAngle = 125;
