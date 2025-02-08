@@ -72,6 +72,8 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 
     //auto path = PathPlannerPath::fromPathFile("TestMoveOutPath");
 
+    //return frc2::cmd::Print{"No autonomous command configured"};
+
     return PathPlannerAuto("TestAuto").ToPtr();
 
     //return AutoBuilder::followPath(path);

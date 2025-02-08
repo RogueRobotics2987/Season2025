@@ -9,12 +9,6 @@
           "data": {
             "pathName": "TestMoveOutPath"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PlaceL4CMD"
-          }
         }
       ]
     }
