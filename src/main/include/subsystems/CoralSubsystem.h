@@ -31,6 +31,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetIntakeMotors(double intakeSpeed); 
   void SetDesiredArmAngle(double setArmAngle);
   void SetDesiredElevatorheight(double setElevatorHeight);
+  void SetDesiredArmAngleAndElevatorHeight(double setArmAngle, double setElevatorheight);
   void SetArmAndElevator();
 
   /**
