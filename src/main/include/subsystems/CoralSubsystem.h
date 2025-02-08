@@ -29,7 +29,9 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetCoralPlace(bool setCoralPlace);
   void ResetState();
   void SetIntakeMotors(double intakeSpeed); 
-  void SetArmAndElevator(double setArmAngle, double setElevatorHeight);
+  void SetDesiredArmAngle(double setArmAngle);
+  void SetDesiredElevatorheight(double setElevatorHeight);
+  void SetArmAndElevator();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -82,6 +84,9 @@ class CoralSubsystem : public frc2::SubsystemBase {
     bool _coralPlace = false;
     double _armAngle = CoralSubsystemConstants::restingArmAngle;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
+
+    double _desiredArmAngle = restingArmAngle;
+    double _desiredElevatorHeight = restingElevatorHeight;
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

@@ -136,79 +136,87 @@ void CoralSubsystem::ResetState(){
     _state = EMPTY;
 }
 
+void CoralSubsystem::SetDesiredArmAngle(double setArmAngle){
+    _desiredArmAngle = setArmAngle;
+}
+
+void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
+    _desiredElevatorHeight = setElevatorHeight;
+}
+
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     _intakeLeft.Set(intakeSpeed);
     _intakeRight.Set(intakeSpeed);
 }
 
-void CoralSubsystem::SetArmAndElevator(double setArmAngle, double setElevatorHeight) {
+void CoralSubsystem::SetArmAndElevator() {
     double elevatorFirstStageHeight;
     double elevatorSecondStageHeight;
     double heightError;
 
-    if (setElevatorHeight > maxElevatorHeight) { // checking if set point doesnt go over max height
-        setElevatorHeight = maxElevatorHeight;
+    if (_desiredElevatorHeight > maxElevatorHeight) { // checking if set point doesnt go over max height
+        _desiredElevatorHeight = maxElevatorHeight;
     }
-    else if (setElevatorHeight < firstStageMinElevatorHeight) { // checking if set point doesnt go under min height
-        setElevatorHeight = firstStageMinElevatorHeight;
+    else if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // checking if set point doesnt go under min height
+        _desiredElevatorHeight = firstStageMinElevatorHeight;
     }
 
-    if (setElevatorHeight < safetyElevatorHeight) { // checking if the set point doesnt go under intake pose
-        if (setArmAngle < safetyArmAngle) {
-            setArmAngle = safetyArmAngle; // TODO: if elevator at 8 inches is this still safe? ANSWER: yes it is safe
+    if (_desiredElevatorHeight < safetyElevatorHeight) { // checking if the set point doesnt go under intake pose
+        if (_desiredArmAngle < safetyArmAngle) {
+            _desiredArmAngle= safetyArmAngle; // TODO: if elevator at 8 inches is this still safe? ANSWER: yes it is safe
         }
     }
 
-    if (setElevatorHeight < 8) { // sets the arm angle to 90 if elevator is lower than 8 inches
+    if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // sets the arm angle to 90 if elevator is lower than 8 inches
         _grabberArm.Set(90);
     }
 
-    if (setElevatorHeight <= secondStageMaxElevatorHeight) { // calculates the height of the elevator when below 2nd stage max height
+    if (_desiredElevatorHeight <= secondStageMaxElevatorHeight) { // calculates the height of the elevator when below 2nd stage max height
         elevatorFirstStageHeight = firstStageMinElevatorHeight;
-        elevatorSecondStageHeight = setElevatorHeight - firstStageMinElevatorHeight;
+        elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMinElevatorHeight;
     }
-    else if (setElevatorHeight > secondStageMaxElevatorHeight) { // calculates the height of the elevator when above 2nd stage max height
+    else if (_desiredElevatorHeight > secondStageMaxElevatorHeight) { // calculates the height of the elevator when above 2nd stage max height
         elevatorSecondStageHeight = secondStageMaxElevatorHeight - firstStageMinElevatorHeight;
-        heightError = setElevatorHeight - elevatorSecondStageHeight;
+        heightError = _desiredElevatorHeight - elevatorSecondStageHeight;
         elevatorFirstStageHeight = heightError;
     }
 
-    if (setArmAngle > maxArmAngle) { // checking if set point doesnt go over max arm angle
-        setArmAngle = maxArmAngle;
+    if (_desiredArmAngle > maxArmAngle) { // checking if set point doesnt go over max arm angle
+        _desiredArmAngle = maxArmAngle;
     }
-    else if (setArmAngle < minArmAngle) { // checking if set point doesnt go over min arm angle
-        setArmAngle = minArmAngle;
+    else if (_desiredArmAngle < minArmAngle) { // checking if set point doesnt go over min arm angle
+        _desiredArmAngle = minArmAngle;
     }
 
-    if (setArmAngle < maxArmAngle && setArmAngle > minArmAngle){
-        _grabberArm.Set(setArmAngle);
+    if (_desiredArmAngle < maxArmAngle && _desiredArmAngle > minArmAngle){
+        _grabberArm.Set(_desiredArmAngle);
     }
 
     frc::SmartDashboard::PutNumber("Elevator First Stage SetPoint: ", elevatorFirstStageHeight);
     frc::SmartDashboard::PutNumber("Elevator Second Stage SetPoint: ", elevatorSecondStageHeight);
-    frc::SmartDashboard::PutNumber("Arm Angle SetPoint: ", setArmAngle);
+    frc::SmartDashboard::PutNumber("Arm Angle SetPoint: ", _desiredArmAngle);
 
     _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorFirstStageHeight, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
     _elevatorSecondStageClosedLoopController.SetReference(elevatorSecondStageHeight, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    _grabberArmclosedLoopController.SetReference(setArmAngle, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    _grabberArmclosedLoopController.SetReference(_desiredArmAngle, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
     
 }
 
 // This method will be called once per scheduler run
-void CoralSubsystem::Periodic() {
+void CoralSubsystem::Periodic() { // TODO: should drivers be able to override evelator and arm all the time?
     frc::SmartDashboard::PutString("Periodic Running", "true");
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
 
     // TODO: is this code needed?
-/*    _funnelBB = _funnelSensor.Get();
+    //_funnelBB = _funnelSensor.Get();
     _troughBB = _troughSensor.Get();
-    _clawBB = _clawSensor.Get();*/
+    _clawBB = _clawSensor.Get();
 
     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
     _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
     _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
-    _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
+    // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
 
     switch (_state) {
 
@@ -236,7 +244,9 @@ void CoralSubsystem::Periodic() {
             // elevator at loading position
             // arm at loading position
             // both claw motors off
-            SetArmAndElevator(restingArmAngle, restingElevatorHeight);
+            SetDesiredArmAngle(restingArmAngle);
+            SetDesiredElevatorheight(restingElevatorHeight);
+            SetArmAndElevator();
 
             if (_troughBB == true) {
                 _state = CORAL_IN_TROUGH;
@@ -257,10 +267,15 @@ void CoralSubsystem::Periodic() {
                 // lower elevator to pick up position
                 // turn on both claw motors
             SetIntakeMotors(intakeSpeed);
-            SetArmAndElevator(intakeArmAngle, intakeHeight);
+            SetDesiredArmAngle(restingArmAngle);
+            SetDesiredElevatorheight(intakeHeight);
+            SetArmAndElevator();
 
             if (_clawBB == true) { 
-                SetArmAndElevator(restingArmAngle, restingElevatorHeight);
+                SetIntakeMotors(intakeOff);
+                SetDesiredArmAngle(restingArmAngle);
+                SetDesiredElevatorheight(restingElevatorHeight);
+                SetArmAndElevator();
                 _state = ALLOW_CORAL_MOVE;
             }
             break;
@@ -284,6 +299,13 @@ void CoralSubsystem::Periodic() {
         case CORAL_PLACE:
 
             _grabberArmencoder.GetPosition();
+
+            if(_clawBB == true && _grabberArmencoder.GetPosition() <= armLowered) {
+                SetDesiredArmAngle(placingArmAngle);
+                SetDesiredElevatorheight(LastPreset);
+                SetArmAndElevator();
+                _state = ALLOW_CORAL_MOVE;
+            }
 
             if (_clawBB == false && _grabberArmencoder.GetPosition() <= armLowered) {
                 _state = EMPTY;
