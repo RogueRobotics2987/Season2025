@@ -6,6 +6,8 @@
 
 #include <frc2/command/Commands.h>
 
+#include "TeleopCurve.h"
+
 RobotContainer::RobotContainer()
 {
     ConfigureBindings();
@@ -18,9 +20,9 @@ void RobotContainer::ConfigureBindings()
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.ApplyRequest([this]() -> auto&& {
-            return drive.WithVelocityX(joystick.GetLeftY() * MaxSpeed) // Drive forward with positive Y (forward)
-                .WithVelocityY(joystick.GetLeftX() * MaxSpeed) // Drive left with positive X (left)
-                .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate); // Drive counterclockwise with negative X (left)
+            return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed) // Drive forward with positive Y (forward)   return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed)
+                .WithVelocityY(TeleopCurve::apply(joystick.GetLeftX()) * MaxSpeed) // Drive left with positive X (left)
+                .WithRotationalRate(TeleopCurve::apply(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)
         })
     );
 
