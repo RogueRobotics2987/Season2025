@@ -252,7 +252,6 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             // arm at loading position
             // both claw motors off
             SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
-            SetArmAndElevator();
 
             if (_troughBB == true) {
                 _state = CORAL_IN_TROUGH;
@@ -274,12 +273,10 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                 // turn on both claw motors
             SetIntakeMotors(intakeSpeed);
             SetDesiredArmAngleAndElevatorHeight(restingArmAngle, intakeHeight);
-            SetArmAndElevator();
 
             if (_clawBB == true) { 
                 SetIntakeMotors(intakeOff);
                 SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
-                SetArmAndElevator();
                 _state = ALLOW_CORAL_MOVE;
             }
             break;
@@ -302,11 +299,8 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
         case CORAL_PLACE:
 
-            _grabberArmencoder.GetPosition();
-
             if(_clawBB == true && _grabberArmencoder.GetPosition() <= armLowered) {
                 SetDesiredArmAngle(placingArmAngle);
-                SetArmAndElevator();
                 _state = ALLOW_CORAL_MOVE;
             }
 
