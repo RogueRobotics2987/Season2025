@@ -25,9 +25,11 @@ RobotContainer::RobotContainer()
     // frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
 
     //public:
-    RobotContainer(); {
-    NamedCommands::registerCommand("PlaceL4CMD", std::move(PlaceL4CMD().ToPtr()));
-    }
+   // RobotContainer(); 
+    
+    //{
+    //NamedCommands::registerCommand("PlaceL4CMD", std::move(PlaceL4CMD().ToPtr()));
+    //};
     // Configure the button bindings
     ConfigureBindings();
 }
