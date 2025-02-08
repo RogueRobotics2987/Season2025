@@ -31,13 +31,10 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
   void SetCoralPlace(bool setCoralPlace);
   void ResetState();
-<<<<<<< HEAD
   void Set_armAndElevator(double setArmAngle, double setElevatorHeight);
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
-=======
   void SetIntakeMotors(double intakeSpeed); 
   void SetArmAndElevator(double setArmAngle, double setElevatorHeight);
->>>>>>> origin/brodie_statemachine
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

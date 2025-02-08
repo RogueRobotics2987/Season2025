@@ -44,18 +44,20 @@ namespace CoralSubsystemConstants {
     inline constexpr double maxArmAngle = 175; 
     inline constexpr double minArmAngle = 0; 
     inline constexpr double safetyArmAngle = 45;
-<<<<<<< HEAD
-    inline constexpr double safetyElevatorHeight = 22.5;
-    inline constexpr double L1 = 0.74;
-    inline constexpr double L2 = 1.07;
-    inline constexpr double L3 = 1.24;
-    inline constexpr double L4 = 1.42;
-=======
+  //inline constexpr double safetyElevatorHeight = 22.5;
+    inline constexpr double L1Height = 0.74;
+    inline constexpr double L2Height = 1.07;
+    inline constexpr double L3Height = 1.24;
+    inline constexpr double L4Height = 1.42;
+    //need angles for each level
+    inline constexpr double L1Angle = 0;
+    inline constexpr double L2Angle = 0;
+    inline constexpr double L3Angle = 0;
+    inline constexpr double L4Angle = 0;
     inline constexpr double safetyElevatorHeight = 0.57;
     inline constexpr double intakeHeight = 0.44;
     inline constexpr double intakeArmAngle = 0;
     inline constexpr double intakeSpeed = 0.1; // this number is lower for testing
     inline constexpr double placingArmAngle = 125;
     inline constexpr double armLowered = 30;
->>>>>>> origin/brodie_statemachine
 }

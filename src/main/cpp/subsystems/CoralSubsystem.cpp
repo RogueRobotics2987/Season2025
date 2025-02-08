@@ -268,9 +268,7 @@ void CoralSubsystem::Periodic() {
         case ALLOW_CORAL_MOVE:
             // change lights
             // allow it to move using presets
-<<<<<<< HEAD
             // let the drivers do what they want
-=======
             // allow drives to move it manually
 
             // these numbers will be used for preset elevator heights (these numbers will be changed these numbers are in meters)
@@ -278,7 +276,6 @@ void CoralSubsystem::Periodic() {
             // L2 height for elevator = 1.07
             // L3 height for elevator = 1.24
             // L4 height for elevator = 1.42
->>>>>>> origin/brodie_statemachine
 
             if (_coralPlace == true) {
                 _state = CORAL_PLACE;
@@ -302,7 +299,7 @@ void CoralSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
 }
 
-frc2::CommandPtr  CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
+frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
     return this->RunOnce(
         [this, DesiredLevel] {ElevatorLevel = DesiredLevel;}
     );

@@ -26,13 +26,28 @@ void RobotContainer::ConfigureBindings()
         })
     );
 
-    joystick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
-    joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
-        return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
-    }));
-    joystick.POVUp().WhileTrue(m_coralSubsystem.SetElevatorLevelCommand(3));
+    // joystick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
+    // joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
+    //     return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
+    // }));
+    // joystick.POVUp().WhileTrue(m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height));
+    joystick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height);
+         }).ToPtr());
+    joystick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetArmAndElevator(L2Angle, L2Height);
+         }).ToPtr());
     joystick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void {
-         frc::SmartDashboard::PutBoolean("brandonjoystick", false);
+         m_coralSubsystem.SetArmAndElevator(L3Angle, L3Height);
+         }).ToPtr());
+    joystick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetArmAndElevator(L4Angle, L4Height);
+         }).ToPtr());
+    joystick.Start().WhileTrue(frc2::InstantCommand([this]() -> void {
+         frc::SmartDashboard::PutBoolean("JoystickStart", true);
+         }).ToPtr());
+    joystick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
+         frc::SmartDashboard::PutBoolean("JoystickBack", true);
          }).ToPtr());
     
     // Run SysId routines when holding back/start and X/Y.
