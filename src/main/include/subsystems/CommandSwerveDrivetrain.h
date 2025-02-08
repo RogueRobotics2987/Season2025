@@ -7,7 +7,7 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/sysid/SysIdRoutine.h>
-#include <networktables/DoubleArrayTopic.h>
+// #include <networktables/DoubleArrayTopic.h>
 #include "generated/TunerConstants.h"
 
 using namespace ctre::phoenix6;
@@ -110,8 +110,8 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     frc2::sysid::SysIdRoutine *m_sysIdRoutineToApply = &m_sysIdRoutineTranslation;
 
 public:
-    nt::DoubleArraySubscriber positionSub;
-    nt::DoubleArraySubscriber orientationSub;
+    // nt::DoubleArraySubscriber positionSub;
+    // nt::DoubleArraySubscriber orientationSub;
     /**
      * \brief Constructs a CTRE SwerveDrivetrain using the specified constants.
      *
@@ -131,7 +131,7 @@ public:
         }
 
         ConfigureAutoBuilder();
-        MapleInit();
+        //MapleInit();
     }
 
     /**
@@ -159,7 +159,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
-        MapleInit();
+        //MapleInit();
     }
 
     /**
@@ -194,7 +194,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
-        MapleInit();
+        // MapleInit();
     }
 
     /**
@@ -261,7 +261,7 @@ public:
 
     private:
         void ConfigureAutoBuilder();
-        void MapleInit();
+        // void MapleInit();
         void StartSimThread();
     };
 }

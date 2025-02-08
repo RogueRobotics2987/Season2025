@@ -21,15 +21,11 @@ using namespace pathplanner;
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-    m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests");
-    frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
+    //m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests");
+    //frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
 
     //public:
-   // RobotContainer(); 
-    
-    //{
     NamedCommands::registerCommand("PlaceL4CMD", std::move(PlaceL4CMD().ToPtr()));
-    //};
     // Configure the button bindings
     ConfigureBindings();
 }
