@@ -31,5 +31,6 @@
     "tuple": "cpp",
     "type_traits": "cpp",
     "utility": "cpp"
-  }
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }

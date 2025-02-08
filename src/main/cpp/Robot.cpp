@@ -6,10 +6,21 @@
 
 #include <frc2/command/CommandScheduler.h>
 
+#include <frc/shuffleboard/Shuffleboard.h>
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "RobotContainer.h"
+#include <frc2/command/Commands.h>
+#include "TeleopCurve.h"
+
 Robot::Robot() {}
 
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
+/*  frc::ShuffleBoard::GetTab("Numbers")
+  .Add("pi", 3.14);
+  getEntry();
+  frc::SmartDashboard::PutNumber("With velocity X", drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed));*/
 }
 
 void Robot::DisabledInit() {}
