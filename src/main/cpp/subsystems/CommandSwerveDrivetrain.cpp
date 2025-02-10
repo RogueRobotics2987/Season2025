@@ -1,6 +1,6 @@
 #include "subsystems/CommandSwerveDrivetrain.h"
-// #include <networktables/DoubleArrayTopic.h>
-// #include <networktables/NetworkTableInstance.h>
+#include <networktables/DoubleArrayTopic.h>
+#include <networktables/NetworkTableInstance.h>
 #include <frc/RobotController.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/config/RobotConfig.h>
@@ -14,12 +14,23 @@
 using namespace pathplanner;
 using namespace subsystems;
 
-// void CommandSwerveDrivetrain::MapleInit(){
-//     auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE");
-//     positionSub = table->GetDoubleArrayTopic("position").Subscribe({});
-//     orientationSub = table->GetDoubleArrayTopic("orientation").Subscribe({});
-// }
-//
+void CommandSwerveDrivetrain::MapleInit(){
+    auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE");
+    if (table == nullptr) {
+        std::cout << "AHHHHHHHH" << std::endl;
+    }else{
+        std::cout << "OOOOOH" << std::endl; // this one prints
+    }
+    positionSub = table->GetDoubleArrayTopic("position").Subscribe({});
+
+    // if (positionSub == nullptr) {
+    //     std::cout << "AHHHHHHHH22222" << std::endl;
+    // }else{
+    //     std::cout << "OOOOOH22222" << std::endl;
+    // }
+    // orientationSub = table->GetDoubleArrayTopic("orientation").Subscribe({});
+}
+
 void CommandSwerveDrivetrain::ConfigureAutoBuilder(){
     auto config = pathplanner::RobotConfig::fromGUISettings();
     pathplanner::AutoBuilder::configure(
