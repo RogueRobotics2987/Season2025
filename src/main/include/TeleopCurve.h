@@ -8,7 +8,17 @@ class TeleopCurve{
     public:
     TeleopCurve(){};
 
-    static double apply(double input){
+    static double apply2(double input){
+        double output = input*input;
+        return output;
+    }
+
+    static double apply25(double input){
+        double output = input*input*(input/2);
+        return output;
+    }
+
+    static double apply3(double input){
         double output = input*input*input;
         return output;
     }
