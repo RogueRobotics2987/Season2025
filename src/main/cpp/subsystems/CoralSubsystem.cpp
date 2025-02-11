@@ -118,7 +118,7 @@ void CoralSubsystem::Set_armAndElevator(double setArmAngle, double setElevatorHe
  // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() {
         
-    frc::SmartDashboard::PutBoolean("_funnelBB", _funnelSensor.Get()); 
+    frc::SmartDashboard::PutBoolean("_clawBB", _clawSensor.Get()); 
     frc::SmartDashboard::PutNumber("_state", _state); 
     frc::SmartDashboard::PutBoolean("_troughBB", _troughSensor.Get());
     frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
@@ -126,44 +126,43 @@ void CoralSubsystem::Periodic() {
 
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
-    _funnelBB = _funnelSensor.Get();
+    // _funnelBB = _funnelSensor.Get();
     _troughBB = _troughSensor.Get();
     _clawBB = _clawSensor.Get();
     
     switch (_state) {
 
         case EMPTY:
-            _light1.Set(true);
-            _light2.Set(true);
+            _light1.Set(false);
+            _light2.Set(false);
             // code
             // claw ready to grab coral
             // elevator at loading position
             // arm at loading position
             // both claw motors off
 
-            if (_funnelBB == false) {
-                _state = CORAL_IN_FUNNEL;
-            }
+
             if(_troughBB == false){
                 _state = CORAL_IN_TROUGH;
             }
+
             break;
 
-        case CORAL_IN_FUNNEL:
-            _light1.Set(false);
-            // code
-            // wait until coral is in trough
-            //if (_troughBB == true) {
-            //  _state = CORAL_IN_TROUGH;
-            //}
-            if(_funnelBB == true){
-                _state = EMPTY;
-            }
+        // case CORAL_IN_FUNNEL:
+        //     _light1.Set(false);
+        //     // code
+        //     // wait until coral is in trough
+        //     //if (_troughBB == true) {
+        //     //  _state = CORAL_IN_TROUGH;
+        //     //}
+        //     if(_funnelBB == true){
+        //         _state = EMPTY;
+        //     }
         
-            break;
+            // break;
 
         case CORAL_IN_TROUGH:
-            _light2.Set(false);
+            _light1.Set(true);
             // code
             // lower arm and turn on intake motors
             // lower elevator to pick up position
@@ -171,27 +170,33 @@ void CoralSubsystem::Periodic() {
             // if (_clawBB == true) {
             //     _state = ALLOW_CORAL_MOVE;
             // }
-            if(_troughBB == true){
-                _state = EMPTY;
-            }
+
+            if (_clawBB == false) {
+                _state = ALLOW_CORAL_MOVE;
+            }            
             break;
+        
 
         case ALLOW_CORAL_MOVE:
-            // code
+            _light1.Set(false);
+            _light2.Set(true);
+            // code     
             // change lights
             // allow it to move using presets
             // let the drivers do what they want
-            if (_coralPlace == true) {
-                _state = CORAL_PLACE;
-            }
+             if (_clawBB == true) {
+                 _state = CORAL_PLACE;
+             }
+            
             break;
+
 
         case CORAL_PLACE:
             // code
             // arm swings down to place coral
             // if claw BB == false && armPose == lowered (change state to EMPTY)
             // arm move to place angle
-            if (_clawBB == false) { // TODO: check arm angle
+            if (_clawBB == true) { // TODO: check arm angle
                 _state = EMPTY;
             }
             break;

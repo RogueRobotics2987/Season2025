@@ -64,14 +64,14 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkRelativeEncoder _intakeRightencoder = _intakeRight.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0]wq
-    frc::DigitalInput _funnelSensor{0};
+    // frc::DigitalInput _funnelSensor{0};
     frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawSensor{2};
 
     frc::DigitalOutput _light1{3};
     frc::DigitalOutput _light2{4};
 
-    bool _funnelBB = false;
+    // bool _funnelBB = false;
     bool _troughBB = false;
     bool _clawBB = false;
     bool _coralPlace = false;
