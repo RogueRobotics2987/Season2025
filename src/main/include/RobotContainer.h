@@ -35,5 +35,6 @@ public:
     frc2::CommandPtr GetAutonomousCommand();
 
 private:
+    int drivetrainMode = 0;
     void ConfigureBindings();
 };
