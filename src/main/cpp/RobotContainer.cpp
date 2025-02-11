@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
+#include "subsystems/CoralSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
@@ -31,23 +32,26 @@ void RobotContainer::ConfigureBindings()
     //     return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
     // }));
     // joystick.POVUp().WhileTrue(m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height));
+    joystick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.ResetState();
+         }).ToPtr());
     joystick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height);
+          m_coralSubsystem.SetDesiredArmAngleAndElevatorHeight(L1Angle, L1Height);
          }).ToPtr());
     joystick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetArmAndElevator(L2Angle, L2Height);
+         m_coralSubsystem.SetDesiredArmAngleAndElevatorHeight(L2Angle, L2Height);
          }).ToPtr());
     joystick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetArmAndElevator(L3Angle, L3Height);
+         m_coralSubsystem.SetDesiredArmAngleAndElevatorHeight(L3Angle, L3Height);
          }).ToPtr());
     joystick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetArmAndElevator(L4Angle, L4Height);
+         m_coralSubsystem.SetDesiredArmAngleAndElevatorHeight(L4Angle, L4Height);
          }).ToPtr());
-    joystick.Start().WhileTrue(frc2::InstantCommand([this]() -> void {
-         frc::SmartDashboard::PutBoolean("JoystickStart", true);
+    joystick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
+        m_coralSubsystem.SetDesiredElevatorheight(m_coralSubsystem.GetDesiredElevatorHeight()+0.01);
          }).ToPtr());
-    joystick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
-         frc::SmartDashboard::PutBoolean("JoystickBack", true);
+    joystick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
+        m_coralSubsystem.SetDesiredElevatorheight(m_coralSubsystem.GetDesiredElevatorHeight()-0.01);
          }).ToPtr());
     
     // Run SysId routines when holding back/start and X/Y.
