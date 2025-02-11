@@ -10,6 +10,7 @@ class TeleopCurve{
 
     static double apply3Fine(double input){
         double output = input*input*input;
+        output = output/4;
         if ((output < 0.001) &&  (output > -0.001)){
             output = 0;
         }
@@ -29,6 +30,10 @@ class TeleopCurve{
 
         if ((output < 0.001) &&  (output > -0.001)){
             output = 0;
+        } else if (output >= 0.001){
+            output = output;
+        } else if (output <= -0.001){
+            output = output ;
         }
         return output;
     }
