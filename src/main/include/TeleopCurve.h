@@ -10,11 +10,26 @@ class TeleopCurve{
 
     static double apply3Fine(double input){
         double output = input*input*input;
+        if ((output < 0.001) &&  (output > -0.001)){
+            output = 0;
+        }
         return output;
     }
 
     static double apply3Fast(double input){
         double output = input*input*input;
+        if ((output < 0.001) &&  (output > -0.001)){
+            output = 0;
+        }
+        return output;
+    }
+
+    static double applyCube2024(double input){
+        double output = input * input * input;  // exponetial curve, slow acceleration at begining
+
+        if ((output < 0.001) &&  (output > -0.001)){
+            output = 0;
+        }
         return output;
     }
 };
