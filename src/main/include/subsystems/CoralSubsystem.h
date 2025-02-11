@@ -33,6 +33,8 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetDesiredElevatorheight(double setElevatorHeight);
   void SetDesiredArmAngleAndElevatorHeight(double setArmAngle, double setElevatorheight);
   void SetArmAndElevator();
+  double GetDesiredElevatorHeight();
+  double GetDesiredArmAngle();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

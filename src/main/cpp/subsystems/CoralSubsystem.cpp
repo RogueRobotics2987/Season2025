@@ -151,6 +151,14 @@ void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
     _desiredElevatorHeight = setElevatorHeight;
 }
 
+double CoralSubsystem::GetDesiredElevatorHeight(){
+    return _desiredElevatorHeight;
+}
+
+double CoralSubsystem::GetDesiredArmAngle(){
+    return _desiredArmAngle;
+}
+
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     _intakeLeft.Set(intakeSpeed);
     _intakeRight.Set(intakeSpeed);
