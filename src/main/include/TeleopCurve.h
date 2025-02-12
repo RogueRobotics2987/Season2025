@@ -8,32 +8,35 @@ class TeleopCurve{
     public:
     TeleopCurve(){};
 
-    static double apply3Fine(double input){
-        double output = input*input*input;
-        output = output/4;
+    static double applyFine(double input){
+        double output = input*input*input*input*input;
+        output = output/5;
         if ((output < 0.001) &&  (output > -0.001)){
             output = 0;
         }
         return output;
     }
 
-    static double apply3Fast(double input){
-        double output = input*input*input;
+    static double applyFast(double input){
+        double output = input*input*input*input*input;
         if ((output < 0.001) &&  (output > -0.001)){
             output = 0;
         }
         return output;
     }
 
-    static double applyCube2024(double input){
-        double output = input * input * input;  // exponetial curve, slow acceleration at begining
-
-        if ((output < 0.001) &&  (output > -0.001)){
+    static double apply2023(double input, bool rotation){ // Mantis control curve
+        double output = input;
+        if((output < 0.1) && (output > -0.1)) {
             output = 0;
-        } else if (output >= 0.001){
-            output = output;
-        } else if (output <= -0.001){
-            output = output ;
+        }
+        if(rotation == true){
+            if(output >= 0.1) {
+                output = output - 0.1;
+            }
+            else if(output <= -0.1) {
+                output = output + 0.1;
+            }
         }
         return output;
     }
