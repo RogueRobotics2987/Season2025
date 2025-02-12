@@ -6,14 +6,30 @@
 
 #include <optional>
 
+
 #include <frc/TimedRobot.h>
 #include <frc2/command/CommandPtr.h>
+#include <rev/SparkMax.h>
 
 #include "RobotContainer.h"
 
+using namespace rev::spark;
+
 class Robot : public frc::TimedRobot {
+private:
+  /*
+   * Initialize the SPARK MAX and get its encoder and closed loop
+   * controller objects for later use.
+   */
+  SparkMax m_motor{47, SparkMax::MotorType::kBrushless};
+  SparkClosedLoopController m_closedLoopController =
+      m_motor.GetClosedLoopController();
+ // creating through bore as an absolute encoder
+ SparkAbsoluteEncoder m_throughBoreEncoder = m_motor.GetAbsoluteEncoder();
+ 
  public:
   Robot();
+  
   void RobotPeriodic() override;
   void DisabledInit() override;
   void DisabledPeriodic() override;

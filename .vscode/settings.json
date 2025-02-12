@@ -31,5 +31,7 @@
     "tuple": "cpp",
     "type_traits": "cpp",
     "utility": "cpp"
-  }
+  },
+  "workbench.colorTheme": "Default Light+",
+  "workbench.preferredLightColorTheme": "Default Light Modern"
 }
