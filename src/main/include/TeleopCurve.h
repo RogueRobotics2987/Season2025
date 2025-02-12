@@ -9,17 +9,34 @@ class TeleopCurve{
     TeleopCurve(){};
 
     static double applyFine(double input){
-        double output = input*input*input*input*input;
+        double output = input;//*input*input*input*input;
         output = output/5;
-        if ((input < 0.1) &&  (input > -0.1)){
+        if ((input < 0.05) &&  (input > -0.05)){
             output = 0;
         }
         return output;
     }
 
     static double applyFast(double input){
-        double output = input*input*input*input*input;
-        if ((input < 0.1) &&  (input > -0.1)){
+        double output = input;//*input*input*input*input;
+        if ((input < 0.05) &&  (input > -0.05)){
+            output = 0;
+        }
+        return output;
+    }
+
+    static double applyFineR(double input){
+        double output = input/5;//*input*input;//*input*input;
+        output = output/5;
+        if ((input < 0.075) &&  (input > -0.075)){
+            output = 0;
+        }
+        return output;
+    }
+
+    static double applyFastR(double input){
+        double output = input;//*input*input*input*input;
+        if ((input < 0.075) &&  (input > -0.075)){
             output = 0;
         }
         return output;
@@ -27,7 +44,7 @@ class TeleopCurve{
 
     static double apply2023(double input, bool rotation){ // Mantis control curve
         double output = input;
-        if((input < 0.1) && (input > -0.1)) {
+        if((input < 0.01) && (input > -0.01)) {
             output = 0;
         }
         if(rotation == true){

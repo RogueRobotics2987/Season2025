@@ -25,8 +25,8 @@ void RobotContainer::ConfigureBindings()
         // Drivetrain will execute this command periodically
         drivetrain.ApplyRequest([this]() -> auto&& {
             return drive.WithVelocityX(TeleopCurve::applyFast(-joystick.GetLeftY()) * MaxSpeed) // Drive forward with positive Y (forward)   return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed)
-                .WithVelocityY(TeleopCurve::applyFast(joystick.GetLeftX()) * MaxSpeed) // Drive left with positive X (left)
-                .WithRotationalRate(TeleopCurve::applyFast(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)    
+                .WithVelocityY(TeleopCurve::applyFast(joystick.GetLeftX()) * -MaxSpeed) // Drive left with positive X (left)
+                .WithRotationalRate(TeleopCurve::applyFastR(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)    
             //int drivetrainMode = 0;
         }));
 
@@ -43,18 +43,18 @@ void RobotContainer::ConfigureBindings()
     (joystick.Start() && joystick.X()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kReverse));
 
     joystick.Start().OnTrue(drivetrain.RunOnce([this] {
-        if (drivetrainMode == 0) {
-            drivetrainMode = 1;
-            drivetrain.ApplyRequest([this]() -> auto&& {
-                return drive.WithVelocityX(TeleopCurve::applyFine(-joystick.GetLeftY()) * MaxSpeed) // Drive forward with positive Y (forward)   return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed)
-                    .WithVelocityY(TeleopCurve::applyFine(joystick.GetLeftX()) * MaxSpeed) // Drive left with positive X (left)
-                    .WithRotationalRate(TeleopCurve::applyFine(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)          
-        });} else {
+        if (drivetrainMode == 1) {
             drivetrainMode = 0;
             drivetrain.ApplyRequest([this]() -> auto&& {
                 return drive.WithVelocityX(TeleopCurve::applyFast(-joystick.GetLeftY()) * MaxSpeed) // Drive forward with positive Y (forward)   return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed)
-                    .WithVelocityY(TeleopCurve::applyFast(joystick.GetLeftX()) * MaxSpeed) // Drive left with positive X (left)
-                    .WithRotationalRate(TeleopCurve::applyFast(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)          
+                    .WithVelocityY(TeleopCurve::applyFast(joystick.GetLeftX()) * -MaxSpeed) // Drive left with positive X (left)
+                    .WithRotationalRate(TeleopCurve::applyFastR(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)          
+        });} else {
+            drivetrainMode = 1;
+            drivetrain.ApplyRequest([this]() -> auto&& {
+                return drive.WithVelocityX(TeleopCurve::applyFine(-joystick.GetLeftY()) * MaxSpeed) // Drive forward with positive Y (forward)   return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed)
+                    .WithVelocityY(TeleopCurve::applyFine(joystick.GetLeftX()) * -MaxSpeed) // Drive left with positive X (left)
+                    .WithRotationalRate(TeleopCurve::applyFineR(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)          
         });}      
     }));
 
