@@ -11,7 +11,7 @@ class TeleopCurve{
     static double applyFine(double input){
         double output = input*input*input*input*input;
         output = output/5;
-        if ((output < 0.001) &&  (output > -0.001)){
+        if ((input < 0.1) &&  (input > -0.1)){
             output = 0;
         }
         return output;
