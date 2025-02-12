@@ -19,7 +19,7 @@ class TeleopCurve{
 
     static double applyFast(double input){
         double output = input*input*input*input*input;
-        if ((output < 0.001) &&  (output > -0.001)){
+        if ((input < 0.1) &&  (input > -0.1)){
             output = 0;
         }
         return output;
@@ -27,7 +27,7 @@ class TeleopCurve{
 
     static double apply2023(double input, bool rotation){ // Mantis control curve
         double output = input;
-        if((output < 0.1) && (output > -0.1)) {
+        if((input < 0.1) && (input > -0.1)) {
             output = 0;
         }
         if(rotation == true){
