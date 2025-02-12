@@ -43,6 +43,8 @@ public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
 
     RobotContainer();
+
+    void Drive();
     
     frc2::CommandPtr GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 

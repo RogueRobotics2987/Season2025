@@ -30,6 +30,11 @@ RobotContainer::RobotContainer()
     ConfigureBindings();
 }
 
+void RobotContainer::Drive()
+{
+    
+}
+
 void RobotContainer::ConfigureBindings() // more needs to be added somewhere in here *look at GIT for what
 {
     // Note that X is defined as forward according to WPILib convention,
