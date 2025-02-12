@@ -10,10 +10,13 @@
 #include <frc/DigitalInput.h>
 
 using namespace rev::spark;
+using namespace CoralSubsystemConstants;
 
 enum PossibleStates {
+  START_CALIBRATION,
+  ZERO,
   EMPTY,
-  CORAL_IN_FUNNEL,
+  // CORAL_IN_FUNNEL,
   CORAL_IN_TROUGH,
   ALLOW_CORAL_MOVE,
   CORAL_PLACE
@@ -23,10 +26,15 @@ class CoralSubsystem : public frc2::SubsystemBase {
  public:
   CoralSubsystem();
 
-  void Set_coralPlace(bool setCoralPlace);
+  void SetCoralPlace(bool setCoralPlace);
   void ResetState();
-  void Set_armAndElevator(double setArmAngle, double setElevatorHeight);
-  void Place_armAndElevatorL4(double setArmAngle, double setElevatorHeight, bool setCoralPlace);
+  void SetIntakeMotors(double intakeSpeed); 
+  void SetDesiredArmAngle(double setArmAngle);
+  void SetDesiredElevatorheight(double setElevatorHeight);
+  void SetDesiredArmAngleAndElevatorHeight(double setArmAngle, double setElevatorheight);
+  void SetArmAndElevator();
+  double GetDesiredElevatorHeight();
+  double GetDesiredArmAngle();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -39,14 +47,19 @@ class CoralSubsystem : public frc2::SubsystemBase {
     // the motors on the robot
     
     // elevatorLeft
-    SparkMax _elevatorLeft{CoralSubsystemConstants::CANIdLeftElevator, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorLeftclosedLoopController = _elevatorLeft.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorLeftencoder = _elevatorLeft.GetEncoder();
+    SparkMax _elevatorLeaderFirstStage{CoralSubsystemConstants::CANIdLeaderElevatorFirstStage, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorLeaderFirstStageClosedLoopController = _elevatorLeaderFirstStage.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorLeaderFirstStageEncoder = _elevatorLeaderFirstStage.GetEncoder();
 
     // elevatorRight
-    SparkMax _elevatorRight{CoralSubsystemConstants::CANIdRightElevator, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorRightclosedLoopController = _elevatorRight.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorRightencoder = _elevatorRight.GetEncoder();
+    SparkMax _elevatorFollowerFirstStage{CoralSubsystemConstants::CANIdFollowerElevatorFirstStage, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorFollowerFirstStageClosedLoopController = _elevatorFollowerFirstStage.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorFollowerFirstStageEncoder = _elevatorFollowerFirstStage.GetEncoder();
+
+    // elevatorSecondStage
+    SparkMax _elevatorSecondStage{CoralSubsystemConstants::CANIdElevatorSecondStage, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorSecondStageClosedLoopController = _elevatorSecondStage.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorSecondStageEncoder = _elevatorSecondStage.GetEncoder();
 
     // grabberArm
     SparkMax _grabberArm{CoralSubsystemConstants::CANIdGrabberArm, SparkMax::MotorType::kBrushless};
@@ -55,7 +68,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
     // intakeLeft
     SparkMax _intakeLeft{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _intakeLeftclosedLoopController = _intakeLeft.GetClosedLoopController();
+    SparkClosedLoopController _intakeLeftclosedLoopController = _intakeLeft.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _intakeLeftencoder = _intakeLeft.GetEncoder();
 
     // intakeRight
@@ -64,16 +77,19 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkRelativeEncoder _intakeRightencoder = _intakeRight.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
-    frc::DigitalInput _funnelSensor{0};
+    // frc::DigitalInput _funnelSensor{0};
     frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawSensor{2};
 
-    bool _funnelBB = false;
+    // bool _funnelBB = false;
     bool _troughBB = false;
     bool _clawBB = false;
     bool _coralPlace = false;
     double _armAngle = CoralSubsystemConstants::restingArmAngle;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
+
+    double _desiredArmAngle = restingArmAngle;
+    double _desiredElevatorHeight = restingElevatorHeight;
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
