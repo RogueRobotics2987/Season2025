@@ -10,7 +10,7 @@ class TeleopCurve{
 
     static double applyFine(double input){
         double output = input;//*input*input*input*input;
-        output = output/5;
+        output = input / 4;
         if ((input < 0.05) &&  (input > -0.05)){
             output = 0;
         }
@@ -25,7 +25,7 @@ class TeleopCurve{
         return output;
     }
 
-    static double applyFineR(double input){
+    static double applyFineR(double input){ // for rotation
         double output = input/5;//*input*input;//*input*input;
         output = output/5;
         if ((input < 0.075) &&  (input > -0.075)){
@@ -34,7 +34,7 @@ class TeleopCurve{
         return output;
     }
 
-    static double applyFastR(double input){
+    static double applyFastR(double input){ // for rotation
         double output = input;//*input*input*input*input;
         if ((input < 0.075) &&  (input > -0.075)){
             output = 0;
