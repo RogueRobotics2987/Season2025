@@ -35,7 +35,9 @@ void RobotContainer::ConfigureBindings()
                 return drive.WithVelocityX(TeleopCurve::applyFine(-joystick.GetLeftY()) * MaxSpeed) // Drive forward with positive Y (forward)   return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed)
                     .WithVelocityY(TeleopCurve::applyFine(joystick.GetLeftX()) * -MaxSpeed) // Drive left with positive X (left)
                     .WithRotationalRate(TeleopCurve::applyFine(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)          
-            }}));
+            }
+        })
+    );
 
     joystick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
     joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
