@@ -81,12 +81,12 @@ void CommandSwerveDrivetrain::Periodic()
         }
     }
 
-    // // Grabs the position and orintation values from the network table 'MAPLE'
-    // std::vector<double> position = positionSub.Get(); //elements x, y, z
-    // std::vector<double> orientation = orientationSub.Get(); //elements roll, pitch, yaw
-    // double xPose = position[0]; // taking x
-    // double yPose = position[1]; // taking y
-    // double yawAngle = orientation[2]; // taking yaw
+    // Grabs the position and orintation values from the network table 'MAPLE'
+    std::vector<double> position = positionSub.Get(); //elements x, y, z
+    std::vector<double> orientation = orientationSub.Get(); //elements roll, pitch, yaw
+    double xPose = position[0]; // taking x
+    double yPose = position[1]; // taking y
+    double yawAngle = orientation[2]; // taking yaw
    
     // units::meter_t xPoseInMeters = units::meter_t {xPose}; 
     // units::meter_t yPoseInMeters = units::meter_t {yPose};

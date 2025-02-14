@@ -9,6 +9,7 @@
 #include <frc2/command/sysid/SysIdRoutine.h>
 #include <networktables/DoubleArrayTopic.h>
 #include "generated/TunerConstants.h"
+#include "commands/RightSideApriltagReefLineup.h"
 
 using namespace ctre::phoenix6;
 
@@ -111,7 +112,7 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
 
 public:
     nt::DoubleArraySubscriber positionSub;
-    // nt::DoubleArraySubscriber orientationSub;
+    nt::DoubleArraySubscriber orientationSub;
     /**
      * \brief Constructs a CTRE SwerveDrivetrain using the specified constants.
      *
