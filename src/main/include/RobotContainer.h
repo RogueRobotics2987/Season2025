@@ -10,6 +10,7 @@
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Telemetry.h"
+#include "subsystems/CoralSubsystem.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -36,6 +37,7 @@ private:
     Telemetry logger{MaxSpeed};
 
     frc2::CommandXboxController joystick{0};
+    CoralSubsystem _CoralSubsystem;
 
 public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};

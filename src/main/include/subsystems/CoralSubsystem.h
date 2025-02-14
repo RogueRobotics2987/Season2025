@@ -8,6 +8,7 @@
 #include <Constants.h>
 #include <rev/SparkMax.h>
 #include <frc/DigitalInput.h>
+#include <frc/DigitalOutput.h>
 
 using namespace rev::spark;
 using namespace CoralSubsystemConstants;
@@ -80,6 +81,9 @@ class CoralSubsystem : public frc2::SubsystemBase {
     // frc::DigitalInput _funnelSensor{0};
     frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawSensor{2};
+
+    frc::DigitalOutput _light1{3};
+    frc::DigitalOutput _light2{4};
 
     // bool _funnelBB = false;
     bool _troughBB = false;

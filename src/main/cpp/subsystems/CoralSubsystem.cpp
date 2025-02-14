@@ -216,15 +216,19 @@ void CoralSubsystem::SetArmAndElevator() {
     _grabberArmclosedLoopController.SetReference(_desiredArmAngle, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
     
 }
-
-// This method will be called once per scheduler run
+ 
+ // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() { // TODO: should drivers be able to override evelator and arm all the time?
-    frc::SmartDashboard::PutString("Periodic Running", "true");
+    frc::SmartDashboard::PutString("Periodic Running", "true");        
+    frc::SmartDashboard::PutBoolean("_clawBB", _clawSensor.Get()); 
+    frc::SmartDashboard::PutNumber("_state", _state); 
+    frc::SmartDashboard::PutBoolean("_troughBB", _troughSensor.Get());
+    frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
+    frc::SmartDashboard::PutBoolean("_light2", _light2.Get());
+
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
-
-    // TODO: is this code needed?
-    //_funnelBB = _funnelSensor.Get();
+    // _funnelBB = _funnelSensor.Get();
     _troughBB = _troughSensor.Get();
     _clawBB = _clawSensor.Get();
 
@@ -255,6 +259,9 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         case EMPTY:
+            _light1.Set(false);
+            _light2.Set(false);
+            // code
             // claw ready to grab coral
             // elevator at loading position
             // arm at loading position
@@ -264,17 +271,24 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             if (_troughBB == true) {
                 _state = CORAL_IN_TROUGH;
             }
+
             break;
 
-        // this state is not being used for now
         // case CORAL_IN_FUNNEL:
+        //     _light1.Set(false);
+        //     // code
         //     // wait until coral is in trough
-        //     if (_troughBB == true) {
-        //         _state = CORAL_IN_TROUGH;
+        //     //if (_troughBB == true) {
+        //     //  _state = CORAL_IN_TROUGH;
+        //     //}
+        //     if(_funnelBB == true){
+        //         _state = EMPTY;
         //     }
-        //     break;
+        
+            // break;
 
         case CORAL_IN_TROUGH:
+            _light1.Set(true);
             // auto intake:
                 // lower arm and turn on intake motors
                 // lower elevator to pick up position
@@ -282,14 +296,22 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             SetIntakeMotors(intakeSpeed);
             SetDesiredArmAngleAndElevatorHeight(restingArmAngle, intakeHeight);
 
-            if (_clawBB == true) { 
+            // if (_clawBB == true) {
+            //     _state = ALLOW_CORAL_MOVE;
+            // }
+
+            if (_clawBB == false) { 
                 SetIntakeMotors(intakeOff);
                 SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
                 _state = ALLOW_CORAL_MOVE;
-            }
+            }            
             break;
+        
 
         case ALLOW_CORAL_MOVE:
+            _light1.Set(false);
+            _light2.Set(true);
+            // code     
             // change lights
             // allow it to move using presets
             // allow drives to move it manually
@@ -300,10 +322,12 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             // L3 height for elevator = 1.24
             // L4 height for elevator = 1.42
 
-            if (_coralPlace == true) {
-                _state = CORAL_PLACE;
-            }
+             if (_clawBB == true) {
+                 _state = CORAL_PLACE;
+             }
+            
             break;
+
 
         case CORAL_PLACE:
 
