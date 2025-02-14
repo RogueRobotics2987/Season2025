@@ -24,11 +24,14 @@ void RobotContainer::ConfigureBindings()
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.ApplyRequest([this]() -> auto&& {
+            frc::SmartDashboard::PutNumber("Input Number", -joystick.GetLeftY());
             if (drivetrainMode == 0) { // If default (fast) mode apply fast
+                frc::SmartDashboard::PutNumber("Output Number", TeleopCurve::applyFast(-joystick.GetLeftY()));
                 return drive.WithVelocityX(TeleopCurve::applyFast(-joystick.GetLeftY()) * MaxSpeed) // Drive forward with positive Y (forward)   return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed)
                     .WithVelocityY(TeleopCurve::applyFast(joystick.GetLeftX()) * -MaxSpeed) // Drive left with positive X (left)
                     .WithRotationalRate(TeleopCurve::applyFast(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)    
             } else { // otherwise apply fine
+                frc::SmartDashboard::PutNumber("Output Number", TeleopCurve::applyFine(-joystick.GetLeftY()));
                 return drive.WithVelocityX(TeleopCurve::applyFine(-joystick.GetLeftY()) * MaxSpeed) // Drive forward with positive Y (forward)   return drive.WithVelocityX(TeleopCurve::apply(joystick.GetLeftY()) * MaxSpeed)
                     .WithVelocityY(TeleopCurve::applyFine(joystick.GetLeftX()) * -MaxSpeed) // Drive left with positive X (left)
                     .WithRotationalRate(TeleopCurve::applyFine(-joystick.GetRightX()) * MaxAngularRate); // Drive counterclockwise with negative X (left)          
