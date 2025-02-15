@@ -9,27 +9,22 @@
 #include "commands/RightSideApriltagReefLineup.h"
 
 RightSideApriltagReefLineup::RightSideApriltagReefLineup() {}
-RightSideApriltagReefLineup::RightSideApriltagReefLineup(Telemetry* &drivePose, subsystems::CommandSwerveDrivetrain* &pose, RobotContainer* &driveTrain)
- { // i dont think we need the drivepose object
-  m_drive = &pose;
-  m_drivePose = &drivePose; //dont think we need because of ^
+RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer)
+{ // i dont think we need the drivepose object
   _driveTrain = &driveTrain;
-  //AddRequirements({m_pose});  
-
-
+  _robotContainer = &robotContainer;
+  AddRequirements({&driveTrain});
 }
 // Called when the command is initially scheduled.
 void RightSideApriltagReefLineup::Initialize() 
 {
   //change lights
   hasSeen = false;
-  time = 0; // dont think we will use time++
   finished = false;
-  //currentHeading = m_drive->GetState().GetRotation3d().Degrees().value(); // only need GetState functions?
   //updating the last heading
-  lastHeading = currentHeading;
+  //lastHeading = currentHeading; //do we need??
   
-  nt::NetworkTableInstance::GetDefault().GetTable("maple"); // whats the name of the maple table?
+  nt::NetworkTableInstance::GetDefault().GetTable("maple"); // whats the name of the maple table? //maple
 
 }
 
@@ -45,16 +40,17 @@ void RightSideApriltagReefLineup::Execute()
 
   std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};
   std::vector<std::vector<double>> allowedMapleTags{};
+  std::vector<double> closestAprilTag{-1.0, 0.0, 0.0, 0.0, 0.0};
   
   int minDistance = 99999;
-  std::vector<double> closestAprilTag{-1.0, 0.0, 0.0, 0.0, 0.0};
   int currentx = closestAprilTag[1]; // i dont think its supposed to be minDistanceTagID
   double currentyaw = closestAprilTag[5]; //placeholder, dont know the how to get the value yet
   double errorX = currentx - 0.25;
   double erroryaw = currentyaw - 0;
   double outPutx = 0;
   double outPutyaw = 0;
-
+  
+  //take networktable and get the apriltags it sees
 
   for(std::vector<double> currentTag: mapleTags)
   {
@@ -71,8 +67,11 @@ void RightSideApriltagReefLineup::Execute()
     {
       //add to new vector 
       allowedMapleTags.emplace_back(currentTag);
+      //TODO: allowedTag turn back false
     }
   }
+
+  //another network table getting our pose??
 
   for(std::vector<double> currentTag: allowedMapleTags)
   {
@@ -83,15 +82,42 @@ void RightSideApriltagReefLineup::Execute()
       closestAprilTag[0] = currentTag[0];
     }
   }
-  _driveTrain.ApplyRequest();
+
+  _driveTrain->SetControl([this]() -> auto&& {
+      return _robotContainer->drive.WithVelocityX(units::meters_per_second_t(5)) // Drive forward with positive Y (forward)
+                  .WithVelocityY(units::meters_per_second_t(2)) // Drive left with positive X (left)
+                  .WithRotationalRate(units::degrees_per_second_t(1)); // Drive counterclockwise with negative X (left)
+  })
+
+  //TODO: 
+  // now that we have all our apriltags:
+  // lock x and fill in with PID
+  // lock yaw and fill in with PID
+  // allow free y movement
+
+  // if(currentposex > errorx)
+  // {
+  //   keep moving our x 
+  // }
+  // else
+  // {
+  //   stop moving and wait
+  // }
+
+  // if(currentposeyaw > erroryaw)
+  // {
+  //   keep moving our yaw
+  // }
+  // else
+  // {
+  //   stop and wait
+  // }
+
   // TODO: right side only for right now
   //errorx = currentx - desiredx;
   //erroryaw = currentyaw - desiredyaw;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    
-    speedY = Deadzone(m_driverController->GetLeftY()); //is this changing the deadzone?
-    speedX = Deadzone(m_driverController->GetLeftX()); //is this changing the deadzone?
-    rot = Deadzone(m_driverController->GetRightX()); //is this changing the deadzone?
 }
 
 // Called once the command ends or is interrupted.
@@ -105,13 +131,14 @@ void RightSideApriltagReefLineup::End(bool interrupted)
   // } 
   // else 
   // {  
-  //   m_lights->SetLightsGreen(); // change m_lights
+  //   m_lights->SetLightsRed(); // change m_lights
   // }
 }
 
 // Returns true when the command should end.
 bool RightSideApriltagReefLineup::IsFinished() 
 {
+  //set all variables to what their start is just in case
   return false;
 }
 

@@ -28,7 +28,7 @@ class RightSideApriltagReefLineup
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
   RightSideApriltagReefLineup();
-  RightSideApriltagReefLineup(Telemetry* &drivePose, subsystems::CommandSwerveDrivetrain* &pose, RobotContainer* &driveTrain); // needs xbox perm? //dont think we need drivepose
+  RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
@@ -53,10 +53,9 @@ class RightSideApriltagReefLineup
 
   private: //put variables where they should go
 
-  subsystems::CommandSwerveDrivetrain* m_drive = nullptr;
-  Telemetry* m_drivePose = nullptr;
-  RobotContainer* _driveTrain = nullptr;
-
+  subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
+  RobotContainer* _robotContainer = nullptr;
+  
   double currentHeading = 0;
   double lastHeading = 0;
   double speedX = 0;
