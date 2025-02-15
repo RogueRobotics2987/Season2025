@@ -5,10 +5,12 @@
 #include "RobotContainer.h"
 
 #include <frc2/command/Commands.h>
+#include <frc/filter/SlewRateLimiter.h>
 
 RobotContainer::RobotContainer()
 {
     ConfigureBindings();
+
 }
 
 void RobotContainer::ConfigureBindings()
@@ -16,11 +18,16 @@ void RobotContainer::ConfigureBindings()
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
     drivetrain.SetDefaultCommand(
+        
         // Drivetrain will execute this command periodically
         drivetrain.ApplyRequest([this]() -> auto&& {
-            return drive.WithVelocityX(joystick.GetLeftY() * MaxSpeed) // Drive forward with positive Y (forward)
-                .WithVelocityY(joystick.GetLeftX() * MaxSpeed) // Drive left with positive X (left)
-                .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate); // Drive counterclockwise with negative X (left)
+            // Apply trapazoidal velocity profile to the outputs
+            // (DRIVE_MULT - SLOWMODE_MULT) * xbox.getRightTriggerAxis() + SLOWMODE_MULT
+            units::volt_t value {(1 - 0.25) * joystick.GetRightTriggerAxis() + 0.25};
+            units::volt_t outputMult = filter.Calculate(value);
+            return drive.WithVelocityX(joystick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
+                .WithVelocityY(joystick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
+                .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
         })
     );
 

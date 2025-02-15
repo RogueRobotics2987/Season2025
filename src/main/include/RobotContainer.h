@@ -7,6 +7,7 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/button/CommandXboxController.h>
 #include "subsystems/CommandSwerveDrivetrain.h"
+#include <frc/filter/SlewRateLimiter.h>
 #include "Telemetry.h"
 
 class RobotContainer {
@@ -33,6 +34,11 @@ public:
     RobotContainer();
 
     frc2::CommandPtr GetAutonomousCommand();
+
+    frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
+
+
+
 
 private:
     void ConfigureBindings();
