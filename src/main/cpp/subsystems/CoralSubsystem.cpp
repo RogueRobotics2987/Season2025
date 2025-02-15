@@ -74,8 +74,8 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.01)
-      .I(0.00001)
+      .P(2)
+      .I(0)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -166,10 +166,52 @@ void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     _intakeRight.Set(intakeSpeed);
 }
 
+void CoralSubsystem::IncrementOffsets(double offsetArmAngle, double offsetStageOne, double offsetStagetwo){
+    stageOneOffset += offsetStageOne;
+    stageTwoOffset += offsetStagetwo;
+    armAngleOffset += offsetArmAngle;
+
+    double stageOneSetPoint = stageOneTotal + offsetStageOne;
+    double stageTwoSetPoint = stageTwoTotal + offsetStagetwo;
+    double armAngleSetPoint = armAngleTotal + offsetArmAngle;
+
+    if (stageOneSetPoint > 21.16){
+        stageOneSetPoint = 21.16;
+    }
+
+    if (stageTwoSetPoint > 9.45){
+        stageTwoSetPoint = 9.45;
+    }
+
+    if (armAngleSetPoint > 0.4){
+        armAngleSetPoint = 0.4;
+    }
+
+    _elevatorLeaderFirstStageClosedLoopController.SetReference(stageOneSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    // _elevatorSecondStageClosedLoopController.SetReference(stageTwoSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    _grabberArmclosedLoopController.SetReference(armAngleSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+}
+
 void CoralSubsystem::SetEverything(double setArmAngle, double setStageOne, double setStageTwo){
-    _elevatorLeaderFirstStageClosedLoopController.SetReference(setStageOne, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    _elevatorSecondStageClosedLoopController.SetReference(setStageTwo, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    _grabberArmclosedLoopController.SetReference(setArmAngle, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    stageOneTotal = setStageOne + stageOneOffset;
+    stageTwoTotal = setStageTwo + stageTwoOffset;
+    armAngleTotal = setArmAngle + armAngleOffset;
+
+    if (stageOneTotal > 21.16){
+        stageOneTotal = 21.16;
+    }
+
+    if (stageTwoTotal > 9.45){
+        stageTwoTotal = 9.45;
+    }
+
+    if (armAngleTotal > 0.4){
+        armAngleTotal = 0.4;
+    }
+
+    _elevatorLeaderFirstStageClosedLoopController.SetReference(stageOneTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    // _elevatorSecondStageClosedLoopController.SetReference(stageTwoTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    _grabberArmclosedLoopController.SetReference(armAngleTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
 void CoralSubsystem::SetArmAndElevator() {
@@ -184,9 +226,9 @@ void CoralSubsystem::SetArmAndElevator() {
     }
 
     elevatorFirstStageHeight = firstStageMaxElevatorHeight;
-    elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMaxElevatorHeight;
+    // elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMaxElevatorHeight;
 
-    elevatorSecondStageHeight = elevatorSecondStageHeight/0.0239;
+    // elevatorSecondStageHeight = elevatorSecondStageHeight/0.0239;
     elevatorFirstStageHeight = elevatorFirstStageHeight/0.0280;
 
     // else if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // checking if set point doesnt go under min height

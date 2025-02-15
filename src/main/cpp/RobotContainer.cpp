@@ -36,27 +36,27 @@ void RobotContainer::ConfigureBindings()
     //      m_coralSubsystem.ResetState();
     //      }).ToPtr());
     joystick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
-          m_coralSubsystem.SetEverything(-0.3, 7.55, 0);
+          m_coralSubsystem.SetEverything(0.3, 7.55, 0);
          }).ToPtr());
          
     joystick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-         m_coralSubsystem.SetEverything(-0.35, 10.86, 0);
+         m_coralSubsystem.SetEverything(0.35, 10.86, 0);
          }).ToPtr());
 
     joystick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-         m_coralSubsystem.SetEverything(-0.35, 17.07, 1.167);
+         m_coralSubsystem.SetEverything(0.35, 17.07, 1.167);
          }).ToPtr());
 
     joystick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-         m_coralSubsystem.SetEverything(-0.389, 21.16, 9.45);
+         m_coralSubsystem.SetEverything(0.389, 21.16, 9.45);
          }).ToPtr());
 
     joystick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
-        m_coralSubsystem.SetDesiredElevatorheight(m_coralSubsystem.GetDesiredElevatorHeight()+0.01);
+         m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
          }).ToPtr());
 
     joystick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
-        m_coralSubsystem.SetDesiredElevatorheight(m_coralSubsystem.GetDesiredElevatorHeight()-0.01);
+        m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
          }).ToPtr());
 
     joystick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button
@@ -74,6 +74,17 @@ void RobotContainer::ConfigureBindings()
     joystick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
         m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
+
+    joystick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetEverything(0, 4.9, 0);
+         m_coralSubsystem.SetIntakeMotors(0);
+         }).ToPtr());
+
+    joystick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetEverything(0, 6, 0);
+         m_coralSubsystem.SetIntakeMotors(0.2);
+         }).ToPtr());
+
     
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.

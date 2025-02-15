@@ -41,17 +41,25 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetEverything(double setArmAngle, double setStageOne, double setStageTwo);
   double GetDesiredElevatorHeight();
   double GetDesiredArmAngle();
+  void IncrementOffsets(double offsetArmAngle, double offsetStageOne, double offsetStagetwo);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
 
- private:
+ public:
     // enum PossibleStates _state = START_CALIBRATION;
 
     int ElevatorLevel = 0;
 
+    double stageOneOffset = 0;
+    double stageTwoOffset = 0;
+    double armAngleOffset = 0;
+
+    double stageOneTotal = 0;
+    double stageTwoTotal = 0;
+    double armAngleTotal = 0;
 
     // the motors on the robot
     
