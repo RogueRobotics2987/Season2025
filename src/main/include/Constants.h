@@ -38,22 +38,25 @@ namespace CoralSubsystemConstants {
     inline constexpr double restingArmAngle = 0; 
     inline constexpr double restingElevatorHeight = 0.57;
     inline constexpr double elevatorZeroReverseSpeed = -0.25;
-    inline constexpr double firstStageMaxElevatorHeight = 0.60;
+    inline constexpr double firstStageMaxElevatorHeight = 0.6477;
     inline constexpr double firstStageMinElevatorHeight = 0.20;
-    inline constexpr double secondStageMaxElevatorHeight = 0.64;
-    inline constexpr double maxElevatorHeight = 1.29; 
+    inline constexpr double secondStageMaxElevatorHeight = 0.6858;
+    inline constexpr double maxElevatorHeight = 1.3335; 
     inline constexpr double maxArmAngle = 175; 
     inline constexpr double minArmAngle = 0; 
     inline constexpr double safetyArmAngle = 45;
+
     inline constexpr double L1Height = 0.74;
     inline constexpr double L2Height = 1.07;
     inline constexpr double L3Height = 1.24;
-    inline constexpr double L4Height = 1.42;
-    //need angles for each level
+    inline constexpr double L4Height = 1.3335;
+
+    // angles for each level
     inline constexpr double L1Angle = 90;
     inline constexpr double L2Angle = 125;
     inline constexpr double L3Angle = 125;
     inline constexpr double L4Angle = 0;
+
     inline constexpr double safetyElevatorHeight = 0.57;
     inline constexpr double intakeHeight = 0.44;
     inline constexpr double intakeArmAngle = 0;

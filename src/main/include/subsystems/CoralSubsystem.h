@@ -14,13 +14,13 @@ using namespace rev::spark;
 using namespace CoralSubsystemConstants;
 
 enum PossibleStates {
-  START_CALIBRATION,
-  ZERO,
-  EMPTY,
-  // CORAL_IN_FUNNEL,
-  CORAL_IN_TROUGH,
-  ALLOW_CORAL_MOVE,
-  CORAL_PLACE
+  // START_CALIBRATION,
+  // ZERO,
+  // EMPTY,
+  // // CORAL_IN_FUNNEL,
+  // CORAL_IN_TROUGH,
+  // ALLOW_CORAL_MOVE,
+  // CORAL_PLACE
  };
 
 
@@ -38,6 +38,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetDesiredElevatorheight(double setElevatorHeight);
   void SetDesiredArmAngleAndElevatorHeight(double setArmAngle, double setElevatorheight);
   void SetArmAndElevator();
+  void SetEverything(double setArmAngle, double setStageOne, double setStageTwo);
   double GetDesiredElevatorHeight();
   double GetDesiredArmAngle();
 
@@ -47,7 +48,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-    enum PossibleStates _state = EMPTY;
+    // enum PossibleStates _state = START_CALIBRATION;
 
     int ElevatorLevel = 0;
 

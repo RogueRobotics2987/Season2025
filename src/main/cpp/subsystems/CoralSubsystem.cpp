@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+#include <iostream>
 #include "subsystems/CoralSubsystem.h"
 #include "Constants.h"
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -28,8 +29,8 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
+      .P(0.03)
+      .I(0.000025)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -43,8 +44,8 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
+      .P(0.03)
+      .I(0.000025)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -58,8 +59,8 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
+      .P(0.03)
+      .I(0.000025)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -73,8 +74,8 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
+      .P(0.01)
+      .I(0.00001)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -83,6 +84,7 @@ CoralSubsystem::CoralSubsystem(){
       .D(0, ClosedLoopSlot::kSlot1)
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
+      
 
     _intakeLeftConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
@@ -133,9 +135,9 @@ void CoralSubsystem::SetCoralPlace(bool setCoralPlace) {
     SetArmAndElevator();
 }
 
-void CoralSubsystem::ResetState(){
-    _state = EMPTY;
-}
+// void CoralSubsystem::ResetState(){
+//     _state = EMPTY;
+// }
 
 void CoralSubsystem::SetDesiredArmAngle(double setArmAngle){
     _desiredArmAngle = setArmAngle;
@@ -143,8 +145,8 @@ void CoralSubsystem::SetDesiredArmAngle(double setArmAngle){
 }
 
 void CoralSubsystem::SetDesiredArmAngleAndElevatorHeight(double setArmAngle, double setElevatorHeight){
-    SetDesiredArmAngle(setArmAngle);
     SetDesiredElevatorheight(setElevatorHeight);
+    SetDesiredArmAngle(setArmAngle);
 }
 
 void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
@@ -160,8 +162,14 @@ double CoralSubsystem::GetDesiredArmAngle(){
 }
 
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
-    _intakeLeft.Set(intakeSpeed);
+    _intakeLeft.Set(-intakeSpeed);
     _intakeRight.Set(intakeSpeed);
+}
+
+void CoralSubsystem::SetEverything(double setArmAngle, double setStageOne, double setStageTwo){
+    _elevatorLeaderFirstStageClosedLoopController.SetReference(setStageOne, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    _elevatorSecondStageClosedLoopController.SetReference(setStageTwo, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    _grabberArmclosedLoopController.SetReference(setArmAngle, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
 void CoralSubsystem::SetArmAndElevator() {
@@ -169,47 +177,78 @@ void CoralSubsystem::SetArmAndElevator() {
     double elevatorSecondStageHeight;
     double heightError;
 
+    // std::cout << "State: " << _state << "\n";
+
     if (_desiredElevatorHeight > maxElevatorHeight) { // checking if set point doesnt go over max height
         _desiredElevatorHeight = maxElevatorHeight;
     }
-    else if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // checking if set point doesnt go under min height
-        _desiredElevatorHeight = firstStageMinElevatorHeight;
-    }
 
-    if (_desiredElevatorHeight < safetyElevatorHeight) { // checking if the set point doesnt go under intake pose
-        if (_desiredArmAngle < safetyArmAngle) {
-            _desiredArmAngle= safetyArmAngle; // TODO: if elevator at 8 inches is this still safe? ANSWER: yes it is safe
-        }
-    }
+    elevatorFirstStageHeight = firstStageMaxElevatorHeight;
+    elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMaxElevatorHeight;
 
-    if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // sets the arm angle to 90 if elevator is lower than 8 inches
-        _grabberArm.Set(90);
-    }
+    elevatorSecondStageHeight = elevatorSecondStageHeight/0.0239;
+    elevatorFirstStageHeight = elevatorFirstStageHeight/0.0280;
 
-    if (_desiredElevatorHeight <= secondStageMaxElevatorHeight) { // calculates the height of the elevator when below 2nd stage max height
-        elevatorFirstStageHeight = firstStageMinElevatorHeight;
-        elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMinElevatorHeight;
-    }
-    else if (_desiredElevatorHeight > secondStageMaxElevatorHeight) { // calculates the height of the elevator when above 2nd stage max height
-        elevatorSecondStageHeight = secondStageMaxElevatorHeight - firstStageMinElevatorHeight;
-        heightError = _desiredElevatorHeight - elevatorSecondStageHeight;
-        elevatorFirstStageHeight = heightError;
-    }
+    // else if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // checking if set point doesnt go under min height
+    //     _desiredElevatorHeight = firstStageMinElevatorHeight;
+    // }
 
-    if (_desiredArmAngle > maxArmAngle) { // checking if set point doesnt go over max arm angle
-        _desiredArmAngle = maxArmAngle;
-    }
-    else if (_desiredArmAngle < minArmAngle) { // checking if set point doesnt go over min arm angle
-        _desiredArmAngle = minArmAngle;
-    }
+    // if (_desiredElevatorHeight < safetyElevatorHeight) { // checking if the set point doesnt go under intake pose
+    //     if (_desiredArmAngle < safetyArmAngle) {
+    //         _desiredArmAngle= safetyArmAngle; // TODO: if elevator at 8 inches is this still safe? ANSWER: yes it is safe
+    //     }
+    // }
 
-    if (_desiredArmAngle < maxArmAngle && _desiredArmAngle > minArmAngle){
-        _grabberArm.Set(_desiredArmAngle);
-    }
+    // if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // sets the arm angle to 90 if elevator is lower than 8 inches
+    //     _grabberArm.Set(90);
+    // }
 
-    frc::SmartDashboard::PutNumber("Elevator First Stage SetPoint: ", elevatorFirstStageHeight);
-    frc::SmartDashboard::PutNumber("Elevator Second Stage SetPoint: ", elevatorSecondStageHeight);
-    frc::SmartDashboard::PutNumber("Arm Angle SetPoint: ", _desiredArmAngle);
+    // if (_desiredElevatorHeight <= secondStageMaxElevatorHeight) { // calculates the height of the elevator when below 2nd stage max height
+    //     elevatorFirstStageHeight = firstStageMinElevatorHeight;
+    //     elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMinElevatorHeight;
+
+    //     std::cout << "First Stage: " << elevatorFirstStageHeight << "\n";
+    //     std::cout << "Second Stage: " << elevatorSecondStageHeight << "\n";
+    //     std::cout << "Desired Height: " << _desiredElevatorHeight << "\n";
+    // }
+
+    // else if (_desiredElevatorHeight > secondStageMaxElevatorHeight) { // calculates the height of the elevator when above 2nd stage max height
+    //     // elevatorSecondStageHeight = secondStageMaxElevatorHeight - firstStageMinElevatorHeight;
+    //     // heightError = _desiredElevatorHeight - elevatorSecondStageHeight;
+    //     // elevatorFirstStageHeight = heightError;
+
+    //     elevatorSecondStageHeight = secondStageMaxElevatorHeight;
+    //     elevatorFirstStageHeight = _desiredElevatorHeight - elevatorSecondStageHeight;
+
+    //     elevatorSecondStageHeight = elevatorSecondStageHeight/0.0239;
+    //     elevatorFirstStageHeight = elevatorFirstStageHeight/0.0280;
+
+    //     std::cout << "First Stage: " << elevatorFirstStageHeight << "\n";
+    //     std::cout << "Second Stage: " << elevatorSecondStageHeight << "\n";
+    //     std::cout << "Desired Height: " << _desiredElevatorHeight << "\n";
+
+    //     frc::SmartDashboard::PutNumber("First Stage: ", elevatorFirstStageHeight);
+    //     frc::SmartDashboard::PutNumber("Second Stage: ", elevatorSecondStageHeight);
+    //     frc::SmartDashboard::PutNumber("Desired Height: ", _desiredElevatorHeight);
+    // }
+
+    // if (_desiredArmAngle > maxArmAngle) { // checking if set point doesnt go over max arm angle
+    //     _desiredArmAngle = maxArmAngle;
+    // }
+    // else if (_desiredArmAngle < minArmAngle) { // checking if set point doesnt go over min arm angle
+    //     _desiredArmAngle = minArmAngle;
+    // }
+
+    // if (_desiredArmAngle < maxArmAngle && _desiredArmAngle > minArmAngle){
+    //     _grabberArm.Set(_desiredArmAngle);
+    // }
+
+    frc::SmartDashboard::PutNumber("Elevator First Height: ", elevatorFirstStageHeight);
+    frc::SmartDashboard::PutNumber("Elevator Second Height: ", elevatorSecondStageHeight);
+    // frc::SmartDashboard::PutNumber("Arm Angle SetPoint: ", _desiredArmAngle);
+    frc::SmartDashboard::PutNumber("Elevator Desired Set Point: ", _desiredElevatorHeight);
+    frc::SmartDashboard::PutNumber("Arm Desired Set Point: ", _desiredArmAngle);
+
 
     _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorFirstStageHeight, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
     _elevatorSecondStageClosedLoopController.SetReference(elevatorSecondStageHeight, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
@@ -233,97 +272,106 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
     // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
 
-    switch (_state) {
-
-        case START_CALIBRATION:
-            // lower elevator at constant speed
-            _elevatorLeaderFirstStage.Set(CoralSubsystemConstants::elevatorZeroReverseSpeed);
-            _elevatorSecondStage.Set(CoralSubsystemConstants::elevatorZeroReverseSpeed);
-
-            if (_elevatorLeaderFirstStage.GetReverseLimitSwitch().Get() && _elevatorSecondStage.GetReverseLimitSwitch().Get()) {
-                _state = ZERO;
-            }
-            break;
-
-        case ZERO:
-            // set motor encoders to 0
-            _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
-            _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
-            _elevatorSecondStage.GetEncoder().SetPosition(0);
-            _state = EMPTY;
-
-            break;
-
-        case EMPTY:
-            // claw ready to grab coral
-            // elevator at loading position
-            // arm at loading position
-            // both claw motors off
-            SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
-
-            if (_troughBB == true) {
-                _state = CORAL_IN_TROUGH;
-            }
-            break;
-
-        // this state is not being used for now
-        // case CORAL_IN_FUNNEL:
-        //     // wait until coral is in trough
-        //     if (_troughBB == true) {
-        //         _state = CORAL_IN_TROUGH;
-        //     }
-        //     break;
-
-        case CORAL_IN_TROUGH:
-            // auto intake:
-                // lower arm and turn on intake motors
-                // lower elevator to pick up position
-                // turn on both claw motors
-            SetIntakeMotors(intakeSpeed);
-            SetDesiredArmAngleAndElevatorHeight(restingArmAngle, intakeHeight);
-
-            if (_clawBB == true) { 
-                SetIntakeMotors(intakeOff);
-                SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
-                _state = ALLOW_CORAL_MOVE;
-            }
-            break;
-
-        case ALLOW_CORAL_MOVE:
-            // change lights
-            // allow it to move using presets
-            // let the drivers do what they want
-            // allow drives to move it manually
-
-            // these numbers will be used for preset elevator heights (these numbers will be changed these numbers are in meters)
-            // L1 height for elevator = 0.74
-            // L2 height for elevator = 1.07
-            // L3 height for elevator = 1.24
-            // L4 height for elevator = 1.42
-
-            if (_coralPlace == true) {
-                _state = CORAL_PLACE;
-            }
-            break;
-
-        case CORAL_PLACE:
-
-            if(_clawBB == true && _grabberArmencoder.GetPosition() <= armLowered) {
-                SetDesiredArmAngle(placingArmAngle);
-                _state = ALLOW_CORAL_MOVE;
-            }
-
-            if (_clawBB == false && _grabberArmencoder.GetPosition() <= armLowered) {
-                _state = EMPTY;
-            }
-            break;
-
-        default:
-            _state = EMPTY;
+    if (_elevatorLeaderFirstStage.GetReverseLimitSwitch().Get()) {
+        _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
+        _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
     }
 
-    frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
-    frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
+    if (_elevatorSecondStage.GetReverseLimitSwitch().Get()) {
+        _elevatorSecondStage.GetEncoder().SetPosition(0);
+    }
+
+    // switch (_state) {
+
+    //     case START_CALIBRATION:
+    //         // lower elevator at constant speed
+    //         _elevatorLeaderFirstStage.Set(CoralSubsystemConstants::elevatorZeroReverseSpeed);
+    //         _elevatorSecondStage.Set(CoralSubsystemConstants::elevatorZeroReverseSpeed);
+
+    //         if (_elevatorLeaderFirstStage.GetReverseLimitSwitch().Get() && _elevatorSecondStage.GetReverseLimitSwitch().Get()) {
+    //             _state = ZERO;
+    //         }
+    //         break;
+
+    //     case ZERO:
+    //         // set motor encoders to 0
+    //         _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
+    //         _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
+    //         _elevatorSecondStage.GetEncoder().SetPosition(0);
+    //         _state = EMPTY;
+
+    //         break;
+
+    //     case EMPTY:
+    //         // claw ready to grab coral
+    //         // elevator at loading position
+    //         // arm at loading position
+    //         // both claw motors off
+    //         SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
+
+    //         if (_troughBB == true) {
+    //             _state = CORAL_IN_TROUGH;
+    //         }
+    //         break;
+
+    //     // this state is not being used for now
+    //     // case CORAL_IN_FUNNEL:
+    //     //     // wait until coral is in trough
+    //     //     if (_troughBB == true) {
+    //     //         _state = CORAL_IN_TROUGH;
+    //     //     }
+    //     //     break;
+
+    //     case CORAL_IN_TROUGH:
+    //         // auto intake:
+    //             // lower arm and turn on intake motors
+    //             // lower elevator to pick up position
+    //             // turn on both claw motors
+    //         SetIntakeMotors(intakeSpeed);
+    //         SetDesiredArmAngleAndElevatorHeight(restingArmAngle, intakeHeight);
+
+    //         if (_clawBB == true) { 
+    //             SetIntakeMotors(intakeOff);
+    //             SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
+    //             _state = ALLOW_CORAL_MOVE;
+    //         }
+    //         break;
+
+    //     case ALLOW_CORAL_MOVE:
+    //         // change lights
+    //         // allow it to move using presets
+    //         // let the drivers do what they want
+    //         // allow drives to move it manually
+
+    //         // these numbers will be used for preset elevator heights (these numbers will be changed these numbers are in meters)
+    //         // L1 height for elevator = 0.74
+    //         // L2 height for elevator = 1.07
+    //         // L3 height for elevator = 1.24
+    //         // L4 height for elevator = 1.42
+
+    //         if (_coralPlace == true) {
+    //             _state = CORAL_PLACE;
+    //         }
+    //         break;
+
+    //     case CORAL_PLACE:
+
+    //         if(_clawBB == true && _grabberArmencoder.GetPosition() <= armLowered) {
+    //             SetDesiredArmAngle(placingArmAngle);
+    //             _state = ALLOW_CORAL_MOVE;
+    //         }
+
+    //         if (_clawBB == false && _grabberArmencoder.GetPosition() <= armLowered) {
+    //             _state = EMPTY;
+    //         }
+    //         break;
+
+    //     default:
+    //         _state = EMPTY;
+    // }
+
+    // frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
+    // frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
 }
 
 frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
