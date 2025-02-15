@@ -44,6 +44,9 @@ public:
 
     frc2::CommandPtr GetAutonomousCommand();
 
+    double drivetrainMode = 0;
+
+
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController m_driverController{
@@ -51,8 +54,6 @@ public:
 
   // The robot's subsystems are defined here...
   CoralSubsystem m_coralSubsystem;
-
-
-    int drivetrainMode = 0;
+  
   void ConfigureBindings();
 };

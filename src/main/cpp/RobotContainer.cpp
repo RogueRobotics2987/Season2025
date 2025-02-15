@@ -7,8 +7,6 @@
 #include <frc2/command/Commands.h>
 
 #include "TeleopCurve.h"
-
-#include <frc/shuffleboard/Shuffleboard.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
