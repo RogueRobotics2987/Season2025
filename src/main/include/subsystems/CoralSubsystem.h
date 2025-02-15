@@ -73,7 +73,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
     // grabberArm
     SparkMax _grabberArm{CoralSubsystemConstants::CANIdGrabberArm, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _grabberArmclosedLoopController = _grabberArm.GetClosedLoopController();
-    SparkRelativeEncoder _grabberArmencoder = _grabberArm.GetEncoder();
+    SparkAbsoluteEncoder _grabberArmencoder = _grabberArm.GetAbsoluteEncoder();
 
     // intakeLeft
     SparkMax _intakeLeft{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};
