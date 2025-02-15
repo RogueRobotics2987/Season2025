@@ -36,6 +36,11 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetArmAndElevator();
   double GetDesiredElevatorHeight();
   double GetDesiredArmAngle();
+  void LightsOff();
+  void LightsPink();
+  void LightsCyan();
+  void LightsBlue();
+  void LightsRed();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -84,6 +89,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
     frc::DigitalOutput _light1{3};
     frc::DigitalOutput _light2{4};
+    frc::DigitalOutput _light3{5};
 
     // bool _funnelBB = false;
     bool _troughBB = false;

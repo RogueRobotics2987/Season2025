@@ -259,8 +259,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         case EMPTY:
-            _light1.Set(false);
-            _light2.Set(false);
+            LightsOff();
             // code
             // claw ready to grab coral
             // elevator at loading position
@@ -288,7 +287,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             // break;
 
         case CORAL_IN_TROUGH:
-            _light1.Set(true);
+            LightsPink();
             // auto intake:
                 // lower arm and turn on intake motors
                 // lower elevator to pick up position
@@ -309,8 +308,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
         
 
         case ALLOW_CORAL_MOVE:
-            _light1.Set(false);
-            _light2.Set(true);
+            LightsCyan();
             // code     
             // change lights
             // allow it to move using presets
@@ -346,4 +344,29 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     }
 
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
+}
+void CoralSubsystem::LightsOff() {
+    _light1.Set(false);
+    _light2.Set(false);
+    _light3.Set(false);
+}
+void CoralSubsystem::LightsPink() {
+    _light1.Set(true);
+    _light2.Set(false);
+    _light3.Set(false);
+}
+void CoralSubsystem::LightsCyan() {
+    _light1.Set(false);
+    _light2.Set(true);
+    _light3.Set(false);
+}
+void CoralSubsystem::LightsBlue() {
+    _light1.Set(false);
+    _light2.Set(false);
+    _light3.Set(true);
+}
+void CoralSubsystem::LightsRed() {
+    _light1.Set(true);
+    _light2.Set(false);
+    _light3.Set(true);
 }
