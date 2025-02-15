@@ -20,7 +20,7 @@ CoralSubsystem::CoralSubsystem(){
     _elevatorLeaderFirstStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _elevatorFollowerFirstStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _elevatorSecondStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _grabberArmConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    _grabberArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _intakeLeftConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _intakeRightConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
 
@@ -70,7 +70,7 @@ CoralSubsystem::CoralSubsystem(){
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
     _grabberArmConfig.closedLoop
-      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
+      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
       .P(0.1)
