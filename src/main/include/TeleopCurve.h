@@ -6,6 +6,7 @@
 
 class TeleopCurve{
     public:
+    
     TeleopCurve(){};
 
     static double applyFast(double input){
@@ -22,5 +23,6 @@ class TeleopCurve{
             output = 0;
         }
         return output;
-    }};
-// TeleopCurve::apply(joystick.GetLeftX());
+    }
+    
+    };
