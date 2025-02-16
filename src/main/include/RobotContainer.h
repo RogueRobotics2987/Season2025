@@ -54,9 +54,7 @@ public:
   frc2::CommandXboxController m_driverController{
       OperatorConstants::kDriverControllerPort};
 
-    double stageOneOffset = 0;
-    double stageTwoOffset = 0;
-    double armAngleOffset = 0;
+    double elevatorOffset = 0;
 
   // The robot's subsystems are defined here...
   CoralSubsystem m_coralSubsystem;

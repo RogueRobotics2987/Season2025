@@ -38,21 +38,22 @@ void RobotContainer::ConfigureBindings()
     // DriveStick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
     //      m_coralSubsystem.ResetState();
     //      }).ToPtr());
+    
     AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
-          m_coralSubsystem.SetEverything(0.66, 7.55, 0);
+          m_coralSubsystem.SetEverything(7.55);
          }).ToPtr());
          
     AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-         m_coralSubsystem.SetEverything(0.74, 10.86, 0);
+        m_coralSubsystem.SetEverything(10.86);
          }).ToPtr());
 
     AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-         m_coralSubsystem.SetEverything(0.76, 20.5, 1.167);
+         m_coralSubsystem.SetEverything(20.5);
          }).ToPtr());
 
-//     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-//          m_coralSubsystem.SetEverything(0.389, 21.16, 9.45);
-//          }).ToPtr());
+    AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
+         m_coralSubsystem.SetEverything(21.16);
+         }).ToPtr());
 
 //     AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
 //          m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
@@ -79,28 +80,23 @@ void RobotContainer::ConfigureBindings()
          }).ToPtr());
 
     AuxStick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetEverything(0.37, 11, 0);
+         m_coralSubsystem.SetEverything(11);
          m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
 
-    AuxStick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetEverything(0.37, 4.9, 0);
-         m_coralSubsystem.SetIntakeMotors(0.2);
-         }).ToPtr());
-
-     AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Off Button
+    AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Off Button
         m_coralSubsystem.SetClimber(0.1);
          }).ToPtr());
      
-     AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
+    AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
         m_coralSubsystem.SetClimber(0);
          }).ToPtr());
      
-     AuxStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Off Button
+    AuxStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Off Button
         m_coralSubsystem.SetClimber(-0.1);
          }).ToPtr());
 
-     AuxStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
+    AuxStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
         m_coralSubsystem.SetClimber(0);
          }).ToPtr());
 
