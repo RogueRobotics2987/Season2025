@@ -16,14 +16,8 @@
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Constants.h"
 #include "Telemetry.h"
-
-/**
- * This class is where the bulk of the robot should be declared.  Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls).  Instead, the structure of the robot (including subsystems,
- * commands, and trigger mappings) should be declared here.
- */
+#include <frc2/command/RunCommand.h>
+#include <frc/filter/SlewRateLimiter.h> //delete
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -49,7 +43,8 @@ private:
      *       define a destructor to un-register the telemetry from the drivetrain */
     Telemetry logger{MaxSpeed};
 
-    frc2::CommandXboxController joystick{0};
+    frc2::CommandXboxController DriveStick{0};
+    frc2::CommandXboxController AuxStick{1};
 
 public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};

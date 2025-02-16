@@ -40,82 +40,99 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.ApplyRequest([this]() -> auto&& {
-            units::volt_t value {(1 - 0.25) * joystick.GetRightTriggerAxis() + 0.25};
-            units::volt_t outputMult = filter.Calculate(value);
-            return drive.WithVelocityX(joystick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
-                .WithVelocityY(joystick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
-                .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
+          units::volt_t value{(1 - 0.25) * DriveStick.GetRightTriggerAxis() + 0.25};
+          units::volt_t outputMult = filter.Calculate(value);
+
+            return drive.WithVelocityX(DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
+                .WithVelocityY(DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
+                .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
         })
     );
 
-    // joystick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
-    // joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
-    //     return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
+    // DriveStick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
+    // DriveStick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
+    //     return point.WithModuleDirection(frc::Rotation2d{-DriveStick.GetLeftY(), -DriveStick.GetLeftX()});
     // }));
-    // joystick.POVUp().WhileTrue(m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height));
-    // joystick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
+    // DriveStick.POVUp().WhileTrue(m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height));
+    // DriveStick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
     //      m_coralSubsystem.ResetState();
     //      }).ToPtr());
-    joystick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
-          m_coralSubsystem.SetEverything(0.3, 7.55, 0);
+    AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
+          m_coralSubsystem.SetEverything(0.66, 7.55, 0);
          }).ToPtr());
          
-    joystick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-         m_coralSubsystem.SetEverything(0.35, 10.86, 0);
+    AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
+         m_coralSubsystem.SetEverything(0.74, 10.86, 0);
          }).ToPtr());
 
-    joystick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-         m_coralSubsystem.SetEverything(0.35, 17.07, 1.167);
+    AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
+         m_coralSubsystem.SetEverything(0.76, 20.5, 1.167);
          }).ToPtr());
 
-    joystick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-         m_coralSubsystem.SetEverything(0.389, 21.16, 9.45);
-         }).ToPtr());
+//     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
+//          m_coralSubsystem.SetEverything(0.389, 21.16, 9.45);
+//          }).ToPtr());
 
-    joystick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
-         }).ToPtr());
+//     AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
+//          m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
+//          }).ToPtr());
 
-    joystick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
-        m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
-         }).ToPtr());
+//     AuxStick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
+//         m_coralSubsystem.IncrementOffsets(0, -0.001, 0);
+//          }).ToPtr());
 
-    joystick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button
+    AuxStick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button
         m_coralSubsystem.SetIntakeMotors(0.2);
          }).ToPtr());
 
-    joystick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button
+    AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button
         m_coralSubsystem.SetIntakeMotors(-0.1);
          }).ToPtr());
 
-    joystick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
+    AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
         m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
 
-    joystick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
+    AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
         m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
 
-    joystick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetEverything(0, 4.9, 0);
+    AuxStick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetEverything(0.37, 11, 0);
          m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
 
-    joystick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetEverything(0, 6, 0);
+    AuxStick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetEverything(0.37, 4.9, 0);
          m_coralSubsystem.SetIntakeMotors(0.2);
+         }).ToPtr());
+
+     AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Off Button
+        m_coralSubsystem.SetClimber(0.1);
+         }).ToPtr());
+     
+     AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
+        m_coralSubsystem.SetClimber(0);
+         }).ToPtr());
+     
+     AuxStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Off Button
+        m_coralSubsystem.SetClimber(-0.1);
+         }).ToPtr());
+
+     AuxStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
+        m_coralSubsystem.SetClimber(0);
          }).ToPtr());
 
     
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
-    (joystick.Back() && joystick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));
-    (joystick.Back() && joystick.X()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kReverse));
-    (joystick.Start() && joystick.Y()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kForward));
-    (joystick.Start() && joystick.X()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kReverse));
+    (DriveStick.Back() && DriveStick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));
+    (DriveStick.Back() && DriveStick.X()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kReverse));
+    (DriveStick.Start() && DriveStick.Y()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kForward));
+    (DriveStick.Start() && DriveStick.X()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kReverse));
 
     // reset the field-centric heading on left bumper press
-    joystick.LeftBumper().OnTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
+    DriveStick.LeftBumper().OnTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     drivetrain.GetState().Pose;
