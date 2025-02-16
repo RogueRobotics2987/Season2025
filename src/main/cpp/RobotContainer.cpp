@@ -40,9 +40,11 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.ApplyRequest([this]() -> auto&& {
-            return drive.WithVelocityX(-joystick.GetLeftY() * MaxSpeed) // Drive forward with positive Y (forward)
-                .WithVelocityY(-joystick.GetLeftX() * MaxSpeed) // Drive left with positive X (left)
-                .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate); // Drive counterclockwise with negative X (left)
+            units::volt_t value {(1 - 0.25) * joystick.GetRightTriggerAxis() + 0.25};
+            units::volt_t outputMult = filter.Calculate(value);
+            return drive.WithVelocityX(joystick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
+                .WithVelocityY(joystick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
+                .WithRotationalRate(-joystick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
         })
     );
 

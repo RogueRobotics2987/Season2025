@@ -131,7 +131,6 @@ public:
         }
 
         ConfigureAutoBuilder();
-        MapleInit();
     }
 
     /**
@@ -159,7 +158,6 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
-        MapleInit();
     }
 
     /**
@@ -194,7 +192,6 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
-        MapleInit();
     }
 
     /**
@@ -261,7 +258,6 @@ public:
 
     private:
         void ConfigureAutoBuilder();
-        void MapleInit();
         void StartSimThread();
     };
 }

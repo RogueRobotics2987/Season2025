@@ -8,13 +8,14 @@
 #include <frc2/command/button/CommandXboxController.h>
 #include <frc2/command/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/filter/SlewRateLimiter.h>
+#include <frc2/command/RunCommand.h>
 
 #include "Constants.h"
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Constants.h"
 #include "Telemetry.h"
-#include <frc2/command/RunCommand.h>
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -56,6 +57,8 @@ public:
     RobotContainer();
     
     frc2::CommandPtr GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
+
+    frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
 
  private:
     // Replace with CommandPS4Controller or CommandJoystick if needed
