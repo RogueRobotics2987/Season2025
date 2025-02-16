@@ -29,20 +29,20 @@ class CoralSubsystem : public frc2::SubsystemBase {
  public:
   CoralSubsystem();
 
+  // these's are the functions we use
+  void SetEverything(double setElevator);
+  void SetClimber(double setClimber);
+  void SetIntakeMotors(double intakeSpeed);
+  void IncrementOffsets(double offsetElevator);
+
   void SetCoralPlace(bool setCoralPlace);
   void ResetState();
-  void Set_armAndElevator(double setArmAngle, double setElevatorHeight);
-  frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
-  void SetIntakeMotors(double intakeSpeed); 
-  void SetDesiredArmAngle(double setArmAngle);
+
   void SetDesiredElevatorheight(double setElevatorHeight);
-  void SetDesiredArmAngleAndElevatorHeight(double setArmAngle, double setElevatorheight);
-  void SetArmAndElevator();
-  void SetEverything(double setArmAngle, double setStageOne, double setStageTwo);
+  void SetElevator();
+
+  frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
-  double GetDesiredArmAngle();
-  void IncrementOffsets(double offsetArmAngle, double offsetStageOne, double offsetStagetwo);
-  void SetClimber(double setClimber);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -54,13 +54,9 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
     int ElevatorLevel = 0;
 
-    double stageOneOffset = 0;
-    double stageTwoOffset = 0;
-    double armAngleOffset = 0;
+    double elevatorOffset = 0;
 
-    double stageOneTotal = 0;
-    double stageTwoTotal = 0;
-    double armAngleTotal = 0;
+    double elevatorTotal = 0;
 
     // the motors on the robot
     
@@ -78,11 +74,6 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkMax _elevatorSecondStage{CoralSubsystemConstants::CANIdElevatorSecondStage, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _elevatorSecondStageClosedLoopController = _elevatorSecondStage.GetClosedLoopController();
     SparkRelativeEncoder _elevatorSecondStageEncoder = _elevatorSecondStage.GetEncoder();
-
-    // grabberArm
-    SparkMax _grabberArm{CoralSubsystemConstants::CANIdGrabberArm, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _grabberArmclosedLoopController = _grabberArm.GetClosedLoopController();
-    SparkAbsoluteEncoder _grabberArmencoder = _grabberArm.GetAbsoluteEncoder();
 
     // intakeLeft
     SparkMax _intakeLeft{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};
@@ -108,10 +99,8 @@ class CoralSubsystem : public frc2::SubsystemBase {
     bool _troughBB = false;
     bool _clawBB = false;
     bool _coralPlace = false;
-    double _armAngle = CoralSubsystemConstants::restingArmAngle;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
 
-    double _desiredArmAngle = restingArmAngle;
     double _desiredElevatorHeight = restingElevatorHeight;
 
   // Components (e.g. motor controllers and sensors) should generally be
