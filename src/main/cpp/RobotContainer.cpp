@@ -23,8 +23,8 @@ using namespace pathplanner;
 RobotContainer::RobotContainer()
 {
     // Initialize all of your commands and subsystems here
-    //m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests");
-    //frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
+    m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests"); //change name
+    frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
 
     //public:
     NamedCommands::registerCommand("PlaceL4CMD", std::move(PlaceL4CMD().ToPtr()));
@@ -140,13 +140,13 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 {
-    //return m_chooser.GetSelected(); //*m_chooser compiles when this is not being returned
+    return m_chooser.GetSelected(); //*m_chooser compiles when this is not being returned //pointers make me sad ): //cant covert from a raw pointer to a smart pointer
 
     //auto path = PathPlannerPath::fromPathFile("TestMoveOutPath");
 
     //return frc2::cmd::Print{"No autonomous command configured"};
 
-    return PathPlannerAuto("TestAuto").ToPtr();
+    //return PathPlannerAuto("TestAuto").ToPtr();
 
     //return AutoBuilder::followPath(path);
 }

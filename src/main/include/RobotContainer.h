@@ -60,11 +60,11 @@ public:
     frc2::CommandXboxController m_driverController{
         OperatorConstants::kDriverControllerPort};
 
-     frc::SendableChooser<frc2::Command*> m_chooser;
+    frc::SendableChooser<frc2::Command*> m_chooser;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  frc2::CommandXboxController m_driverController{
-      OperatorConstants::kDriverControllerPort};
+//   frc2::CommandXboxController m_driverController{ //declared twice
+//       OperatorConstants::kDriverControllerPort}; // declared twice
 
     double stageOneOffset = 0;
     double stageTwoOffset = 0;
