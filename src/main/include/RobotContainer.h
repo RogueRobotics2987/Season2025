@@ -9,9 +9,20 @@
 #include <frc2/command/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
 
+#include "Constants.h"
+#include "subsystems/CoralSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Constants.h"
 #include "Telemetry.h"
+#include <frc2/command/RunCommand.h>
+
+/**
+ * This class is where the bulk of the robot should be declared.  Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls).  Instead, the structure of the robot (including subsystems,
+ * commands, and trigger mappings) should be declared here.
+ */
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -46,12 +57,24 @@ public:
     
     frc2::CommandPtr GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 
-private: // Why are there two privates? 
+ private:
     // Replace with CommandPS4Controller or CommandJoystick if needed
     frc2::CommandXboxController m_driverController{
         OperatorConstants::kDriverControllerPort};
 
      frc::SendableChooser<frc2::Command*> m_chooser;
 
-    void ConfigureBindings();
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  frc2::CommandXboxController m_driverController{
+      OperatorConstants::kDriverControllerPort};
+
+    double stageOneOffset = 0;
+    double stageTwoOffset = 0;
+    double armAngleOffset = 0;
+
+  // The robot's subsystems are defined here...
+  CoralSubsystem m_coralSubsystem;
+
+
+  void ConfigureBindings();
 };

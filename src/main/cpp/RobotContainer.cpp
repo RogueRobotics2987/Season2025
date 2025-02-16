@@ -3,10 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
-#include "commands/PlaceL4CMD.h"
 #include "subsystems/CoralSubsystem.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "commands/PlaceL4CMD.h"
 
 #include <frc2/command/Commands.h>
+#include <frc2/command/InstantCommand.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandPtr.h>
@@ -32,6 +34,7 @@ RobotContainer::RobotContainer()
 
 void RobotContainer::ConfigureBindings() // more needs to be added somewhere in here *look at GIT for what
 {
+    
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
     drivetrain.SetDefaultCommand(
@@ -43,11 +46,65 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
         })
     );
 
-    joystick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
-    joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
-        return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
-    }));
+    // joystick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
+    // joystick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
+    //     return point.WithModuleDirection(frc::Rotation2d{-joystick.GetLeftY(), -joystick.GetLeftX()});
+    // }));
+    // joystick.POVUp().WhileTrue(m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height));
+    // joystick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
+    //      m_coralSubsystem.ResetState();
+    //      }).ToPtr());
+    joystick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
+          m_coralSubsystem.SetEverything(0.3, 7.55, 0);
+         }).ToPtr());
+         
+    joystick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
+         m_coralSubsystem.SetEverything(0.35, 10.86, 0);
+         }).ToPtr());
 
+    joystick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
+         m_coralSubsystem.SetEverything(0.35, 17.07, 1.167);
+         }).ToPtr());
+
+    joystick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
+         m_coralSubsystem.SetEverything(0.389, 21.16, 9.45);
+         }).ToPtr());
+
+    joystick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
+         }).ToPtr());
+
+    joystick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
+        m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
+         }).ToPtr());
+
+    joystick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button
+        m_coralSubsystem.SetIntakeMotors(0.2);
+         }).ToPtr());
+
+    joystick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button
+        m_coralSubsystem.SetIntakeMotors(-0.1);
+         }).ToPtr());
+
+    joystick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
+        m_coralSubsystem.SetIntakeMotors(0);
+         }).ToPtr());
+
+    joystick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
+        m_coralSubsystem.SetIntakeMotors(0);
+         }).ToPtr());
+
+    joystick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetEverything(0, 4.9, 0);
+         m_coralSubsystem.SetIntakeMotors(0);
+         }).ToPtr());
+
+    joystick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+         m_coralSubsystem.SetEverything(0, 6, 0);
+         m_coralSubsystem.SetIntakeMotors(0.2);
+         }).ToPtr());
+
+    
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     (joystick.Back() && joystick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));
