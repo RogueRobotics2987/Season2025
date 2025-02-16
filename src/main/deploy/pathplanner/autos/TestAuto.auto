@@ -15,6 +15,18 @@
           "data": {
             "name": "PlaceL4CMD"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PlaceCMD"
+          }
         }
       ]
     }

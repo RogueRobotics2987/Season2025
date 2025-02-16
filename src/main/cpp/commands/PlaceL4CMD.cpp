@@ -23,6 +23,7 @@ void PlaceL4CMD::Initialize() {}
 void PlaceL4CMD::Execute() {
   //void Place_armAndElevatorL4(double setArmAngle, double setElevatorHeight, bool setCoralPlace);
   std::cout << "WOW!" << std::endl;
+  
 
 }
 

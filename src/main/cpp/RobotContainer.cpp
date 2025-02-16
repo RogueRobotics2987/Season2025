@@ -5,7 +5,6 @@
 #include "RobotContainer.h"
 #include "subsystems/CoralSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
-#include "commands/PlaceL4CMD.h"
 
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
@@ -26,8 +25,12 @@ RobotContainer::RobotContainer()
     m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests"); //change name
     frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
 
+
+
     //public:
     NamedCommands::registerCommand("PlaceL4CMD", std::move(PlaceL4CMD().ToPtr()));
+    NamedCommands::registerCommand("PlaceCMD", std::move(PlaceCMD().ToPtr()));
+
     // Configure the button bindings
     ConfigureBindings();
 }
@@ -144,9 +147,6 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand()
 
     //auto path = PathPlannerPath::fromPathFile("TestMoveOutPath");
 
-    //return frc2::cmd::Print{"No autonomous command configured"};
-
     //return PathPlannerAuto("TestAuto").ToPtr();
 
-    //return AutoBuilder::followPath(path);
 }

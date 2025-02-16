@@ -16,9 +16,8 @@
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Constants.h"
 #include "Telemetry.h"
-#include <frc2/command/RunCommand.h>
-#include <frc/filter/SlewRateLimiter.h> //delete
-
+#include "commands/PlaceL4CMD.h"
+#include "commands/PlaceCMD.h"
 /**
  * This class is where the bulk of the robot should be declared.  Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -51,7 +50,7 @@ public:
 
     RobotContainer();
     
-    frc2::CommandPtr GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
+    frc2::Command* GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 
     frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
 
