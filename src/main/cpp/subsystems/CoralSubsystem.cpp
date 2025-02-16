@@ -298,7 +298,6 @@ void CoralSubsystem::SetArmAndElevator() {
     
 }
 
-}
 
 // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() { // TODO: should drivers be able to override evelator and arm all the time?
