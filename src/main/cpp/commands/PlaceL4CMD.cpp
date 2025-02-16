@@ -21,9 +21,8 @@ void PlaceL4CMD::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void PlaceL4CMD::Execute() {
-  //void Place_armAndElevatorL4(double setArmAngle, double setElevatorHeight, bool setCoralPlace);
   std::cout << "WOW!" << std::endl;
-  
+  //void SetEverything(double setElevator/*static number*/);
 
 }
 

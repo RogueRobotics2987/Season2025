@@ -20,10 +20,9 @@ void PlaceCMD::Execute()
 // Called once the command ends or is interrupted.
 void PlaceCMD::End(bool interrupted) 
 {
-  //void SetEverything(double setArmAngle/*static number*/, double setStageOne/*static number*/, double setStageTwo/*static number*/); 
+  //void SetEverything(double setElevator /*static number*/);  
   // do we want this in end or is finished? 
   //moves everything to intake again
-  //whats better; elevator and arm in PlaceL4 or everything in here
 }
 
 // Returns true when the command should end.
