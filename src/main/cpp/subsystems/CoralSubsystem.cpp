@@ -100,22 +100,6 @@ CoralSubsystem::CoralSubsystem(){
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
-      _climberConfig.closedLoop
-      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
-      // Set PID values for position control. We don't need to pass a closed
-      // loop slot, as it will default to slot 0.
-      .P(0.5)
-      .I(0)
-      .D(0)
-      .OutputRange(-1, 1)
-      // Set PID values for velocity control in slot 1
-      .P(0.0001, ClosedLoopSlot::kSlot1)
-      .I(0, ClosedLoopSlot::kSlot1)
-      .D(0, ClosedLoopSlot::kSlot1)
-      .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
-      .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
-
-
     _elevatorLeaderFirstStage.Configure(_elevatorLeaderFirstStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _elevatorFollowerFirstStage.Configure(_elevatorFollowerFirstStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _elevatorSecondStage.Configure(_elevatorSecondStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
@@ -149,10 +133,6 @@ void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
 
 double CoralSubsystem::GetDesiredElevatorHeight(){
     return _desiredElevatorHeight;
-}
-
-void CoralSubsystem::SetClimber(double setClimber){
-    _climber.Set(setClimber);
 }
 
 void CoralSubsystem::IncrementOffsets(double offsetElevator){

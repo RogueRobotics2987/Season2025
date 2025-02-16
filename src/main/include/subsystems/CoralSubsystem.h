@@ -31,7 +31,6 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
   // these's are the functions we use
   void SetEverything(double setElevator);
-  void SetClimber(double setClimber);
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
 
@@ -84,11 +83,6 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkMax _intakeRight{CoralSubsystemConstants::CANIdRightIntake, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _intakeRightclosedLoopController = _intakeRight.GetClosedLoopController();
     SparkRelativeEncoder _intakeRightencoder = _intakeRight.GetEncoder();
-
-    // Climber
-    SparkMax _climber{CoralSubsystemConstants::CANIdClimber, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _climberclosedLoopController = _climber.GetClosedLoopController();
-    SparkRelativeEncoder _climberencoder = _climber.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
