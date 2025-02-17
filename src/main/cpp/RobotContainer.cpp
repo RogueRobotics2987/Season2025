@@ -40,19 +40,19 @@ void RobotContainer::ConfigureBindings()
     //      }).ToPtr());
     
     AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
-          m_coralSubsystem.SetEverything(7.55);
+          m_coralSubsystem.SetElevator(0);
          }).ToPtr());
          
     AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-        m_coralSubsystem.SetEverything(10.86);
+        m_coralSubsystem.SetElevator(10.86);
          }).ToPtr());
 
     AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-         m_coralSubsystem.SetEverything(20.5);
+         m_coralSubsystem.SetElevator(20.5);
          }).ToPtr());
 
     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-         m_coralSubsystem.SetEverything(21.16);
+         m_coralSubsystem.SetElevator(21.16);
          }).ToPtr());
 
     AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator up
@@ -80,7 +80,7 @@ void RobotContainer::ConfigureBindings()
          }).ToPtr());
 
     AuxStick.LeftBumper().WhileTrue(frc2::InstantCommand([this]() -> void { // intake preset
-         m_coralSubsystem.SetEverything(0);
+         m_coralSubsystem.SetElevator(0);
          m_coralSubsystem.SetIntakeMotors(0.2);
          }).ToPtr());
     

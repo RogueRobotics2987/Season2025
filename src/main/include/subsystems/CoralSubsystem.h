@@ -30,12 +30,11 @@ class CoralSubsystem : public frc2::SubsystemBase {
   CoralSubsystem();
 
   // these's are the functions we use
-  void SetEverything(double setElevator);
+  void SetElevator(double setElevator);
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
 
   void SetDesiredElevatorheight(double setElevatorHeight);
-  void SetElevator();
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
@@ -65,11 +64,6 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkMax _elevatorFollowerFirstStage{CoralSubsystemConstants::CANIdFollowerElevatorFirstStage, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _elevatorFollowerFirstStageClosedLoopController = _elevatorFollowerFirstStage.GetClosedLoopController();
     SparkRelativeEncoder _elevatorFollowerFirstStageEncoder = _elevatorFollowerFirstStage.GetEncoder();
-
-    // elevatorSecondStage
-    SparkMax _elevatorSecondStage{CoralSubsystemConstants::CANIdElevatorSecondStage, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorSecondStageClosedLoopController = _elevatorSecondStage.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorSecondStageEncoder = _elevatorSecondStage.GetEncoder();
 
     // intakeLeft
     SparkMax _intakeLeft{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};

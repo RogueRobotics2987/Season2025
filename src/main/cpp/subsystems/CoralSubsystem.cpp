@@ -11,7 +11,6 @@
 CoralSubsystem::CoralSubsystem(){
     SparkMaxConfig _elevatorLeaderFirstStageConfig;
     SparkMaxConfig _elevatorFollowerFirstStageConfig;
-    SparkMaxConfig _elevatorSecondStageConfig;
     SparkMaxConfig _intakeLeftConfig;
     SparkMaxConfig _intakeRightConfig;
 
@@ -19,7 +18,6 @@ CoralSubsystem::CoralSubsystem(){
 
     _elevatorLeaderFirstStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _elevatorFollowerFirstStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _elevatorSecondStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _intakeLeftConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _intakeRightConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
 
@@ -39,21 +37,6 @@ CoralSubsystem::CoralSubsystem(){
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
     _elevatorFollowerFirstStageConfig.closedLoop
-      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
-      // Set PID values for position control. We don't need to pass a closed
-      // loop slot, as it will default to slot 0.
-      .P(0.03)
-      .I(0.000025)
-      .D(0)
-      .OutputRange(-1, 1)
-      // Set PID values for velocity control in slot 1
-      .P(0.0001, ClosedLoopSlot::kSlot1)
-      .I(0, ClosedLoopSlot::kSlot1)
-      .D(0, ClosedLoopSlot::kSlot1)
-      .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
-      .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
-
-      _elevatorSecondStageConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
@@ -100,12 +83,10 @@ CoralSubsystem::CoralSubsystem(){
 
     _elevatorLeaderFirstStage.Configure(_elevatorLeaderFirstStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _elevatorFollowerFirstStage.Configure(_elevatorFollowerFirstStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
-    _elevatorSecondStage.Configure(_elevatorSecondStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeLeft.Configure(_intakeLeftConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeRight.Configure(_intakeRightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
     // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
-    // _troughBB = frc::SmartDashboard::SetDefaultBoolean("Trough Beam Break", false);
     _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
 
@@ -116,7 +97,6 @@ void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
 
 void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
     _desiredElevatorHeight = setElevatorHeight;
-    SetElevator();
 }
 
 double CoralSubsystem::GetDesiredElevatorHeight(){
@@ -132,10 +112,9 @@ void CoralSubsystem::IncrementOffsets(double offsetElevator){
     }
 
     _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    // _elevatorSecondStageClosedLoopController.SetReference(stageTwoSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
-void CoralSubsystem::SetEverything(double setElevator){
+void CoralSubsystem::SetElevator(double setElevator){
     elevatorTotal = setElevator + elevatorOffset;
 
     if (elevatorTotal > 21.16){
@@ -143,68 +122,6 @@ void CoralSubsystem::SetEverything(double setElevator){
     }
 
     _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-//     // _elevatorSecondStageClosedLoopController.SetReference(stageTwoTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-}
-
-// TODO: fix this function with all the math
-void CoralSubsystem::SetElevator() {
-    double elevatorFirstStageHeight;
-    double elevatorSecondStageHeight;
-    double heightError;
-
-    // std::cout << "State: " << _state << "\n";
-
-    if (_desiredElevatorHeight > maxElevatorHeight) { // checking if set point doesnt go over max height
-        _desiredElevatorHeight = maxElevatorHeight;
-    }
-
-    // elevatorFirstStageHeight = firstStageMaxElevatorHeight;
-    // elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMaxElevatorHeight;
-
-    // elevatorSecondStageHeight = elevatorSecondStageHeight/0.0239;
-    elevatorFirstStageHeight = elevatorFirstStageHeight/0.0280;
-
-    // else if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // checking if set point doesnt go under min height
-    //     _desiredElevatorHeight = firstStageMinElevatorHeight;
-    // }
-
-    // if (_desiredElevatorHeight <= secondStageMaxElevatorHeight) { // calculates the height of the elevator when below 2nd stage max height
-    //     elevatorFirstStageHeight = firstStageMinElevatorHeight;
-    //     elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMinElevatorHeight;
-
-    //     std::cout << "First Stage: " << elevatorFirstStageHeight << "\n";
-    //     std::cout << "Second Stage: " << elevatorSecondStageHeight << "\n";
-    //     std::cout << "Desired Height: " << _desiredElevatorHeight << "\n";
-    // }
-
-    // else if (_desiredElevatorHeight > secondStageMaxElevatorHeight) { // calculates the height of the elevator when above 2nd stage max height
-    //     // elevatorSecondStageHeight = secondStageMaxElevatorHeight - firstStageMinElevatorHeight;
-    //     // heightError = _desiredElevatorHeight - elevatorSecondStageHeight;
-    //     // elevatorFirstStageHeight = heightError;
-
-    //     elevatorSecondStageHeight = secondStageMaxElevatorHeight;
-    //     elevatorFirstStageHeight = _desiredElevatorHeight - elevatorSecondStageHeight;
-
-    //     elevatorSecondStageHeight = elevatorSecondStageHeight/0.0239;
-    //     elevatorFirstStageHeight = elevatorFirstStageHeight/0.0280;
-
-    //     std::cout << "First Stage: " << elevatorFirstStageHeight << "\n";
-    //     std::cout << "Second Stage: " << elevatorSecondStageHeight << "\n";
-    //     std::cout << "Desired Height: " << _desiredElevatorHeight << "\n";
-
-    //     frc::SmartDashboard::PutNumber("First Stage: ", elevatorFirstStageHeight);
-    //     frc::SmartDashboard::PutNumber("Second Stage: ", elevatorSecondStageHeight);
-    //     frc::SmartDashboard::PutNumber("Desired Height: ", _desiredElevatorHeight);
-    // }
-
-    frc::SmartDashboard::PutNumber("Elevator First Height: ", elevatorFirstStageHeight);
-    frc::SmartDashboard::PutNumber("Elevator Second Height: ", elevatorSecondStageHeight);
-    // frc::SmartDashboard::PutNumber("Arm Angle SetPoint: ", _desiredArmAngle);
-    frc::SmartDashboard::PutNumber("Elevator Desired Set Point: ", _desiredElevatorHeight);
-
-    _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorFirstStageHeight, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    _elevatorSecondStageClosedLoopController.SetReference(elevatorSecondStageHeight, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    
 }
 
 // This method will be called once per scheduler run
@@ -225,9 +142,6 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
         _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
     }
 
-    if (_elevatorSecondStage.GetReverseLimitSwitch().Get()) {
-        _elevatorSecondStage.GetEncoder().SetPosition(0);
-    }
 
     // TODO: reconsider using a state machine
     // switch (_state) {
