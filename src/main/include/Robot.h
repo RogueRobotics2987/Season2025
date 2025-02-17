@@ -32,7 +32,7 @@ class Robot : public frc::TimedRobot {
  /* example has:
   frc2::Command *m_autonmousCommand;
  */
-  std::optional<frc2::CommandPtr> m_autonomousCommand;
+  frc2::Command* m_autonomousCommand;
 
   RobotContainer m_container;
 };
