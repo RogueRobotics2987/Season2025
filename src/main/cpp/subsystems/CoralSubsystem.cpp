@@ -112,26 +112,26 @@ CoralSubsystem::CoralSubsystem(){
     _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
 
-// void CoralSubsystem::ResetState(){
+// void CoralSubsystem::ResetState(){ //no state mechine
 //     _state = EMPTY;
 // }
 
-void CoralSubsystem::SetCoralPlace(bool setCoralPlace) {
-    _coralPlace = setCoralPlace;
-    SetElevator();
-}
+// void CoralSubsystem::SetCoralPlace(bool setCoralPlace) { //no state mechine
+//     _coralPlace = setCoralPlace;
+//     SetElevator();
+// }
 
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     _intakeLeft.Set(-intakeSpeed);
     _intakeRight.Set(intakeSpeed);
 }
 
-void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
+void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){ //same thing as SetEverything without offset?
     _desiredElevatorHeight = setElevatorHeight;
     SetElevator();
 }
 
-double CoralSubsystem::GetDesiredElevatorHeight(){
+double CoralSubsystem::GetDesiredElevatorHeight(){ //same thing as SetEverything without offset?
     return _desiredElevatorHeight;
 }
 
