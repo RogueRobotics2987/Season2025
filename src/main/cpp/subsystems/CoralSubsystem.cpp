@@ -107,7 +107,7 @@ CoralSubsystem::CoralSubsystem(){
     _intakeRight.Configure(_intakeRightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
     // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
-    _troughBB = frc::SmartDashboard::SetDefaultBoolean("Trough Beam Break", false);
+    // _troughBB = frc::SmartDashboard::SetDefaultBoolean("Trough Beam Break", false);
     _coralPlace = frc::SmartDashboard::SetDefaultBoolean("Coral Place", false);
     _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
@@ -227,11 +227,11 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
     // TODO: is this code needed?
     //_funnelBB = _funnelSensor.Get();
-    _troughBB = _troughSensor.Get();
+    // _troughBB = _troughSensor.Get();
     _clawBB = _clawSensor.Get();
 
     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
-    _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
+    // _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
     _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
     // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
 
