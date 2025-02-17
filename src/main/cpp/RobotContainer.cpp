@@ -79,7 +79,7 @@ void RobotContainer::ConfigureBindings()
         m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
 
-    AuxStick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // intake preset
+    AuxStick.LeftBumper().WhileTrue(frc2::InstantCommand([this]() -> void { // intake preset
          m_coralSubsystem.SetEverything(0);
          m_coralSubsystem.SetIntakeMotors(0.2);
          }).ToPtr());

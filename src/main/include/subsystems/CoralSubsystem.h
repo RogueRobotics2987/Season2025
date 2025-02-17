@@ -34,9 +34,6 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
 
-  void SetCoralPlace(bool setCoralPlace);
-  void ResetState();
-
   void SetDesiredElevatorheight(double setElevatorHeight);
   void SetElevator();
 

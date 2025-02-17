@@ -14,7 +14,6 @@ CoralSubsystem::CoralSubsystem(){
     SparkMaxConfig _elevatorSecondStageConfig;
     SparkMaxConfig _intakeLeftConfig;
     SparkMaxConfig _intakeRightConfig;
-    SparkMaxConfig _climberConfig;
 
     _elevatorFollowerFirstStageConfig.Follow(_elevatorLeaderFirstStage);
 
