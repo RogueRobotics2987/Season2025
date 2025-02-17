@@ -35,12 +35,11 @@ namespace CoralSubsystemConstants {
     inline constexpr int CANIdElevatorSecondStage = 22;
     inline constexpr int CANIdLeftIntake = 24;
     inline constexpr int CANIdRightIntake = 23;
-    inline constexpr int CANIdClimber = 25;
-    inline constexpr double restingElevatorHeight = 0.57;
+    // inline constexpr int CANIdClimber = 25;
+
+    inline constexpr double restingElevatorHeight = 0;
     inline constexpr double elevatorZeroReverseSpeed = -0.25;
-    inline constexpr double firstStageMaxElevatorHeight = 0.6477;
-    inline constexpr double firstStageMinElevatorHeight = 0.20;
-    inline constexpr double secondStageMaxElevatorHeight = 0.6858;
+    inline constexpr double minElevatorHeight = 0;
     inline constexpr double maxElevatorHeight = 1.3335; 
 
     inline constexpr double L1Height = 0.74;
@@ -50,7 +49,7 @@ namespace CoralSubsystemConstants {
 
     inline constexpr double safetyElevatorHeight = 0.57;
     inline constexpr double intakeHeight = 0.44;
-    inline constexpr double intakeSpeed = 0.1; // this number is lower for testing
+    inline constexpr double intakeSpeed = 0.1;
     inline constexpr double intakeOff = 0;
     // inline constexpr double L1 = 0.74;
     // inline constexpr double L2 = 1.07;

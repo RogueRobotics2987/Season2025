@@ -92,7 +92,6 @@ class CoralSubsystem : public frc2::SubsystemBase {
     // bool _funnelBB = false;
     // bool _troughBB = false;
     bool _clawBB = false;
-    bool _coralPlace = false;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
 
     double _desiredElevatorHeight = restingElevatorHeight;

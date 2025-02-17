@@ -12,7 +12,6 @@ CoralSubsystem::CoralSubsystem(){
     SparkMaxConfig _elevatorLeaderFirstStageConfig;
     SparkMaxConfig _elevatorFollowerFirstStageConfig;
     SparkMaxConfig _elevatorSecondStageConfig;
-    SparkMaxConfig _grabberArmConfig;
     SparkMaxConfig _intakeLeftConfig;
     SparkMaxConfig _intakeRightConfig;
     SparkMaxConfig _climberConfig;
@@ -108,18 +107,8 @@ CoralSubsystem::CoralSubsystem(){
 
     // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
     // _troughBB = frc::SmartDashboard::SetDefaultBoolean("Trough Beam Break", false);
-    _coralPlace = frc::SmartDashboard::SetDefaultBoolean("Coral Place", false);
     _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
-
-// void CoralSubsystem::ResetState(){
-//     _state = EMPTY;
-// }
-
-void CoralSubsystem::SetCoralPlace(bool setCoralPlace) {
-    _coralPlace = setCoralPlace;
-    SetElevator();
-}
 
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     _intakeLeft.Set(-intakeSpeed);
@@ -170,7 +159,7 @@ void CoralSubsystem::SetElevator() {
         _desiredElevatorHeight = maxElevatorHeight;
     }
 
-    elevatorFirstStageHeight = firstStageMaxElevatorHeight;
+    // elevatorFirstStageHeight = firstStageMaxElevatorHeight;
     // elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMaxElevatorHeight;
 
     // elevatorSecondStageHeight = elevatorSecondStageHeight/0.0239;
@@ -225,9 +214,6 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
 
-    // TODO: is this code needed?
-    //_funnelBB = _funnelSensor.Get();
-    // _troughBB = _troughSensor.Get();
     _clawBB = _clawSensor.Get();
 
     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);

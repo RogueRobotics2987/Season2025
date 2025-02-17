@@ -55,13 +55,13 @@ void RobotContainer::ConfigureBindings()
          m_coralSubsystem.SetEverything(21.16);
          }).ToPtr());
 
-//     AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
-//          m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
-//          }).ToPtr());
+    AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator up
+         m_coralSubsystem.IncrementOffsets(0.01);
+         }).ToPtr());
 
-//     AuxStick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
-//         m_coralSubsystem.IncrementOffsets(0, -0.001, 0);
-//          }).ToPtr());
+    AuxStick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator down
+        m_coralSubsystem.IncrementOffsets(-0.01);
+         }).ToPtr());
 
     AuxStick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button
         m_coralSubsystem.SetIntakeMotors(0.2);
@@ -79,9 +79,9 @@ void RobotContainer::ConfigureBindings()
         m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
 
-    AuxStick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetEverything(11);
-         m_coralSubsystem.SetIntakeMotors(0);
+    AuxStick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // intake preset
+         m_coralSubsystem.SetEverything(0);
+         m_coralSubsystem.SetIntakeMotors(0.2);
          }).ToPtr());
     
     // Run SysId routines when holding back/start and X/Y.
