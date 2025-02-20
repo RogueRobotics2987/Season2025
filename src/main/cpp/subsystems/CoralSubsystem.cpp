@@ -225,6 +225,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     frc::SmartDashboard::PutBoolean("_troughBB", _troughSensor.Get());
     frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
     frc::SmartDashboard::PutBoolean("_light2", _light2.Get());
+    frc::SmartDashboard::PutBoolean("_light3", _light3.Get());
 
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
@@ -270,8 +271,31 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             if (_troughBB == true) {
                 _state = CORAL_IN_TROUGH;
             }
-
+            if (_blue == true){
+                LightsBlue();
+            }
+            if (_red == true){
+                LightsRed();
+            }
             break;
+
+        // case BLUE:
+        //     LightsBlue();
+
+        //     if (_blue == false){
+        //         _state = EMPTY;
+        //     }
+
+        //     break;
+
+        //     case RED:
+        //     LightsRed();
+
+        //     if (_red == false){
+        //         _state = EMPTY;
+        //     }
+
+        //     break;
 
         // case CORAL_IN_FUNNEL:
         //     _light1.Set(false);
@@ -296,7 +320,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             SetDesiredArmAngleAndElevatorHeight(restingArmAngle, intakeHeight);
 
             // if (_clawBB == true) {
-            //     _state = ALLOW_CORAL_MOVE;
+            //     _state = ALLOW_CORAL_MOVE; hi
             // }
 
             if (_clawBB == false) { 
@@ -304,6 +328,12 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                 SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
                 _state = ALLOW_CORAL_MOVE;
             }            
+            if (_blue == true){
+                LightsBlue();
+            }
+            if (_red == true){
+                LightsRed();
+            }
             break;
         
 
@@ -323,7 +353,12 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
              if (_clawBB == true) {
                  _state = CORAL_PLACE;
              }
-            
+            if (_blue == true){
+                LightsBlue();
+            }
+            if (_red == true){
+                LightsRed();
+            }
             break;
 
 
@@ -336,6 +371,12 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
             if (_clawBB == false && _grabberArmencoder.GetPosition() <= armLowered) {
                 _state = EMPTY;
+            }
+            if (_blue == true){
+                LightsBlue();
+            }
+            if (_red == true){
+                LightsRed();
             }
             break;
 

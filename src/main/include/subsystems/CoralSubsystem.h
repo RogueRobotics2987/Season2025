@@ -20,7 +20,9 @@ enum PossibleStates {
   // CORAL_IN_FUNNEL,
   CORAL_IN_TROUGH,
   ALLOW_CORAL_MOVE,
-  CORAL_PLACE
+  CORAL_PLACE,
+  BLUE,
+  RED
  };
 
 class CoralSubsystem : public frc2::SubsystemBase {
@@ -90,8 +92,10 @@ class CoralSubsystem : public frc2::SubsystemBase {
     frc::DigitalOutput _light1{3};
     frc::DigitalOutput _light2{4};
     frc::DigitalOutput _light3{5};
-
     // bool _funnelBB = false;
+
+    bool _blue = false;
+    bool _red = false;
     bool _troughBB = false;
     bool _clawBB = false;
     bool _coralPlace = false;
