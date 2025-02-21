@@ -146,104 +146,43 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     // TODO: reconsider using a state machine
     switch (_state) {
 
-    //     case START_CALIBRATION:
-    //         // lower elevator at constant speed
-    //         _elevatorLeaderFirstStage.Set(CoralSubsystemConstants::elevatorZeroReverseSpeed);
-    //         _elevatorSecondStage.Set(CoralSubsystemConstants::elevatorZeroReverseSpeed);
-
-    //         if (_elevatorLeaderFirstStage.GetReverseLimitSwitch().Get() && _elevatorSecondStage.GetReverseLimitSwitch().Get()) {
-    //             _state = ZERO;
-    //         }
-    //         break;
-
         case ZERO:
             // set motor encoders to 0
             _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
             _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
-            _elevatorSecondStage.GetEncoder().SetPosition(0);
-            _state = EMPTY;
+            _state = NO_CORAL;
 
             break;
 
-        case EMPTY:
-            // claw ready to grab coral
-            // elevator at loading position
-            // arm at loading position
-            // both claw motors off
-            SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
+        case NO_CORAL:
 
             if (_troughBB == true) {
+                // turn on intake
+                _light2.Set(false);
                 _light1.Set(true);
-                if (_troughBB == true){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
+                if (_clawBB == true){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
                     _light1.Set(false);     // it goes to the state "FULL"
                     _state = FULL;
                 }
+                _state = YES_CORAL;
             }
             break;
 
-        case FULL:
-            _light2.Set(true);
-            
+        case YES_CORAL:
+
+            if(_troughBB = false){
+                // turn intake off
+                _state = NO_CORAL;
+                _light1.Set(false);
+                _light2.Set(true);
+            }
             break;
-    //     // this state is not being used for now
-    //     // case CORAL_IN_FUNNEL:
-    //     //     // wait until coral is in trough
-    //     //     if (_troughBB == true) {
-    //     //         _state = CORAL_IN_TROUGH;
-    //     //     }
-    //     //     break;
-
-    //     case CORAL_IN_TROUGH:
-    //         // auto intake:
-    //             // lower arm and turn on intake motors
-    //             // lower elevator to pick up position
-    //             // turn on both claw motors
-    //         SetIntakeMotors(intakeSpeed);
-    //         SetDesiredArmAngleAndElevatorHeight(restingArmAngle, intakeHeight);
-
-    //         if (_clawBB == true) { 
-    //             SetIntakeMotors(intakeOff);
-    //             SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
-    //             _state = ALLOW_CORAL_MOVE;
-    //         }
-    //         break;
-
-    //     case ALLOW_CORAL_MOVE:
-    //         // change lights
-    //         // allow it to move using presets
-    //         // let the drivers do what they want
-    //         // allow drives to move it manually
-
-    //         // these numbers will be used for preset elevator heights (these numbers will be changed these numbers are in meters)
-    //         // L1 height for elevator = 0.74
-    //         // L2 height for elevator = 1.07
-    //         // L3 height for elevator = 1.24
-    //         // L4 height for elevator = 1.42
-
-    //         if (_coralPlace == true) {
-    //             _state = CORAL_PLACE;
-    //         }
-    //         break;
-
-    //     case CORAL_PLACE:
-
-    //         if(_clawBB == true && _grabberArmencoder.GetPosition() <= armLowered) {
-    //             SetDesiredArmAngle(placingArmAngle);
-    //             _state = ALLOW_CORAL_MOVE;
-    //         }
-
-    //         if (_clawBB == false && _grabberArmencoder.GetPosition() <= armLowered) {
-    //             _state = EMPTY;
-    //         }
-    //         break;
 
         default:
             _state = EMPTY;
     }
-
-    // frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
-    // frc::SmartDashboard::Put
-    Number("Current Elevator Level: ", ElevatorLevel);
+    frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
+    frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
 }
 
 frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){

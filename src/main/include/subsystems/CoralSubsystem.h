@@ -15,9 +15,9 @@ using namespace rev::spark;
 using namespace CoralSubsystemConstants;
 
 enum PossibleStates {
-  FULL,
   ZERO,
-  EMPTY
+  NO_CORAL,
+  YES_CORAL
  };
 
 
@@ -42,7 +42,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
  public:
-    // enum PossibleStates _state = START_CALIBRATION;
+    enum PossibleStates _state = ZERO;
 
     int ElevatorLevel = 0;
 
