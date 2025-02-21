@@ -144,7 +144,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
 
     // TODO: reconsider using a state machine
-    // switch (_state) {
+    switch (_state) {
 
     //     case START_CALIBRATION:
     //         // lower elevator at constant speed
@@ -156,27 +156,35 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     //         }
     //         break;
 
-    //     case ZERO:
-    //         // set motor encoders to 0
-    //         _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
-    //         _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
-    //         _elevatorSecondStage.GetEncoder().SetPosition(0);
-    //         _state = EMPTY;
+        case ZERO:
+            // set motor encoders to 0
+            _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
+            _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
+            _elevatorSecondStage.GetEncoder().SetPosition(0);
+            _state = EMPTY;
 
-    //         break;
+            break;
 
-    //     case EMPTY:
-    //         // claw ready to grab coral
-    //         // elevator at loading position
-    //         // arm at loading position
-    //         // both claw motors off
-    //         SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
+        case EMPTY:
+            // claw ready to grab coral
+            // elevator at loading position
+            // arm at loading position
+            // both claw motors off
+            SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
 
-    //         if (_troughBB == true) {
-    //             _state = CORAL_IN_TROUGH;
-    //         }
-    //         break;
+            if (_troughBB == true) {
+                _light1.Set(true);
+                if (_troughBB == true){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
+                    _light1.Set(false);     // it goes to the state "FULL"
+                    _state = FULL;
+                }
+            }
+            break;
 
+        case FULL:
+            _light2.Set(true);
+            
+            break;
     //     // this state is not being used for now
     //     // case CORAL_IN_FUNNEL:
     //     //     // wait until coral is in trough
@@ -229,16 +237,17 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     //         }
     //         break;
 
-    //     default:
-    //         _state = EMPTY;
-    // }
+        default:
+            _state = EMPTY;
+    }
 
     // frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
-    // frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
+    // frc::SmartDashboard::Put
+    Number("Current Elevator Level: ", ElevatorLevel);
 }
 
 frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
     return this->RunOnce(
         [this, DesiredLevel] {ElevatorLevel = DesiredLevel;}
     );
-}
+}       
