@@ -14,13 +14,9 @@ using namespace rev::spark;
 using namespace CoralSubsystemConstants;
 
 enum PossibleStates {
-  // START_CALIBRATION,
-  // ZERO,
-  // EMPTY,
-  // // CORAL_IN_FUNNEL,
-  // CORAL_IN_TROUGH,
-  // ALLOW_CORAL_MOVE,
-  // CORAL_PLACE
+  ZERO,
+  NO_CORAL,
+  YES_CORAL
  };
 
 
@@ -45,7 +41,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
  public:
-    // enum PossibleStates _state = START_CALIBRATION;
+    enum PossibleStates _state = ZERO;
 
     int ElevatorLevel = 0;
 
@@ -81,7 +77,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
     frc::DigitalInput _clawSensor{0};
 
     // bool _funnelBB = false;
-    // bool _troughBB = false;
+    bool _troughBB = false;
     bool _clawBB = false;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
 
