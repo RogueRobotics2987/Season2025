@@ -162,7 +162,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                 _light1.Set(true);
                 if (_clawBB == true){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
                     _light1.Set(false);     // it goes to the state "FULL"
-                    _state = FULL;
+                    _state = YES_CORAL;
                 }
                 _state = YES_CORAL;
             }
@@ -179,7 +179,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         default:
-            _state = EMPTY;
+            _state = NO_CORAL;
     }
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
     frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
