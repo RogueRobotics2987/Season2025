@@ -10,6 +10,8 @@
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Telemetry.h"
+#include <frc2/command/RunCommand.h>
+#include <frc/filter/SlewRateLimiter.h>
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -35,7 +37,8 @@ private:
      *       define a destructor to un-register the telemetry from the drivetrain */
     Telemetry logger{MaxSpeed};
 
-    frc2::CommandXboxController joystick{0};
+    frc2::CommandXboxController DriveStick{0};
+    frc2::CommandXboxController AuxStick{1};
 
 public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
@@ -44,10 +47,14 @@ public:
 
     frc2::CommandPtr GetAutonomousCommand();
 
+    frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
+
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController m_driverController{
       OperatorConstants::kDriverControllerPort};
+
+    double elevatorOffset = 0;
 
   // The robot's subsystems are defined here...
   CoralSubsystem m_coralSubsystem;
