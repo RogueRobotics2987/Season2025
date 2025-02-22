@@ -35,10 +35,42 @@ void RightSideApriltagReefLineup::Execute()
   // TODO: get list of tags from maple
   // Table: maple
   // Topic: tags: vector<vector<double>>  --- 4 numbers {tag_id, x, y, z, yaw}
-  //         an exampe will look like {{3, 0, 1.0, 0.0, 0.8}, {4, 0, 0.5, 0.0, 0.2}, {}} {{}}
+  //         an exampe will look like {{3, 0, 1.0, 0.0, 0.8}, {4, 0, 0.5, 0.0, 0.2}, {}, {} }
   // 
 
-  std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};
+  // Table: MAPLE
+  // Topic: apriltags
+  //    type: vector<vector<double>>
+
+nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
+nt::DoubleArraySubscriber apriltags_xSub;
+nt::DoubleArraySubscriber apriltags_ySub;
+nt::DoubleArraySubscriber apriltags_yawSub;
+
+
+auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE");// Connecting to the MAPLE network table??
+apriltags_idSub = table->GetDoubleArrayTopic("apriltag_id").Subscribe({});// Getting apriltag data from the network table
+apriltags_xSub = table->GetDoubleArrayTopic("apriltag_x").Subscribe({});
+apriltags_ySub = table->GetDoubleArrayTopic("apriltag_y").Subscribe({});
+apriltags_yawSub = table->GetDoubleArrayTopic("apriltag_yaw").Subscribe({});
+
+std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
+std::vector<double> apriltags_x = apriltags_xSub.Get();
+std::vector<double> apriltags_y = apriltags_ySub.Get();
+std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
+
+std::vector<std::vector<double>> mapleTags = {};// Creating the vector in a vector that will hold all the apriltag data
+
+for (int i=0; i>apriltags_id.size(); i++) {// Repeats for how many numbers are in the apriltag_id vector
+  double cur_id = apriltags_id[i];// Gets the id/x/y/yaw based on which repeat it is on
+  double cur_x = apriltags_x[i];
+  double cur_y = apriltags_y[i];
+  double cur_yaw = apriltags_yaw[i];
+
+  mapleTags.emplace_back(std::vector<double>{cur_id, cur_x, cur_y, cur_yaw});// Puts all the apriltag data into one vector in a vector
+};
+
+  //std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};  Replaced by the mapleTag data on lime 62/70
   std::vector<std::vector<double>> allowedMapleTags{};
   std::vector<double> closestAprilTag{-1.0, 0.0, 0.0, 0.0, 0.0};
   
@@ -83,11 +115,11 @@ void RightSideApriltagReefLineup::Execute()
     }
   }
 
-  _driveTrain->SetControl([this]() -> auto&& {
-      return _robotContainer->drive.WithVelocityX(units::meters_per_second_t(5)) // Drive forward with positive Y (forward)
-                  .WithVelocityY(units::meters_per_second_t(2)) // Drive left with positive X (left)
-                  .WithRotationalRate(units::degrees_per_second_t(1)); // Drive counterclockwise with negative X (left)
-  })
+  //_driveTrain->SetControl([this]() -> auto&& {
+  //    return _robotContainer->drive.WithVelocityX(units::meters_per_second_t{5}) // Drive forward with positive Y (forward)
+  //                .WithVelocityY(units::meters_per_second_t{2}) // Drive left with positive X (left)
+  //                .WithRotationalRate(units::degrees_per_second_t{1}); // Drive counterclockwise with negative X (left)
+  //});
 
   //TODO: 
   // now that we have all our apriltags:
