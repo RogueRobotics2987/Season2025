@@ -10,6 +10,7 @@
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Telemetry.h"
+#include "subsystems/CoralSubsystem.h"
 #include <frc2/command/RunCommand.h>
 #include <frc/filter/SlewRateLimiter.h>
 
