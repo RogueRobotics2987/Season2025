@@ -11,17 +11,17 @@ class TeleopCurve{
 
     static double applyFast(double input){
         double output = input;//*input*input;//*input*input;
-        if ((input < 0.1) &&  (input > -0.1)){
+        /*if ((input < 0.1) &&  (input > -0.1)){ // deadzone
             output = 0;
-        }
+        }*/
         return output;
     }
     
         static double applyFine(double input){
         double output = input / 6;
-        if ((input < 0.5) &&  (input > -0.5)){ // deadzone
+        /*if ((input < 0.5) &&  (input > -0.5)){ // deadzone
             output = 0;
-        }
+        }*/
         return output;
     }
     
