@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+#include <iostream>
 #include "subsystems/CoralSubsystem.h"
 #include "Constants.h"
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -10,8 +11,6 @@
 CoralSubsystem::CoralSubsystem(){
     SparkMaxConfig _elevatorLeaderFirstStageConfig;
     SparkMaxConfig _elevatorFollowerFirstStageConfig;
-    SparkMaxConfig _elevatorSecondStageConfig;
-    SparkMaxConfig _grabberArmConfig;
     SparkMaxConfig _intakeLeftConfig;
     SparkMaxConfig _intakeRightConfig;
 
@@ -19,8 +18,6 @@ CoralSubsystem::CoralSubsystem(){
 
     _elevatorLeaderFirstStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _elevatorFollowerFirstStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _elevatorSecondStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _grabberArmConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _intakeLeftConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _intakeRightConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
 
@@ -28,8 +25,8 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
+      .P(0.03)
+      .I(0.000025)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -43,38 +40,8 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
-      .D(0)
-      .OutputRange(-1, 1)
-      // Set PID values for velocity control in slot 1
-      .P(0.0001, ClosedLoopSlot::kSlot1)
-      .I(0, ClosedLoopSlot::kSlot1)
-      .D(0, ClosedLoopSlot::kSlot1)
-      .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
-      .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
-
-      _elevatorSecondStageConfig.closedLoop
-      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
-      // Set PID values for position control. We don't need to pass a closed
-      // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
-      .D(0)
-      .OutputRange(-1, 1)
-      // Set PID values for velocity control in slot 1
-      .P(0.0001, ClosedLoopSlot::kSlot1)
-      .I(0, ClosedLoopSlot::kSlot1)
-      .D(0, ClosedLoopSlot::kSlot1)
-      .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
-      .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
-
-    _grabberArmConfig.closedLoop
-      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
-      // Set PID values for position control. We don't need to pass a closed
-      // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
+      .P(0.03)
+      .I(0.000025)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -114,37 +81,18 @@ CoralSubsystem::CoralSubsystem(){
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
-
     _elevatorLeaderFirstStage.Configure(_elevatorLeaderFirstStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _elevatorFollowerFirstStage.Configure(_elevatorFollowerFirstStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
-    _elevatorSecondStage.Configure(_elevatorSecondStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
-    _grabberArm.Configure(_grabberArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeLeft.Configure(_intakeLeftConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeRight.Configure(_intakeRightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
     // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
-    _troughBB = frc::SmartDashboard::SetDefaultBoolean("Trough Beam Break", false);
-    _coralPlace = frc::SmartDashboard::SetDefaultBoolean("Coral Place", false);
     _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
 
-void CoralSubsystem::SetCoralPlace(bool setCoralPlace) {
-    _coralPlace = setCoralPlace;
-    SetArmAndElevator();
-}
-
-void CoralSubsystem::ResetState(){
-    _state = EMPTY;
-}
-
-void CoralSubsystem::SetDesiredArmAngle(double setArmAngle){
-    _desiredArmAngle = setArmAngle;
-    SetArmAndElevator();
-}
-
-void CoralSubsystem::SetDesiredArmAngleAndElevatorHeight(double setArmAngle, double setElevatorHeight){
-    SetDesiredArmAngle(setArmAngle);
-    SetDesiredElevatorheight(setElevatorHeight);
+void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
+    _intakeLeft.Set(-intakeSpeed);
+    _intakeRight.Set(intakeSpeed);
 }
 
 void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
@@ -155,66 +103,25 @@ double CoralSubsystem::GetDesiredElevatorHeight(){
     return _desiredElevatorHeight;
 }
 
-double CoralSubsystem::GetDesiredArmAngle(){
-    return _desiredArmAngle;
+void CoralSubsystem::IncrementOffsets(double offsetElevator){
+    double elevatorSetPoint = elevatorTotal + offsetElevator;
+    elevatorOffset += offsetElevator;
+
+    if (elevatorSetPoint > 21.16){
+        elevatorSetPoint = 21.16;
+    }
+
+    _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
-void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
-    _intakeLeft.Set(intakeSpeed);
-    _intakeRight.Set(intakeSpeed);
-}
+void CoralSubsystem::SetElevator(double setElevator){
+    elevatorTotal = setElevator + elevatorOffset;
 
-void CoralSubsystem::SetArmAndElevator() {
-    double elevatorFirstStageHeight;
-    double elevatorSecondStageHeight;
-    double heightError;
-
-    if (_desiredElevatorHeight > maxElevatorHeight) { // checking if set point doesnt go over max height
-        _desiredElevatorHeight = maxElevatorHeight;
-    }
-    else if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // checking if set point doesnt go under min height
-        _desiredElevatorHeight = firstStageMinElevatorHeight;
+    if (elevatorTotal > 21.16){
+        elevatorTotal = 21.16;
     }
 
-    if (_desiredElevatorHeight < safetyElevatorHeight) { // checking if the set point doesnt go under intake pose
-        if (_desiredArmAngle < safetyArmAngle) {
-            _desiredArmAngle= safetyArmAngle; // TODO: if elevator at 8 inches is this still safe? ANSWER: yes it is safe
-        }
-    }
-
-    if (_desiredElevatorHeight < firstStageMinElevatorHeight) { // sets the arm angle to 90 if elevator is lower than 8 inches
-        _grabberArm.Set(90);
-    }
-
-    if (_desiredElevatorHeight <= secondStageMaxElevatorHeight) { // calculates the height of the elevator when below 2nd stage max height
-        elevatorFirstStageHeight = firstStageMinElevatorHeight;
-        elevatorSecondStageHeight = _desiredElevatorHeight - firstStageMinElevatorHeight;
-    }
-    else if (_desiredElevatorHeight > secondStageMaxElevatorHeight) { // calculates the height of the elevator when above 2nd stage max height
-        elevatorSecondStageHeight = secondStageMaxElevatorHeight - firstStageMinElevatorHeight;
-        heightError = _desiredElevatorHeight - elevatorSecondStageHeight;
-        elevatorFirstStageHeight = heightError;
-    }
-
-    if (_desiredArmAngle > maxArmAngle) { // checking if set point doesnt go over max arm angle
-        _desiredArmAngle = maxArmAngle;
-    }
-    else if (_desiredArmAngle < minArmAngle) { // checking if set point doesnt go over min arm angle
-        _desiredArmAngle = minArmAngle;
-    }
-
-    if (_desiredArmAngle < maxArmAngle && _desiredArmAngle > minArmAngle){
-        _grabberArm.Set(_desiredArmAngle);
-    }
-
-    frc::SmartDashboard::PutNumber("Elevator First Stage SetPoint: ", elevatorFirstStageHeight);
-    frc::SmartDashboard::PutNumber("Elevator Second Stage SetPoint: ", elevatorSecondStageHeight);
-    frc::SmartDashboard::PutNumber("Arm Angle SetPoint: ", _desiredArmAngle);
-
-    _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorFirstStageHeight, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    _elevatorSecondStageClosedLoopController.SetReference(elevatorSecondStageHeight, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    _grabberArmclosedLoopController.SetReference(_desiredArmAngle, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-    
+    _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
  
  // This method will be called once per scheduler run
@@ -229,47 +136,41 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
-    // _funnelBB = _funnelSensor.Get();
-    _troughBB = _troughSensor.Get();
     _clawBB = _clawSensor.Get();
 
     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
-    _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
+    // _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
     _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
     // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
 
+    if (_elevatorLeaderFirstStage.GetReverseLimitSwitch().Get()) {
+        _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
+        _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
+    }
+
+
+    // TODO: reconsider using a state machine
     switch (_state) {
-
-        case START_CALIBRATION:
-            // lower elevator at constant speed
-            _elevatorLeaderFirstStage.Set(CoralSubsystemConstants::elevatorZeroReverseSpeed);
-            _elevatorSecondStage.Set(CoralSubsystemConstants::elevatorZeroReverseSpeed);
-
-            if (_elevatorLeaderFirstStage.GetReverseLimitSwitch().Get() && _elevatorSecondStage.GetReverseLimitSwitch().Get()) {
-                _state = ZERO;
-            }
-            break;
 
         case ZERO:
             // set motor encoders to 0
             _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
             _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
-            _elevatorSecondStage.GetEncoder().SetPosition(0);
-            _state = EMPTY;
+            _state = NO_CORAL;
 
             break;
 
-        case EMPTY:
-            LightsOff();
-            // code
-            // claw ready to grab coral
-            // elevator at loading position
-            // arm at loading position
-            // both claw motors off
-            SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
+        case NO_CORAL:
 
             if (_troughBB == true) {
-                _state = CORAL_IN_TROUGH;
+                // turn on intake
+                _light2.Set(false);
+                _light1.Set(true);
+                if (_clawBB == true){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
+                    _light1.Set(false);     // it goes to the state "FULL"
+                    _state = YES_CORAL;
+                }
+                _state = YES_CORAL;
             }
             if (_blue == true){
                 LightsBlue();
@@ -279,98 +180,13 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             }
             break;
 
-        // case BLUE:
-        //     LightsBlue();
+        case YES_CORAL:
 
-        //     if (_blue == false){
-        //         _state = EMPTY;
-        //     }
-
-        //     break;
-
-        //     case RED:
-        //     LightsRed();
-
-        //     if (_red == false){
-        //         _state = EMPTY;
-        //     }
-
-        //     break;
-
-        // case CORAL_IN_FUNNEL:
-        //     _light1.Set(false);
-        //     // code
-        //     // wait until coral is in trough
-        //     //if (_troughBB == true) {
-        //     //  _state = CORAL_IN_TROUGH;
-        //     //}
-        //     if(_funnelBB == true){
-        //         _state = EMPTY;
-        //     }
-        
-            // break;
-
-        case CORAL_IN_TROUGH:
-            LightsPink();
-            // auto intake:
-                // lower arm and turn on intake motors
-                // lower elevator to pick up position
-                // turn on both claw motors
-            SetIntakeMotors(intakeSpeed);
-            SetDesiredArmAngleAndElevatorHeight(restingArmAngle, intakeHeight);
-
-            // if (_clawBB == true) {
-            //     _state = ALLOW_CORAL_MOVE; hi
-            // }
-
-            if (_clawBB == false) { 
-                SetIntakeMotors(intakeOff);
-                SetDesiredArmAngleAndElevatorHeight(restingArmAngle, restingElevatorHeight);
-                _state = ALLOW_CORAL_MOVE;
-            }            
-            if (_blue == true){
-                LightsBlue();
-            }
-            if (_red == true){
-                LightsRed();
-            }
-            break;
-        
-
-        case ALLOW_CORAL_MOVE:
-            LightsCyan();
-            // code     
-            // change lights
-            // allow it to move using presets
-            // allow drives to move it manually
-
-            // these numbers will be used for preset elevator heights (these numbers will be changed these numbers are in meters)
-            // L1 height for elevator = 0.74
-            // L2 height for elevator = 1.07
-            // L3 height for elevator = 1.24
-            // L4 height for elevator = 1.42
-
-             if (_clawBB == true) {
-                 _state = CORAL_PLACE;
-             }
-            if (_blue == true){
-                LightsBlue();
-            }
-            if (_red == true){
-                LightsRed();
-            }
-            break;
-
-
-        case CORAL_PLACE:
-
-            if(_clawBB == true && _grabberArmencoder.GetPosition() <= armLowered) {
-                SetDesiredArmAngle(placingArmAngle);
-                _state = ALLOW_CORAL_MOVE;
-            }
-
-            if (_clawBB == false && _grabberArmencoder.GetPosition() <= armLowered) {
-                _state = EMPTY;
+            if(_troughBB = false){
+                // turn intake off
+                _state = NO_CORAL;
+                _light1.Set(false);
+                _light2.Set(true);
             }
             if (_blue == true){
                 LightsBlue();
@@ -381,33 +197,44 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         default:
-            _state = EMPTY;
+            _state = NO_CORAL;
     }
-
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
+    frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
 }
 void CoralSubsystem::LightsOff() {
     _light1.Set(false);
     _light2.Set(false);
     _light3.Set(false);
 }
-void CoralSubsystem::LightsPink() {
+void CoralSubsystem::RBSwap() {
     _light1.Set(true);
     _light2.Set(false);
     _light3.Set(false);
 }
-void CoralSubsystem::LightsCyan() {
+void CoralSubsystem::LightsPink() {
     _light1.Set(false);
     _light2.Set(true);
     _light3.Set(false);
 }
-void CoralSubsystem::LightsBlue() {
+void CoralSubsystem::LightsCyan() {
     _light1.Set(false);
     _light2.Set(false);
     _light3.Set(true);
 }
-void CoralSubsystem::LightsRed() {
+void CoralSubsystem::PinkBlink() {
+    _light1.Set(true);
+    _light2.Set(true);
+    _light3.Set(false);
+}
+void CoralSubsystem::CyanBlink(){
     _light1.Set(true);
     _light2.Set(false);
     _light3.Set(true);
 }
+
+frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
+    return this->RunOnce(
+        [this, DesiredLevel] {ElevatorLevel = DesiredLevel;}
+    );
+}       
