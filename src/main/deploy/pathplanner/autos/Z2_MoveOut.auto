@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestMoveOutPath"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PoseL4CMD"
+            "pathName": "Z2_MoveOut"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TestAuto",
+  "folder": "Zone2",
   "choreoAuto": false
 }

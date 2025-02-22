@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestSquarePathSpin"
+            "pathName": "Z1_Face_K-L"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Zone1",
   "choreoAuto": false
 }

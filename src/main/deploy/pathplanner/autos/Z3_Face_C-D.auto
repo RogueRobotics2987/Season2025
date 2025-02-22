@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestMoveOutPath"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PoseL4CMD"
+            "pathName": "Z3_Face_C-D"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TestAuto",
+  "folder": "Zone3",
   "choreoAuto": false
 }
