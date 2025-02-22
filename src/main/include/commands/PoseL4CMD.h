@@ -16,13 +16,13 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class PlaceL4CMD
-    : public frc2::CommandHelper<frc2::Command, PlaceL4CMD> {
+class PoseL4CMD
+    : public frc2::CommandHelper<frc2::Command, PoseL4CMD> {
  public:
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  PlaceL4CMD();
+  PoseL4CMD();
 
   void Initialize() override;
 

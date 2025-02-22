@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "PlaceL4",
+      "name": "PoseL4CMD",
       "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": null

@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "PlaceL4CMD"
+            "name": "PoseL4CMD"
           }
         }
       ]

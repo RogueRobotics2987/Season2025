@@ -21,6 +21,9 @@ using namespace pathplanner;
      
 RobotContainer::RobotContainer()
 {
+    NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD().ToPtr())); //NEEDS TO BE ABOVE CHOOSER
+    NamedCommands::registerCommand("PlaceCMD", std::move(PlaceCMD().ToPtr()));
+
     // Initialize all of your commands and subsystems here
     m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests"); //change name
     frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
@@ -28,8 +31,6 @@ RobotContainer::RobotContainer()
 
 
     //public:
-    NamedCommands::registerCommand("PlaceL4CMD", std::move(PlaceL4CMD().ToPtr()));
-    NamedCommands::registerCommand("PlaceCMD", std::move(PlaceCMD().ToPtr()));
 
     // Configure the button bindings
     ConfigureBindings();
@@ -61,21 +62,21 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     //      m_coralSubsystem.ResetState();
     //      }).ToPtr());
     
-    AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
-          m_coralSubsystem.SetEverything(7.55);
-         }).ToPtr());
+    // AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
+    //       m_coralSubsystem.SetEverything(7.55);
+    //      }).ToPtr());
          
-    AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-        m_coralSubsystem.SetEverything(10.86);
-         }).ToPtr());
+    // AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
+    //     m_coralSubsystem.SetEverything(10.86);
+    //      }).ToPtr());
 
-    AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-         m_coralSubsystem.SetEverything(20.5);
-         }).ToPtr());
+    // AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
+    //      m_coralSubsystem.SetEverything(20.5);
+    //      }).ToPtr());
 
-    AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-         m_coralSubsystem.SetEverything(21.16);
-         }).ToPtr());
+    // AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
+    //      m_coralSubsystem.SetEverything(21.16);
+    //      }).ToPtr());
 
 //     AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void {
 //          m_coralSubsystem.IncrementOffsets(0, 0.001, 0);
@@ -85,26 +86,26 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 //         m_coralSubsystem.IncrementOffsets(0, -0.001, 0);
 //          }).ToPtr());
 
-    AuxStick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button
-        m_coralSubsystem.SetIntakeMotors(0.2);
-         }).ToPtr());
+    // AuxStick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button
+    //     m_coralSubsystem.SetIntakeMotors(0.2);
+    //      }).ToPtr());
 
-    AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button
-        m_coralSubsystem.SetIntakeMotors(-0.1);
-         }).ToPtr());
+    // AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button
+    //     m_coralSubsystem.SetIntakeMotors(-0.1);
+    //      }).ToPtr());
 
-    AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
-        m_coralSubsystem.SetIntakeMotors(0);
-         }).ToPtr());
+    // AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
+    //     m_coralSubsystem.SetIntakeMotors(0);
+    //      }).ToPtr());
 
-    AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
-        m_coralSubsystem.SetIntakeMotors(0);
-         }).ToPtr());
+    // AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Off Button
+    //     m_coralSubsystem.SetIntakeMotors(0);
+    //      }).ToPtr());
 
-    AuxStick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
-         m_coralSubsystem.SetEverything(11);
-         m_coralSubsystem.SetIntakeMotors(0);
-         }).ToPtr());
+    // AuxStick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+    //      m_coralSubsystem.SetEverything(11);
+    //      m_coralSubsystem.SetIntakeMotors(0);
+    //      }).ToPtr());
     
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
@@ -123,9 +124,5 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 frc2::Command* RobotContainer::GetAutonomousCommand()
 {
    return m_chooser.GetSelected(); //*m_chooser compiles when this is not being returned
-
-    //auto path = PathPlannerPath::fromPathFile("TestMoveOutPath");
-
-    //return PathPlannerAuto("TestAuto").ToPtr();
 
 }

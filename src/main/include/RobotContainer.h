@@ -16,7 +16,7 @@
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Constants.h"
 #include "Telemetry.h"
-#include "commands/PlaceL4CMD.h"
+#include "commands/PoseL4CMD.h"
 #include "commands/PlaceCMD.h"
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -43,7 +43,7 @@ private:
     Telemetry logger{MaxSpeed};
 
     frc2::CommandXboxController DriveStick{0};
-    frc2::CommandXboxController AuxStick{1};
+    //frc2::CommandXboxController AuxStick{1};
 
 public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
