@@ -14,16 +14,11 @@ void PlaceCMD::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void PlaceCMD::Execute() 
 {
-  //void SetIntakeMotors(double intakeSpeed /*static number*/); //run the motors backwards to place on any branch after wait 
+  void SetIntakeMotors(double intakeSpeed /*static number*/); //run the motors backwards to place on any branch after wait 
 }
 
 // Called once the command ends or is interrupted.
-void PlaceCMD::End(bool interrupted) 
-{
-  //void SetEverything(double setElevator /*static number*/);  
-  // do we want this in end or is finished? 
-  //moves everything to intake again
-}
+void PlaceCMD::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool PlaceCMD::IsFinished() {

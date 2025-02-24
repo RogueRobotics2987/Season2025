@@ -12,7 +12,11 @@ PoseL3CMD::PoseL3CMD() {
 void PoseL3CMD::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void PoseL3CMD::Execute() {}
+void PoseL3CMD::Execute() 
+{
+  //set elevator to pose L3
+  void SetEverything(double setElevator /*static number*/);  
+}
 
 // Called once the command ends or is interrupted.
 void PoseL3CMD::End(bool interrupted) {}

@@ -12,7 +12,11 @@ PosePickupCMD::PosePickupCMD() {
 void PosePickupCMD::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void PosePickupCMD::Execute() {}
+void PosePickupCMD::Execute() 
+{
+  //set elevator all the way to pick up the coral from the funnel
+  void SetEverything(double setElevator /*static number*/);  
+}
 
 // Called once the command ends or is interrupted.
 void PosePickupCMD::End(bool interrupted) {}

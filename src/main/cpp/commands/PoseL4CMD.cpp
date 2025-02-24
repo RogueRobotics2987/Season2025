@@ -20,9 +20,11 @@ PoseL4CMD::PoseL4CMD() {
 void PoseL4CMD::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void PoseL4CMD::Execute() {
-  std::cout << "WOW!" << std::endl;
-  //void SetEverything(double setElevator/*static number*/);
+void PoseL4CMD::Execute() 
+{
+  //std::cout << "WOW!" << std::endl;
+  //set elevator to pose L4
+  void SetEverything(double setElevator/*static number*/);
 
 }
 
