@@ -108,8 +108,8 @@ void CoralSubsystem::IncrementOffsets(double offsetElevator){
     // this line ^ takes the elevatorTotal and adds the offset (how much we want to move up/down)
     elevatorOffset += offsetElevator; // adds the two variables and sets elevatorOffset to the result
 
-    if (elevatorSetPoint > 21.16){ // height limit
-        elevatorSetPoint = 21.16;
+    if (elevatorSetPoint > 1.5621){ // height limit (IN METRES)
+        elevatorSetPoint = 1.5621; // BTW, elevator moves 0.054 m per rotation!! KEEP THIS IN MIND
     }
 
     _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);

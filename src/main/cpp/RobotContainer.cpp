@@ -57,11 +57,11 @@ void RobotContainer::ConfigureBindings()
          }).ToPtr());
 
     AuxStick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator up
-         m_coralSubsystem.IncrementOffsets(0.01);
+         m_coralSubsystem.IncrementOffsets(0.1); // THIS NUMBER IS IN MERTRES
          }).ToPtr());
 
     AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator down
-        m_coralSubsystem.IncrementOffsets(-0.01);
+        m_coralSubsystem.IncrementOffsets(-0.1);
          }).ToPtr());
 
     AuxStick.POVRight().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button and eject
