@@ -104,10 +104,11 @@ double CoralSubsystem::GetDesiredElevatorHeight(){
 }
 
 void CoralSubsystem::IncrementOffsets(double offsetElevator){
-    double elevatorSetPoint = elevatorTotal + offsetElevator;
-    elevatorOffset += offsetElevator;
+    double elevatorSetPoint = elevatorTotal + offsetElevator; //elevatorSetPoint is ???  elevatorTotal is current pos. of elevator? offsetElevator is change from current pos.
+    // this line ^ takes the elevatorTotal and adds the offset (how much we want to move up/down)
+    elevatorOffset += offsetElevator; // adds the two variables and sets elevatorOffset to the result
 
-    if (elevatorSetPoint > 21.16){
+    if (elevatorSetPoint > 21.16){ // height limit
         elevatorSetPoint = 21.16;
     }
 
