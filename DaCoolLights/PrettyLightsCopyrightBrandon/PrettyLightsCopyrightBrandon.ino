@@ -12,11 +12,11 @@
 Adafruit_DotStar strip(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
 const int buttonPin = 2; // the number of the pushbutton pin
 const int buttonPin2 = 4;
-const int buttonPin3 = 6;
 int buttonState = 0;         // variable for reading the pushbutton status
 int buttonState2 = 0;
-int buttonState3 = 0;
 void setup() {
+  Serial.begin(9600);
+  Serial.println("Starting...");
   pinMode(buttonPin, INPUT);
   pinMode(buttonPin2, INPUT);
   strip.begin();
@@ -31,32 +31,22 @@ void CoralInClaw(){
   uint32_t cyan = strip.Color(25, 2, 25);
   strip.fill(cyan, 0, 144); 
 }
-void LB_BLUE() {
-  strip.setPixelColor(0, 0, 0, 50);
-}
-void RB_RED() {
-  strip.setPixelColor(0, 0, 50, 0);
-}
 void loop() {
     buttonState = digitalRead(buttonPin);
     buttonState2 = digitalRead(buttonPin2);
-    buttonState3 = digitalRead(buttonPin3);
     Serial.println(buttonState);
     Serial.println(buttonState2);
     if (buttonState == 1) {
       CoralInTrough();
-      }kjfjfj
-    if (buttonState2 == 1) {
-      CoralInClaw();
-      }
-    if (buttonState3 == 1) {
-      LB_BLUE();
+      Serial.println("coral");
     }
-    if (buttonState2 == 1 && buttonState3 == 1) {
-      RB_RED();
+    else if (buttonState2 == 1) {
+      CoralInClaw();
+      Serial.println("claw");
     }
     else{
       strip.clear();
+      Serial.println("clear");
     }
     strip.show(); 
 }

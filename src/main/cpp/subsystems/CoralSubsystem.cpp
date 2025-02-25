@@ -123,18 +123,23 @@ void CoralSubsystem::SetElevator(double setElevator){
 
     _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
-
-// This method will be called once per scheduler run
+ 
+ // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() { // TODO: should drivers be able to override evelator and arm all the time?
-    frc::SmartDashboard::PutString("Periodic Running", "true");
+    frc::SmartDashboard::PutString("Periodic Running", "true");        
+    frc::SmartDashboard::PutBoolean("_clawBB", _clawSensor.Get()); 
+    frc::SmartDashboard::PutNumber("_state", _state); 
+    frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
+    frc::SmartDashboard::PutBoolean("_light2", _light2.Get());
+    frc::SmartDashboard::PutBoolean("_light3", _light3.Get());
+
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
-
     _clawBB = _clawSensor.Get();
 
     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
     // _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
-    _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
+    // _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
     // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
 
     if (_elevatorLeaderFirstStage.GetReverseLimitSwitch().Get()) {
@@ -155,26 +160,20 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         case NO_CORAL:
-
-            if (_troughBB == true) {
-                // turn on intake
-                _light2.Set(false);
-                _light1.Set(true);
-                if (_clawBB == true){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
-                    _light1.Set(false);     // it goes to the state "FULL"
-                    _state = YES_CORAL;
-                }
+            LightsOff();
+            
+            // turn on intake
+            if (_clawBB == false){       
                 _state = YES_CORAL;
             }
+
             break;
 
         case YES_CORAL:
-
-            if(_troughBB = false){
+            RBSwap();
+            if(_clawBB == true){
                 // turn intake off
                 _state = NO_CORAL;
-                _light1.Set(false);
-                _light2.Set(true);
             }
             break;
 
@@ -183,6 +182,37 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     }
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
     frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
+}
+
+void CoralSubsystem::LightsOff() {
+    _light1.Set(false);
+    _light2.Set(false);
+    _light3.Set(false);
+}
+void CoralSubsystem::RBSwap() {
+    _light1.Set(true);
+    _light2.Set(false);
+    _light3.Set(false);
+}
+void CoralSubsystem::LightsPink() {
+    _light1.Set(false);
+    _light2.Set(true);
+    _light3.Set(false);
+}
+void CoralSubsystem::LightsCyan() {
+    _light1.Set(false);
+    _light2.Set(false);
+    _light3.Set(true);
+}
+void CoralSubsystem::PinkBlink() {
+    _light1.Set(true);
+    _light2.Set(true);
+    _light3.Set(false);
+}
+void CoralSubsystem::CyanBlink(){
+    _light1.Set(true);
+    _light2.Set(false);
+    _light3.Set(true);
 }
 
 frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){

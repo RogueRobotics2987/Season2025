@@ -4,6 +4,7 @@
 
 #include "RobotContainer.h"
 #include "subsystems/CoralSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 
@@ -46,43 +47,74 @@ void RobotContainer::ConfigureBindings()
     //      m_coralSubsystem.ResetState();
     //      }).ToPtr());
     
-    AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
+    AuxStick.X().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
           m_coralSubsystem.SetElevator(0);
          }).ToPtr());
          
-    AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
+    AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
         m_coralSubsystem.SetElevator(10.86);
          }).ToPtr());
 
-    AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
+    AuxStick.B().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
          m_coralSubsystem.SetElevator(20.5);
          }).ToPtr());
 
-    AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
+    AuxStick.Y().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
          m_coralSubsystem.SetElevator(21.16);
          }).ToPtr());
 
-    AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator up
+    AuxStick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator up
          m_coralSubsystem.IncrementOffsets(0.01);
          }).ToPtr());
 
-    AuxStick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator down
+    AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator down
         m_coralSubsystem.IncrementOffsets(-0.01);
          }).ToPtr());
 
-    AuxStick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button and eject
+    AuxStick.POVRight().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button and eject
         m_coralSubsystem.SetIntakeMotors(0.2);
          }).ToPtr());
 
-    AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
+    AuxStick.POVRight().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
         m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
 
-    AuxStick.LeftBumper().WhileTrue(frc2::InstantCommand([this]() -> void { // intake preset
+    AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // Coral Place
+        m_coralSubsystem.SetIntakeMotors(0.2);
+         }).ToPtr());
+
+    AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // intake preset
          m_coralSubsystem.SetElevator(0);
          m_coralSubsystem.SetIntakeMotors(0.2);
          }).ToPtr());
-    
+
+    DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Climber up
+         m_climberSubsystem.SetClimberSpeed(0.25);
+         }).ToPtr());
+
+    DriveStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Climber up
+         m_climberSubsystem.SetClimberSpeed(0);
+         }).ToPtr());
+
+    DriveStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Climber down
+         m_climberSubsystem.SetClimberSpeed(-0.25);
+         }).ToPtr());
+
+    DriveStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Climber down
+         m_climberSubsystem.SetClimberSpeed(0);
+         }).ToPtr());
+
+    DriveStick.LeftBumper().WhileTrue(frc2::InstantCommand([this]() -> void { // Move to Reef Via Apriltag (left side)
+         // to do
+         }).ToPtr());
+
+    DriveStick.RightBumper().WhileTrue(frc2::InstantCommand([this]() -> void { // Move to Reef Via Apriltag (right side)
+         // to do
+         }).ToPtr());
+
+    DriveStick.Back().WhileTrue(frc2::InstantCommand([this]() -> void { // Reset heading
+        drivetrain.ResetRotation(frc::Rotation2d(units::degree_t(0)));
+         }).ToPtr());
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     (DriveStick.Back() && DriveStick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));
