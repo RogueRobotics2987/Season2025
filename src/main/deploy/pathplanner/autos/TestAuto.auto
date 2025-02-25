@@ -11,9 +11,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "PoseL4CMD"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PoseL4CMD"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PlaceCMD"
+                }
+              }
+            ]
           }
         }
       ]
