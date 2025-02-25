@@ -36,12 +36,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
   double GetDesiredArmAngle();
-  void LightsOff();
-  void RBSwap();
-  void LightsPink();
-  void LightsCyan();
-  void PinkBlink();
-  void CyanBlink();
+  
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
