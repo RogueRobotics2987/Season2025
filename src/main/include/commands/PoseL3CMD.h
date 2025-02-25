@@ -24,6 +24,7 @@ class PoseL3CMD
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
   PoseL3CMD();
+  PoseL3CMD(CoralSubsystem &CoralSubsystem);
 
   void Initialize() override;
 
@@ -32,4 +33,7 @@ class PoseL3CMD
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
+  private:
+  CoralSubsystem* m_coralSubsystem = nullptr;
 };

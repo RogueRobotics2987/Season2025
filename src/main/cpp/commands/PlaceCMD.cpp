@@ -4,8 +4,11 @@
 
 #include "commands/PlaceCMD.h"
 
-PlaceCMD::PlaceCMD() {
+PlaceCMD::PlaceCMD() {}
+PlaceCMD::PlaceCMD(CoralSubsystem &CoralSubsystem) {
   // Use addRequirements() here to declare subsystem dependencies.
+  m_coralSubsystem = &CoralSubsystem;
+  AddRequirements(&CoralSubsystem);
 }
 
 // Called when the command is initially scheduled.
@@ -14,7 +17,7 @@ void PlaceCMD::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void PlaceCMD::Execute() 
 {
-  void SetIntakeMotors(double intakeSpeed /*static number*/); //run the motors backwards to place on any branch after wait 
+  m_coralSubsystem->SetIntakeMotors(0.2); //run the motors backwards to place on any branch after wait 
 }
 
 // Called once the command ends or is interrupted.

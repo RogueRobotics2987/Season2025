@@ -7,13 +7,12 @@
 
 #include <iostream>
 
-PoseL4CMD::PoseL4CMD() {
+PoseL4CMD::PoseL4CMD() {}
+PoseL4CMD::PoseL4CMD(CoralSubsystem &CoralSubsystem) 
+{
   // Use addRequirements() here to declare subsystem dependencies.
-   //PoseL4CMD(CoralSubsystem& subsystem) : m_subsystem(subsystem) {
-    // Add the subsystem as a requirement
-    //AddRequirements(m_coralsubsystem); 
-  //}
-
+  m_coralSubsystem = &CoralSubsystem;
+  AddRequirements(&CoralSubsystem);
 }
 
 // Called when the command is initially scheduled.
@@ -24,7 +23,7 @@ void PoseL4CMD::Execute()
 {
   //std::cout << "WOW!" << std::endl;
   //set elevator to pose L4
-  void SetEverything(double setElevator/*static number*/);
+  m_coralSubsystem->SetEverything(21.16); //change number 
 
 }
 

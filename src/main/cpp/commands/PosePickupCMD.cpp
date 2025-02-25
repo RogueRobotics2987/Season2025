@@ -4,8 +4,12 @@
 
 #include "commands/PosePickupCMD.h"
 
-PosePickupCMD::PosePickupCMD() {
+PosePickupCMD::PosePickupCMD() {}
+PosePickupCMD::PosePickupCMD(CoralSubsystem &CoralSubsystem) 
+{
   // Use addRequirements() here to declare subsystem dependencies.
+  m_coralSubsystem = &CoralSubsystem;
+  AddRequirements(&CoralSubsystem);
 }
 
 // Called when the command is initially scheduled.
@@ -15,7 +19,7 @@ void PosePickupCMD::Initialize() {}
 void PosePickupCMD::Execute() 
 {
   //set elevator all the way to pick up the coral from the funnel
-  void SetEverything(double setElevator /*static number*/);  
+  m_coralSubsystem->SetEverything(7.55); //change number 
 }
 
 // Called once the command ends or is interrupted.

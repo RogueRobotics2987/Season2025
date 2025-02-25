@@ -23,6 +23,7 @@ class PlaceCMD
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
   PlaceCMD();
+  PlaceCMD(CoralSubsystem &CoralSubsystem);
 
   void Initialize() override;
 
@@ -31,4 +32,7 @@ class PlaceCMD
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
+  private:
+  CoralSubsystem* m_coralSubsystem = nullptr;
 };

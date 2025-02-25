@@ -4,8 +4,12 @@
 
 #include "commands/PoseL3CMD.h"
 
-PoseL3CMD::PoseL3CMD() {
+PoseL3CMD::PoseL3CMD() {}
+PoseL3CMD::PoseL3CMD(CoralSubsystem &CoralSubsystem) 
+{
   // Use addRequirements() here to declare subsystem dependencies.
+  m_coralSubsystem = &CoralSubsystem;
+  AddRequirements(&CoralSubsystem);
 }
 
 // Called when the command is initially scheduled.
@@ -15,7 +19,7 @@ void PoseL3CMD::Initialize() {}
 void PoseL3CMD::Execute() 
 {
   //set elevator to pose L3
-  void SetEverything(double setElevator /*static number*/);  
+  m_coralSubsystem->SetEverything(20.5); //change number 
 }
 
 // Called once the command ends or is interrupted.

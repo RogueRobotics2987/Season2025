@@ -4,9 +4,14 @@
 
 #include "commands/PoseL2CMD.h"
 
-PoseL2CMD::PoseL2CMD() {
+PoseL2CMD::PoseL2CMD() {}
+PoseL2CMD::PoseL2CMD(CoralSubsystem &CoralSubsystem) 
+{
   // Use addRequirements() here to declare subsystem dependencies.
+  m_coralSubsystem = &CoralSubsystem;
+  AddRequirements(&CoralSubsystem);
 }
+
 
 // Called when the command is initially scheduled.
 void PoseL2CMD::Initialize() {}
@@ -15,7 +20,7 @@ void PoseL2CMD::Initialize() {}
 void PoseL2CMD::Execute() 
 {
   //set elevator to pose L2
-  void SetEverything(double setElevator /*static number*/);  
+  m_coralSubsystem->SetEverything(10.86); //change number  
 }
 
 // Called once the command ends or is interrupted.
