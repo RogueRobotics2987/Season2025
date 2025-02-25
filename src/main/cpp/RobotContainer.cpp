@@ -7,7 +7,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 
-#include "TeleopCurve.h"
+#include "Deadzone.h"
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/InstantCommand.h>
@@ -27,10 +27,13 @@ void RobotContainer::ConfigureBindings()
         drivetrain.ApplyRequest([this]() -> auto&& {
           units::volt_t value{(1 - 0.25) * DriveStick.GetRightTriggerAxis() + 0.25};
           units::volt_t outputMult = filter.Calculate(value);
+        
+        frc::SmartDashboard::PutNumber("Input Number", -DriveStick.GetLeftY()); // debugging values
+        frc::SmartDashboard::PutNumber("Output Number", -DriveStick.GetLeftY() * outputMult.value()); // debugging values
 
-            return drive.WithVelocityX(DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
-                .WithVelocityY(DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
-                .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
+            return drive.WithVelocityX(Deadzone::applyDeadzone(-DriveStick.GetLeftY()) * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
+                .WithVelocityY(Deadzone::applyDeadzone(-DriveStick.GetLeftX()) * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
+                .WithRotationalRate(Deadzone::applyDeadzone(-DriveStick.GetRightX()) * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
         })
     );
 
