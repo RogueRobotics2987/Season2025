@@ -69,7 +69,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     //      }).ToPtr());
     
     // AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
-    //       m_coralSubsystem.SetEverything(7.55);
+    //       m_coralSubsystem.SetEverything(0);
     //      }).ToPtr());
          
     // AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button

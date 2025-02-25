@@ -19,7 +19,7 @@ void PoseL3CMD::Initialize() {}
 void PoseL3CMD::Execute() 
 {
   //set elevator to pose L3
-  m_coralSubsystem->SetEverything(20.5); //change number 
+  m_coralSubsystem->SetEverything(20.5); 
 }
 
 // Called once the command ends or is interrupted.

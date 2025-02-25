@@ -19,7 +19,7 @@ void PosePickupCMD::Initialize() {}
 void PosePickupCMD::Execute() 
 {
   //set elevator all the way to pick up the coral from the funnel
-  m_coralSubsystem->SetEverything(7.55); //change number 
+  m_coralSubsystem->SetEverything(0); //should this be the same as poseL1?
 }
 
 // Called once the command ends or is interrupted.

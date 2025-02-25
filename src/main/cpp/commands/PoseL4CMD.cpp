@@ -23,7 +23,7 @@ void PoseL4CMD::Execute()
 {
   //std::cout << "WOW!" << std::endl;
   //set elevator to pose L4
-  m_coralSubsystem->SetEverything(21.16); //change number 
+  m_coralSubsystem->SetEverything(21.16);
 
 }
 

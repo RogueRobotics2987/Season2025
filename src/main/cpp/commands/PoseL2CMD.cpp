@@ -20,7 +20,7 @@ void PoseL2CMD::Initialize() {}
 void PoseL2CMD::Execute() 
 {
   //set elevator to pose L2
-  m_coralSubsystem->SetEverything(10.86); //change number  
+  m_coralSubsystem->SetEverything(10.86); 
 }
 
 // Called once the command ends or is interrupted.
