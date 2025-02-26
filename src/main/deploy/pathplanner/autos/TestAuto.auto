@@ -7,26 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestMoveOutPath"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PoseL4CMD"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "PlaceCMD"
-                }
-              }
-            ]
+            "pathName": "TestTurnPath"
           }
         }
       ]
