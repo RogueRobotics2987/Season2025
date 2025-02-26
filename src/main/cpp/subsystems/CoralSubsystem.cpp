@@ -7,8 +7,12 @@
 #include "Constants.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <rev/config/SparkMaxConfig.h>
+#include "subsystems/LightSubsystem.h"
 
-CoralSubsystem::CoralSubsystem(){
+CoralSubsystem::CoralSubsystem(const LightSubsystem &lights){
+    // 1. store lights in a private member variable (create the member variable in the .h file, start with _)
+    // 2. call _lights.LightsOff(), etc. where needed
+
     SparkMaxConfig _elevatorLeaderFirstStageConfig;
     SparkMaxConfig _elevatorFollowerFirstStageConfig;
     SparkMaxConfig _intakeLeftConfig;

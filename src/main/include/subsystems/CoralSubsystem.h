@@ -10,6 +10,7 @@
 #include <frc/DigitalInput.h>
 #include <frc/DigitalOutput.h>
 #include <frc2/command/CommandPtr.h>
+#include "subsystems/LightSubsystem.h"
 
 using namespace rev::spark;
 using namespace CoralSubsystemConstants;
@@ -81,9 +82,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
 
 
-    frc::DigitalOutput _light1{3};
-    frc::DigitalOutput _light2{4};
-    frc::DigitalOutput _light3{5};
+   
 
 
     bool _clawBB = false;
@@ -93,4 +92,8 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+  private:
+
+  LightSubsystem{_light::lights}
+
 };

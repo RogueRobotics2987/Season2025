@@ -6,9 +6,9 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/DigitalOutput.h>
-class LightSusbsystem : public frc2::SubsystemBase {
+class LightSubsystem : public frc2::SubsystemBase {
  public:
-  LightSusbsystem();
+  LightSubsystem();
   void LightsOff();
   void RBSwap();
   void LightsPink();
