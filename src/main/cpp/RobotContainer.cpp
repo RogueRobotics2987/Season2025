@@ -23,10 +23,7 @@ RobotContainer::RobotContainer()
 {
     NamedCommands::registerCommand("PlaceCMD", std::move(PlaceCMD().ToPtr())); //NEEDS TO BE ABOVE CHOOSER
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD().ToPtr()));
-    NamedCommands::registerCommand("PoseL2CMD", std::move(PoseL2CMD().ToPtr()));
-    NamedCommands::registerCommand("PoseL3CMD", std::move(PoseL3CMD().ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD().ToPtr()));
-    NamedCommands::registerCommand("PosePickupCMD", std::move(PosePickupCMD().ToPtr()));
 
     
 

@@ -18,10 +18,7 @@
 #include "Telemetry.h"
 #include "commands/PlaceCMD.h"
 #include "commands/PoseL1CMD.h"
-#include "commands/PoseL2CMD.h"
-#include "commands/PoseL3CMD.h"
 #include "commands/PoseL4CMD.h"
-#include "commands/PosePickupCMD.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
