@@ -10,7 +10,7 @@
 
 RightSideApriltagReefLineup::RightSideApriltagReefLineup() {}
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer)
-{ // i dont think we need the drivepose object
+{
   _driveTrain = &driveTrain;
   _robotContainer = &robotContainer;
   AddRequirements({&driveTrain});
@@ -19,13 +19,11 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwer
 void RightSideApriltagReefLineup::Initialize() 
 {
   //change lights
-  hasSeen = false;
-  finished = false;
-  //updating the last heading
-  //lastHeading = currentHeading; //do we need??
+  bool hasSeen = false;
+  bool inished = false;
+  //make sure robot is robot centric
   
-  nt::NetworkTableInstance::GetDefault().GetTable("maple"); // whats the name of the maple table? //maple
-
+  nt::NetworkTableInstance::GetDefault().GetTable("maple");
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -48,7 +46,7 @@ nt::DoubleArraySubscriber apriltags_ySub;
 nt::DoubleArraySubscriber apriltags_yawSub;
 
 
-auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE");// Connecting to the MAPLE network table??
+auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE");
 apriltags_idSub = table->GetDoubleArrayTopic("apriltag_id").Subscribe({});// Getting apriltag data from the network table
 apriltags_xSub = table->GetDoubleArrayTopic("apriltag_x").Subscribe({});
 apriltags_ySub = table->GetDoubleArrayTopic("apriltag_y").Subscribe({});
@@ -59,9 +57,10 @@ std::vector<double> apriltags_x = apriltags_xSub.Get();
 std::vector<double> apriltags_y = apriltags_ySub.Get();
 std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
 
-std::vector<std::vector<double>> mapleTags = {};// Creating the vector in a vector that will hold all the apriltag data
+std::vector<std::vector<double>> mapleTags{};// Creating the vector in a vector that will hold all the apriltag data
 
-for (int i=0; i>apriltags_id.size(); i++) {// Repeats for how many numbers are in the apriltag_id vector
+for (int i=0; i>apriltags_id.size(); i++) 
+{ // Repeats for how many numbers are in the apriltag_id vector
   double cur_id = apriltags_id[i];// Gets the id/x/y/yaw based on which repeat it is on
   double cur_x = apriltags_x[i];
   double cur_y = apriltags_y[i];
@@ -70,7 +69,7 @@ for (int i=0; i>apriltags_id.size(); i++) {// Repeats for how many numbers are i
   mapleTags.emplace_back(std::vector<double>{cur_id, cur_x, cur_y, cur_yaw});// Puts all the apriltag data into one vector in a vector
 };
 
-  //std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};  Replaced by the mapleTag data on lime 62/70
+  //std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};  Replaced by the mapleTag data on line 62/70
   std::vector<std::vector<double>> allowedMapleTags{};
   std::vector<double> closestAprilTag{-1.0, 0.0, 0.0, 0.0, 0.0};
   
@@ -83,7 +82,6 @@ for (int i=0; i>apriltags_id.size(); i++) {// Repeats for how many numbers are i
   double outPutyaw = 0;
   
   //take networktable and get the apriltags it sees
-
   for(std::vector<double> currentTag: mapleTags)
   {
     bool allowedTag = false;
@@ -104,7 +102,6 @@ for (int i=0; i>apriltags_id.size(); i++) {// Repeats for how many numbers are i
   }
 
   //another network table getting our pose??
-
   for(std::vector<double> currentTag: allowedMapleTags)
   {
     double distance = sqrt(currentTag[1] * currentTag[1] + currentTag[2] * currentTag[2]); // square roots of a^2 + b^2 making it a + b = c
@@ -127,23 +124,22 @@ for (int i=0; i>apriltags_id.size(); i++) {// Repeats for how many numbers are i
   // lock yaw and fill in with PID
   // allow free y movement
 
-  // if(currentposex > errorx)
-  // {
-  //   keep moving our x 
-  // }
-  // else
-  // {
-  //   stop moving and wait
-  // }
-
-  // if(currentposeyaw > erroryaw)
-  // {
-  //   keep moving our yaw
-  // }
-  // else
-  // {
-  //   stop and wait
-  // }
+  if(currentx > errorX)
+  {
+    // keep moving our x 
+  }
+  else
+  {
+    // stop moving and wait
+    if(currentyaw > erroryaw)
+    {
+      //keep moving our yaw
+    }
+    else
+    {
+      //finished = true
+    }
+  }
 
   // TODO: right side only for right now
   //errorx = currentx - desiredx;
@@ -170,8 +166,15 @@ void RightSideApriltagReefLineup::End(bool interrupted)
 // Returns true when the command should end.
 bool RightSideApriltagReefLineup::IsFinished() 
 {
-  //set all variables to what their start is just in case
-  return false;
+  //set all variables to what their start is just in case?
+  if(errorX + erroryaw <= 0.5)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 float RightSideApriltagReefLineup::Deadzone(float x) // do we need to mess with deadzone in this? what should it be
