@@ -8,19 +8,16 @@
 #include <Constants.h>
 #include <rev/SparkMax.h>
 #include <frc/DigitalInput.h>
+#include <frc/DigitalOutput.h>
 #include <frc2/command/CommandPtr.h>
 
 using namespace rev::spark;
 using namespace CoralSubsystemConstants;
 
 enum PossibleStates {
-  // START_CALIBRATION,
-  // ZERO,
-  // EMPTY,
-  // // CORAL_IN_FUNNEL,
-  // CORAL_IN_TROUGH,
-  // ALLOW_CORAL_MOVE,
-  // CORAL_PLACE
+  ZERO,
+  NO_CORAL,
+  YES_CORAL
  };
 
 
@@ -45,7 +42,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
  public:
-    // enum PossibleStates _state = START_CALIBRATION;
+    enum PossibleStates _state = ZERO;
 
     int ElevatorLevel = 0;
 
@@ -77,11 +74,16 @@ class CoralSubsystem : public frc2::SubsystemBase {
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
-    // frc::DigitalInput _troughSensor{1};
+    frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawSensor{0};
+    
+    frc::DigitalOutput _light1{2};  
+    frc::DigitalOutput _light2{3};
+    
+
 
     // bool _funnelBB = false;
-    // bool _troughBB = false;
+    bool _troughBB = false;
     bool _clawBB = false;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
 
