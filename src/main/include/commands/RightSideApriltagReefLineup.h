@@ -54,6 +54,8 @@ class RightSideApriltagReefLineup
   private: //put variables where they should go
 
   // add serve::requests::robotcentric drive object here
+  units::meters_per_second_t MaxSpeed = TunerConstants::kSpeedAt12Volts; // kSpeedAt12Volts desired top speed
+  units::radians_per_second_t MaxAngularRate = 0.75_tps; // 3/4 of a rotation per second max angular velocity
 
   swerve::requests::RobotCentric robotCentricDrive = swerve::requests::RobotCentric{}
   .WithDeadband(MaxSpeed * 0.1).WithRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband

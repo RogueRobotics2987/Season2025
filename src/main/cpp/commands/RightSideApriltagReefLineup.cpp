@@ -40,6 +40,8 @@ void RightSideApriltagReefLineup::Execute()
   // Topic: apriltags
   //    type: vector<vector<double>>
 
+  // is this done? 
+
 nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
 nt::DoubleArraySubscriber apriltags_xSub;
 nt::DoubleArraySubscriber apriltags_ySub;
@@ -76,10 +78,12 @@ for (int i=0; i>apriltags_id.size(); i++)
   int minDistance = 99999;
   int currentx = closestAprilTag[1]; // i dont think its supposed to be minDistanceTagID
   double currentyaw = closestAprilTag[5]; //placeholder, dont know the how to get the value yet
-  errorX = currentx - 0.25;
-  erroryaw = currentyaw - 0;
   double outPutx = 0;
   double outPutyaw = 0;
+  errorX = currentx - 0.25; //desired x?
+  erroryaw = currentyaw - 0; // desired y?
+  outPutx = errorX * kP_x;
+  outPutyaw = erroryaw * kP_yaw;
   
   //take networktable and get the apriltags it sees
   for(std::vector<double> currentTag: mapleTags)
@@ -112,12 +116,10 @@ for (int i=0; i>apriltags_id.size(); i++)
     }
   }
 
-  _driveTrain->SetControl([this]() -> auto&& 
-  {
-     return robotCentricDrive.WithVelocityX(units::meters_per_second_t{kP_x}) // Drive forward with positive Y (forward)
-                 .WithVelocityY(units::meters_per_second_t{2}) // Drive left with positive X (left)
-                 .WithRotationalRate(units::degrees_per_second_t{kP_yaw}); // Drive counterclockwise with negative X (left)
-  });
+  _driveTrain->SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{kP_x})
+        .WithVelocityY(units::meters_per_second_t{2})
+        .WithRotationalRate(units::degrees_per_second_t{kP_yaw})
+   );
 
   //TODO: 
   // now that we have all our apriltags:
@@ -125,29 +127,9 @@ for (int i=0; i>apriltags_id.size(); i++)
   // lock yaw and fill in with PID
   // allow free y movement
 
-  if(currentx > errorX)
-  {
-    // keep moving our x 
-  }
-  else
-  {
-    // stop moving and wait
-    if(currentyaw > erroryaw)
-    {
-      //keep moving our yaw
-    }
-    else
-    {
-      //finished = true
-    }
-  }
-
   // TODO: right side only for right now
   //errorx = currentx - desiredx;
   //erroryaw = currentyaw - desiredyaw;
-
-  outPutx = errorX * kP_x;
-  outPutyaw = erroryaw * kP_yaw;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    
 }
@@ -156,15 +138,6 @@ for (int i=0; i>apriltags_id.size(); i++)
 void RightSideApriltagReefLineup::End(bool interrupted) 
 {
   frc::SmartDashboard::PutBoolean("AutoLineup", false);
-
-  // if(finished == true)
-  // {
-  //   m_lights->SetNoColor(); // change m_lights
-  // } 
-  // else 
-  // {  
-  //   m_lights->SetLightsRed(); // change m_lights
-  // }
 }
 
 // Returns true when the command should end.
@@ -172,9 +145,9 @@ bool RightSideApriltagReefLineup::IsFinished()
 {
   //set all variables to what their start is just in case?
 
-
   if(errorX + erroryaw <= 0.5)
   {
+    //change lights
     return true; //end the command
   }
   else
