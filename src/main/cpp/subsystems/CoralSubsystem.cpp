@@ -9,24 +9,24 @@
 #include <rev/config/SparkMaxConfig.h>
 
 CoralSubsystem::CoralSubsystem(){
-    SparkMaxConfig _elevatorLeaderFirstStageConfig;
-    SparkMaxConfig _elevatorFollowerFirstStageConfig;
-    SparkMaxConfig _intakeLeftConfig;
-    SparkMaxConfig _intakeRightConfig;
+    SparkMaxConfig _elevatorLeaderConfig;
+    SparkMaxConfig _elevatorFollowerConfig;
+    SparkMaxConfig _intakeTopConfig;
+    // SparkMaxConfig _intakeRightConfig;
 
-    _elevatorFollowerFirstStageConfig.Follow(_elevatorLeaderFirstStage);
+    _elevatorFollowerConfig.Follow(_elevatorLeader);
 
-    _elevatorLeaderFirstStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _elevatorFollowerFirstStageConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _intakeLeftConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _intakeRightConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    _elevatorLeaderConfig.encoder.PositionConversionFactor(2.2167).VelocityConversionFactor(1); // 0, 16 inches | 12.857, 44.5 inches | 2.2167 conversation
+    _elevatorFollowerConfig.encoder.PositionConversionFactor(2.2167).VelocityConversionFactor(1);
+    _intakeTopConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    // _intakeRightConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
 
-    _elevatorLeaderFirstStageConfig.closedLoop
+    _elevatorLeaderConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.03)
-      .I(0.000025)
+      .P(0.08)
+      .I(0.0000025)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -36,12 +36,12 @@ CoralSubsystem::CoralSubsystem(){
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
-    _elevatorFollowerFirstStageConfig.closedLoop
+    _elevatorFollowerConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.03)
-      .I(0.000025)
+      .P(0.08)
+      .I(0.0000025)
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
@@ -51,22 +51,7 @@ CoralSubsystem::CoralSubsystem(){
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
-    _intakeLeftConfig.closedLoop
-      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
-      // Set PID values for position control. We don't need to pass a closed
-      // loop slot, as it will default to slot 0.
-      .P(0.1)
-      .I(0)
-      .D(0)
-      .OutputRange(-1, 1)
-      // Set PID values for velocity control in slot 1
-      .P(0.0001, ClosedLoopSlot::kSlot1)
-      .I(0, ClosedLoopSlot::kSlot1)
-      .D(0, ClosedLoopSlot::kSlot1)
-      .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
-      .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
-
-    _intakeRightConfig.closedLoop
+    _intakeTopConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
@@ -81,18 +66,33 @@ CoralSubsystem::CoralSubsystem(){
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
-    _elevatorLeaderFirstStage.Configure(_elevatorLeaderFirstStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
-    _elevatorFollowerFirstStage.Configure(_elevatorFollowerFirstStageConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
-    _intakeLeft.Configure(_intakeLeftConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
-    _intakeRight.Configure(_intakeRightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    // _intakeRightConfig.closedLoop
+    //   .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
+    //   // Set PID values for position control. We don't need to pass a closed
+    //   // loop slot, as it will default to slot 0.
+    //   .P(0.1)
+    //   .I(0)
+    //   .D(0)
+    //   .OutputRange(-1, 1)
+    //   // Set PID values for velocity control in slot 1
+    //   .P(0.0001, ClosedLoopSlot::kSlot1)
+    //   .I(0, ClosedLoopSlot::kSlot1)
+    //   .D(0, ClosedLoopSlot::kSlot1)
+    //   .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
+    //   .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
+
+    _elevatorLeader.Configure(_elevatorLeaderConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    _elevatorFollower.Configure(_elevatorFollowerConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    _intakeTop.Configure(_intakeTopConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    // _intakeRight.Configure(_intakeRightConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
     // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
     _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
 
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
-    _intakeLeft.Set(-intakeSpeed);
-    _intakeRight.Set(intakeSpeed);
+    _intakeTop.Set(-intakeSpeed);
+    // _intakeRight.Set(intakeSpeed);
 }
 
 void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
@@ -107,43 +107,43 @@ void CoralSubsystem::IncrementOffsets(double offsetElevator){
     double elevatorSetPoint = elevatorTotal + offsetElevator;
     elevatorOffset += offsetElevator;
 
-    if (elevatorSetPoint > 21.16){
-        elevatorSetPoint = 21.16;
-    }
+    // if (elevatorSetPoint > 21.16){
+    //     elevatorSetPoint = 21.16;
+    // }
 
-    _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    _elevatorLeaderClosedLoopController.SetReference(elevatorSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
 void CoralSubsystem::SetElevator(double setElevator){
     elevatorTotal = setElevator + elevatorOffset;
 
-    if (elevatorTotal > 21.16){
-        elevatorTotal = 21.16;
-    }
+    // if (elevatorTotal > 21.16){
+    //     elevatorTotal = 21.16;
+    // }
 
-    _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+    _elevatorLeaderClosedLoopController.SetReference(elevatorTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
 // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() { // TODO: should drivers be able to override evelator and arm all the time?
-    frc::SmartDashboard::PutString("Periodic Running", "true");
-    // Update Sensors
-    // Gets the value of the digital input.  Returns true if the circuit is open.
+//     frc::SmartDashboard::PutString("Periodic Running", "true");
+//     // Update Sensors
+//     // Gets the value of the digital input.  Returns true if the circuit is open.
 
-    _clawBB = _clawSensor.Get();
+//     _clawBB = _clawSensor.Get();
 
-    // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
-    // _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
-    _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
-    // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
+//     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
+//     // _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
+//     _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
+//     // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
 
-    if (_elevatorLeaderFirstStage.GetReverseLimitSwitch().Get()) {
-        _elevatorLeaderFirstStage.GetEncoder().SetPosition(0);
-        _elevatorFollowerFirstStage.GetEncoder().SetPosition(0);
+    if (_elevatorLeader.GetReverseLimitSwitch().Get()) {
+        _elevatorLeader.GetEncoder().SetPosition(0);
+        _elevatorFollower.GetEncoder().SetPosition(0);
     }
 
 
-    // TODO: reconsider using a state machine
+    // TODO: reconsider using a state machine answer: We are not using the state machine.
     // switch (_state) {
 
     //     case START_CALIBRATION:
@@ -231,11 +231,12 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
     //     default:
     //         _state = EMPTY;
-    // }
-
+    
     // frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
-    // frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
-}
+    frc::SmartDashboard::PutNumber("Current Elevator Level: ", elevatorTotal);
+    }
+
+// }
 
 frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
     return this->RunOnce(
