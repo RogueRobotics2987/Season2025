@@ -53,6 +53,12 @@ class RightSideApriltagReefLineup
 
   private: //put variables where they should go
 
+  // add serve::requests::robotcentric drive object here
+
+  swerve::requests::RobotCentric robotCentricDrive = swerve::requests::RobotCentric{}
+  .WithDeadband(MaxSpeed * 0.1).WithRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+  .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
+
   subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
   RobotContainer* _robotContainer = nullptr;
   
@@ -61,6 +67,14 @@ class RightSideApriltagReefLineup
   double speedX = 0;
   double speedY = 0;
   double rot = 0; //some of these are in private some arent
+  double kP_x = 0.1;
+  double kP_yaw = 0.1;
+  double errorX;
+  double erroryaw;
+  double errorY; //still need to calculate even though its not in PID
+  double currentyaw;
+  
+  int currentx;
 
   bool NoJoystickInput = false;
   bool hasSeen = false;

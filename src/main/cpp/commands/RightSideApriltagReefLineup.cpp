@@ -19,8 +19,8 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwer
 void RightSideApriltagReefLineup::Initialize() 
 {
   //change lights
-  bool hasSeen = false;
-  bool inished = false;
+  hasSeen = false;
+  finished = false;
   //make sure robot is robot centric
   
   nt::NetworkTableInstance::GetDefault().GetTable("maple");
@@ -76,8 +76,8 @@ for (int i=0; i>apriltags_id.size(); i++)
   int minDistance = 99999;
   int currentx = closestAprilTag[1]; // i dont think its supposed to be minDistanceTagID
   double currentyaw = closestAprilTag[5]; //placeholder, dont know the how to get the value yet
-  double errorX = currentx - 0.25;
-  double erroryaw = currentyaw - 0;
+  errorX = currentx - 0.25;
+  erroryaw = currentyaw - 0;
   double outPutx = 0;
   double outPutyaw = 0;
   
@@ -112,11 +112,12 @@ for (int i=0; i>apriltags_id.size(); i++)
     }
   }
 
-  //_driveTrain->SetControl([this]() -> auto&& {
-  //    return _robotContainer->drive.WithVelocityX(units::meters_per_second_t{5}) // Drive forward with positive Y (forward)
-  //                .WithVelocityY(units::meters_per_second_t{2}) // Drive left with positive X (left)
-  //                .WithRotationalRate(units::degrees_per_second_t{1}); // Drive counterclockwise with negative X (left)
-  //});
+  _driveTrain->SetControl([this]() -> auto&& 
+  {
+     return robotCentricDrive.WithVelocityX(units::meters_per_second_t{kP_x}) // Drive forward with positive Y (forward)
+                 .WithVelocityY(units::meters_per_second_t{2}) // Drive left with positive X (left)
+                 .WithRotationalRate(units::degrees_per_second_t{kP_yaw}); // Drive counterclockwise with negative X (left)
+  });
 
   //TODO: 
   // now that we have all our apriltags:
@@ -144,6 +145,9 @@ for (int i=0; i>apriltags_id.size(); i++)
   // TODO: right side only for right now
   //errorx = currentx - desiredx;
   //erroryaw = currentyaw - desiredyaw;
+
+  outPutx = errorX * kP_x;
+  outPutyaw = erroryaw * kP_yaw;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    
 }
@@ -167,9 +171,11 @@ void RightSideApriltagReefLineup::End(bool interrupted)
 bool RightSideApriltagReefLineup::IsFinished() 
 {
   //set all variables to what their start is just in case?
+
+
   if(errorX + erroryaw <= 0.5)
   {
-    return true;
+    return true; //end the command
   }
   else
   {
