@@ -104,12 +104,12 @@ double CoralSubsystem::GetDesiredElevatorHeight(){
 }
 
 void CoralSubsystem::IncrementOffsets(double offsetElevator){
-    double elevatorSetPoint = elevatorTotal + offsetElevator; //elevatorSetPoint is ???  elevatorTotal is current pos. of elevator? offsetElevator is change from current pos.
+    double elevatorSetPoint = elevatorTotal + offsetElevator; //elevatorSetPoint is target point, elevatorTotal is current pos. of elevator, offsetElevator is change from current pos.
     // this line ^ takes the elevatorTotal and adds the offset (how much we want to move up/down)
     elevatorOffset += offsetElevator; // adds the two variables and sets elevatorOffset to the result
 
-    if (elevatorSetPoint > 1.5621){ // height limit (IN METRES)
-        elevatorSetPoint = 1.5621; // BTW, elevator moves 0.054 m per rotation!! KEEP THIS IN MIND
+    if (elevatorSetPoint > maxElevatorHeight){ // height limit (in inches)
+        elevatorSetPoint = maxElevatorHeight; // BTW, elevator moves 02.126 in. per motor rotation!! KEEP THIS IN MIND
     }
 
     _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorSetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
@@ -118,8 +118,8 @@ void CoralSubsystem::IncrementOffsets(double offsetElevator){
 void CoralSubsystem::SetElevator(double setElevator){
     elevatorTotal = setElevator + elevatorOffset;
 
-    if (elevatorTotal > 21.16){
-        elevatorTotal = 21.16;
+    if (elevatorTotal > maxElevatorHeight){
+        elevatorTotal = maxElevatorHeight;
     }
 
     _elevatorLeaderFirstStageClosedLoopController.SetReference(elevatorTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);

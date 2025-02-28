@@ -43,7 +43,7 @@ namespace CoralSubsystemConstants {
     inline constexpr double restingElevatorHeight = 0;
     inline constexpr double elevatorZeroReverseSpeed = -0.25;
     inline constexpr double minElevatorHeight = 0;
-    inline constexpr double maxElevatorHeight = 1.3335; 
+    inline constexpr double maxElevatorHeight = 54.5; // INCHES
 
     inline constexpr double L1Height = 0.74;
     inline constexpr double L2Height = 1.07;
