@@ -12,6 +12,8 @@
 
 #include "subsystems/CommandSwerveDrivetrain.h"
 
+using namespace subsystems;
+
 class Telemetry {
 private:
     units::meters_per_second_t MaxSpeed;

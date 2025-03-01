@@ -58,7 +58,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // reset the field-centric heading on left bumper press
     joystick.LeftBumper().OnTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
-    drivetrain.GetState().Pose;
+    // drivetrain.GetState().Pose;
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand()
