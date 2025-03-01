@@ -45,7 +45,7 @@ private:
     Telemetry logger{MaxSpeed};
 
     frc2::CommandXboxController DriveStick{0};
-    //frc2::CommandXboxController AuxStick{1};
+    frc2::CommandXboxController AuxStick{1};
 
 public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
