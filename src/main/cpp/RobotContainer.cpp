@@ -4,7 +4,9 @@
 
 #include "RobotContainer.h"
 #include "commands/PlaceL4CMD.h"
+#include "commands/RightSideApriltagReefLineup.h"
 #include "subsystems/CoralSubsystem.h"
+
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
@@ -110,6 +112,8 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
     // reset the field-centric heading on left bumper press
     DriveStick.LeftBumper().OnTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
+
+    DriveStick.RightBumper().OnTrue(RightSideApriltagReefLineup(drivetrain, DriveStick).ToPtr());
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     // drivetrain.GetState().Pose;
