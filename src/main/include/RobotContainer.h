@@ -14,6 +14,8 @@
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Constants.h"
 #include "Telemetry.h"
+#include <frc2/command/RunCommand.h>
+#include <frc/filter/SlewRateLimiter.h>
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -42,17 +44,29 @@ public:
     .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
     swerve::requests::SwerveDriveBrake brake{};
     swerve::requests::PointWheelsAt point{};
-    
+
+    /* Note: This must be constructed before the drivetrain, otherwise we need to
+     *       define a destructor to un-register the telemetry from the drivetrain */
+    Telemetry logger{MaxSpeed};
+
+    frc2::CommandXboxController DriveStick{0};
+    frc2::CommandXboxController AuxStick{1};
+
+public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
 
     RobotContainer();
     
     frc2::CommandPtr GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 
- private: // Why are there two privates? 
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    frc2::CommandXboxController m_driverController{
-        OperatorConstants::kDriverControllerPort};
+    frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
+
+ private:
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  frc2::CommandXboxController m_driverController{
+      OperatorConstants::kDriverControllerPort};
+
+    double elevatorOffset = 0;
 
      frc::SendableChooser<frc2::Command*> m_chooser;
 
