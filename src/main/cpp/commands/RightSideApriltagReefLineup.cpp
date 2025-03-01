@@ -8,9 +8,10 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/RightSideApriltagReefLineup.h"
 
-RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer) : 
+RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, frc2::CommandXboxController &driveStick) : 
 _driveTrain(driveTrain) 
-,_robotContainer(robotContainer)
+,_driveStick(driveStick)
+
 {
   AddRequirements({&_driveTrain});
 }
@@ -19,11 +20,7 @@ _driveTrain(driveTrain)
 void RightSideApriltagReefLineup::Initialize() 
 {
   //change lights
-  hasSeen = false;
-  finished = false;
   //make sure robot is robot centric
-  
-  nt::NetworkTableInstance::GetDefault().GetTable("maple");
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -47,8 +44,8 @@ nt::DoubleArraySubscriber apriltags_xSub;
 nt::DoubleArraySubscriber apriltags_ySub;
 nt::DoubleArraySubscriber apriltags_yawSub;
 
-
-auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE");
+//maple handles lose tracking for 100 ms sends the same thing
+auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
 apriltags_idSub = table->GetDoubleArrayTopic("apriltag_id").Subscribe({});// Getting apriltag data from the network table
 apriltags_xSub = table->GetDoubleArrayTopic("apriltag_x").Subscribe({});
 apriltags_ySub = table->GetDoubleArrayTopic("apriltag_y").Subscribe({});
@@ -58,6 +55,12 @@ std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag dat
 std::vector<double> apriltags_x = apriltags_xSub.Get();
 std::vector<double> apriltags_y = apriltags_ySub.Get();
 std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
+
+if(apriltags_id.empty())
+{
+  finished = true;
+  return;
+}
 
 std::vector<std::vector<double>> mapleTags{};// Creating the vector in a vector that will hold all the apriltag data
 
@@ -74,16 +77,9 @@ for (int i=0; i>apriltags_id.size(); i++)
   //std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};  Replaced by the mapleTag data on line 62/70
   std::vector<std::vector<double>> allowedMapleTags{};
   std::vector<double> closestAprilTag{-1.0, 0.0, 0.0, 0.0, 0.0};
-  
+
   int minDistance = 99999;
-  int currentx = closestAprilTag[1]; // i dont think its supposed to be minDistanceTagID
-  double currentyaw = closestAprilTag[5]; //placeholder, dont know the how to get the value yet
-  double outPutx = 0;
-  double outPutyaw = 0;
-  errorX = currentx - 0.25; //desired x?
-  erroryaw = currentyaw - 0; // desired y?
-  outPutx = errorX * kP_x;
-  outPutyaw = erroryaw * kP_yaw;
+
   
   //take networktable and get the apriltags it sees
   for(std::vector<double> currentTag: mapleTags)
@@ -101,7 +97,7 @@ for (int i=0; i>apriltags_id.size(); i++)
     {
       //add to new vector 
       allowedMapleTags.emplace_back(currentTag);
-      //TODO: allowedTag turn back false
+      allowedTag = false;
     }
   }
 
@@ -116,9 +112,18 @@ for (int i=0; i>apriltags_id.size(); i++)
     }
   }
 
-  _driveTrain.SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{kP_x})
-        .WithVelocityY(units::meters_per_second_t{2})
-        .WithRotationalRate(units::degrees_per_second_t{kP_yaw})
+  double currentX = closestAprilTag[1]; // i dont think its supposed to be minDistanceTagID
+  double currentYaw = closestAprilTag[3]; //placeholder, dont know the how to get the value yet
+  double outputX = 0;
+  double outputYaw = 0;
+  errorX = currentX - 0.25; //tune for the offset of the tag
+  errorYaw = currentYaw - 0; // our yaw will always be parallel with the tag
+  outputX = errorX * kP_x;
+  outputYaw = errorYaw * kP_yaw;
+
+  _driveTrain.SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{outputX})
+        .WithVelocityY(units::meters_per_second_t{_driveStick.GetLeftY()})
+        .WithRotationalRate(units::degrees_per_second_t{outputYaw})
    );
 
   //TODO: 
@@ -145,7 +150,12 @@ bool RightSideApriltagReefLineup::IsFinished()
 {
   //set all variables to what their start is just in case?
 
-  if(errorX + erroryaw <= 0.5)
+  if(finished == true)
+  {
+    return true;
+  }
+
+  if(errorX + errorYaw <= 0.05 || errorX + errorYaw >= -0.05) //within 5 cm
   {
     //change lights
     return true; //end the command
@@ -154,21 +164,4 @@ bool RightSideApriltagReefLineup::IsFinished()
   {
     return false;
   }
-}
-
-float RightSideApriltagReefLineup::Deadzone(float x) // do we need to mess with deadzone in this? what should it be
-{
-  if ((x < 0.1) && (x > -0.1))
-  {
-    x = 0;
-  }
-  else if (x >= 0.1)
-  {
-    x = x - 0.1;
-  }
-  else if (x <= -0.1)
-  {
-    x = x + 0.1;
-  }
-  return(x);
 }

@@ -27,7 +27,7 @@ class RightSideApriltagReefLineup
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer); // needs xbox perm? //dont think we need drivepose
+  RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, frc2::CommandXboxController &driveStick); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
@@ -36,8 +36,6 @@ class RightSideApriltagReefLineup
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-
-  float Deadzone(float x);
 
   frc::XboxController* m_driverController = nullptr; // make into smart pointer?
   frc::XboxController* m_auxController = nullptr; // make into smart pointer?
@@ -61,23 +59,22 @@ class RightSideApriltagReefLineup
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
   subsystems::CommandSwerveDrivetrain& _driveTrain;
-  RobotContainer& _robotContainer;
+  frc2::CommandXboxController& _driveStick;
   
   double currentHeading = 0;
   double lastHeading = 0;
   double speedX = 0;
   double speedY = 0;
   double rot = 0; //some of these are in private some arent
-  double kP_x = 0.1;
-  double kP_yaw = 0.1;
+  double kP_x = 0.714; //tune these //max speed: 1.25 mps
+  double kP_yaw = 1.5; //tune these //max output: 90* max // max error: 60*
   double errorX;
-  double erroryaw;
+  double errorYaw;
   double errorY; //still need to calculate even though its not in PID
-  double currentyaw;
+  double currentYaw;
   
   int currentx;
 
   bool NoJoystickInput = false;
-  bool hasSeen = false;
   bool finished = false;
 };
