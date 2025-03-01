@@ -8,7 +8,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <rev/config/SparkMaxConfig.h>
 
-CoralSubsystem::CoralSubsystem(){
+CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light{lights}{
+    
     SparkMaxConfig _elevatorLeaderFirstStageConfig;
     SparkMaxConfig _elevatorFollowerFirstStageConfig;
     SparkMaxConfig _intakeLeftConfig;

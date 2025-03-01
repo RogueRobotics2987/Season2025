@@ -14,6 +14,7 @@
 #include "subsystems/CoralSubsystem.h"
 #include <frc2/command/RunCommand.h>
 #include <frc/filter/SlewRateLimiter.h>
+#include "subsystems/LightSubsystem.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -59,7 +60,8 @@ public:
     double elevatorOffset = 0;
 
   // The robot's subsystems are defined here...
-  CoralSubsystem m_coralSubsystem;
+  LightSubsystem m_lightSubsystem;
+  CoralSubsystem m_coralSubsystem{m_lightSubsystem};
   ClimberSubsystem m_climberSubsystem;
 
 

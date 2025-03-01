@@ -5,13 +5,12 @@
 #include <iostream>
 #include "subsystems/CoralSubsystem.h"
 #include "Constants.h"
+#include "RobotContainer.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <rev/config/SparkMaxConfig.h>
 #include "subsystems/LightSubsystem.h"
 
-CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light(lights) {
-
-CoralSubsystem::CoralSubsystem(){
+RobotContainer::RobotContainer(){
     SparkMaxConfig _elevatorLeaderFirstStageConfig;
     SparkMaxConfig _elevatorFollowerFirstStageConfig;
     SparkMaxConfig _intakeLeftConfig;
