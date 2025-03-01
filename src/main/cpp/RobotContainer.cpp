@@ -10,14 +10,13 @@
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandPtr.h>
-#include <frc2/command/Command.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <memory> 
+#include <frc2/command/InstantCommand.h>
 
 using namespace pathplanner;
-     #include <frc2/command/InstantCommand.h>
 
 RobotContainer::RobotContainer()
 {

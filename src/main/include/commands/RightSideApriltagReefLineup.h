@@ -27,8 +27,7 @@ class RightSideApriltagReefLineup
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  RightSideApriltagReefLineup();
-  RightSideApriltagReefLineup(CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer); // needs xbox perm? //dont think we need drivepose
+  RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
@@ -61,8 +60,8 @@ class RightSideApriltagReefLineup
   .WithDeadband(MaxSpeed * 0.1).WithRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
-  CommandSwerveDrivetrain _driveTrain;
-  RobotContainer _robotContainer;
+  subsystems::CommandSwerveDrivetrain& _driveTrain;
+  RobotContainer& _robotContainer;
   
   double currentHeading = 0;
   double lastHeading = 0;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ctre/phoenix6/SignalLogger.hpp"
-
 #include <frc/DriverStation.h>
 #include <frc/Notifier.h>
 #include <frc2/command/CommandPtr.h>
@@ -9,11 +8,8 @@
 #include <frc2/command/sysid/SysIdRoutine.h>
 #include <networktables/DoubleArrayTopic.h>
 #include "generated/TunerConstants.h"
-#include "commands/RightSideApriltagReefLineup.h"
 
 using namespace ctre::phoenix6;
-
-//TunerSwerveDrivetrain();
 
 namespace subsystems {
 
@@ -132,7 +128,7 @@ public:
         }
 
         ConfigureAutoBuilder();
-        MapleInit();
+        // TODO: MapleInit();
     }
 
     /**
@@ -160,7 +156,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
-        MapleInit();
+        // TODO: MapleInit();
     }
 
     /**
@@ -195,7 +191,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
-        MapleInit();
+        // TODO: MapleInit();
     }
 
     /**

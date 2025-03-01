@@ -8,13 +8,13 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/RightSideApriltagReefLineup.h"
 
-RightSideApriltagReefLineup::RightSideApriltagReefLineup() {}
-RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer)
+RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, RobotContainer &robotContainer) : 
+_driveTrain(driveTrain) 
+,_robotContainer(robotContainer)
 {
-  _driveTrain = &driveTrain;
-  _robotContainer = &robotContainer;
-  AddRequirements({&driveTrain});
+  AddRequirements({&_driveTrain});
 }
+
 // Called when the command is initially scheduled.
 void RightSideApriltagReefLineup::Initialize() 
 {
@@ -116,7 +116,7 @@ for (int i=0; i>apriltags_id.size(); i++)
     }
   }
 
-  _driveTrain->SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{kP_x})
+  _driveTrain.SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{kP_x})
         .WithVelocityY(units::meters_per_second_t{2})
         .WithRotationalRate(units::degrees_per_second_t{kP_yaw})
    );
