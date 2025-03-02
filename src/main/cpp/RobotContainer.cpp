@@ -52,16 +52,15 @@ void RobotContainer::ConfigureBindings()
          }).ToPtr());
 
     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-         m_coralSubsystem.SetElevator(50.5
-          + GravityoffsetIn);
+         m_coralSubsystem.SetElevator(50.5 + GravityoffsetIn);
          }).ToPtr());
 
     AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator up
-         m_coralSubsystem.ManualElevator(5);
+         m_coralSubsystem.ManualElevator(1);
          }).ToPtr());
 
     AuxStick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator down
-        m_coralSubsystem.ManualElevator(-5);
+        m_coralSubsystem.ManualElevator(1);
          }).ToPtr());
 
     AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and eject
@@ -78,7 +77,7 @@ void RobotContainer::ConfigureBindings()
          }).ToPtr());
 
     AuxStick.Y().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and eject
-        m_coralSubsystem.SetAlgyArm(0);
+        m_coralSubsystem.SetAlgyArm(10);
          }).ToPtr());
 
     AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
