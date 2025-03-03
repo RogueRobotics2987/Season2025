@@ -40,7 +40,7 @@ void RobotContainer::ConfigureBindings()
     //      m_coralSubsystem.ResetState();
     //      }).ToPtr());
     
-    AuxStick.X().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
+    AuxStick.B().WhileTrue(frc2::InstantCommand([this]() -> void { // L1/Zero Button
           m_coralSubsystem.SetElevator(0);
          }).ToPtr());
          
@@ -48,7 +48,7 @@ void RobotContainer::ConfigureBindings()
         m_coralSubsystem.SetElevator(10.86);
          }).ToPtr());
 
-    AuxStick.B().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
+    AuxStick.X().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
          m_coralSubsystem.SetElevator(20.5);
          }).ToPtr());
 
@@ -64,22 +64,24 @@ void RobotContainer::ConfigureBindings()
         m_coralSubsystem.IncrementOffsets(-0.01);
          }).ToPtr());
 
-    AuxStick.POVRight().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button and eject
+    AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // Coral Place/Intake
         m_coralSubsystem.SetIntakeMotors(0.2);
          }).ToPtr());
 
-    AuxStick.POVRight().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Off Button
-        m_coralSubsystem.SetIntakeMotors(0);
-         }).ToPtr());
-
-    AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // Coral Place
-        m_coralSubsystem.SetIntakeMotors(0.2);
-         }).ToPtr());
-
-    AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // intake preset
+    AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // intake preset
          m_coralSubsystem.SetElevator(0);
          m_coralSubsystem.SetIntakeMotors(0.2);
          }).ToPtr());
+     
+     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void {
+          // to do, algae out
+          }).ToPtr());
+
+     AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void {
+          // to do, algae in
+          }).ToPtr());
+
+     //m_algaeSubsystem.algaeArm(AuxStick.GetRightY());
 
     DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Climber up
          m_climberSubsystem.SetClimberSpeed(0.25);
