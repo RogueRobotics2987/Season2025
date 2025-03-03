@@ -71,17 +71,18 @@ void RobotContainer::ConfigureBindings()
     AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // intake preset
          m_coralSubsystem.SetElevator(0);
          m_coralSubsystem.SetIntakeMotors(0.2);
+         // Beambreak auto stop
          }).ToPtr());
      
      AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void {
           // to do, algae out
+          // m_algaeSubsystem.alageOut(motorSpeed)
           }).ToPtr());
-
+ 
      AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void {
           // to do, algae in
+          // m_algaeSubsystem.alageIn(motorSpeed)
           }).ToPtr());
-
-     //m_algaeSubsystem.algaeArm(AuxStick.GetRightY());
 
     DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Climber up
          m_climberSubsystem.SetClimberSpeed(0.25);
