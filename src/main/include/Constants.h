@@ -26,7 +26,12 @@ namespace ClimberSubsystemConstants {
     inline constexpr int CANIdClimber = 25;
 }
 
+namespace algaeSubsystemConstants {
+    inline constexpr int CANIDAlgaeIntake = 26; //or 22
+    inline constexpr int CANIDAlgaeIntakeArm = 27; //unknown
+    inline constexpr int CANIDAlgaeRemover = 23; //unknown
 
+}
 namespace CoralSubsystemConstants {
     // 0 arm angle is when the arm is pointing down and 0 height is when the elevator is all the way down
     // all elevator measurement are in meters

@@ -28,7 +28,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
   // these's are the functions we use
   void SetElevator(double setElevator);
-  void SetIntakeMotors(double intakeSpeed);
+void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
 
   void SetDesiredElevatorheight(double setElevatorHeight);
