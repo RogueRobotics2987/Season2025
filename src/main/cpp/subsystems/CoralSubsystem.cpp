@@ -81,7 +81,7 @@ CoralSubsystem::CoralSubsystem(){
     _algyArm.Configure(_algyArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
     // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
-    _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
+    // _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
 } 
 
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
@@ -145,6 +145,8 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 //     _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
 //     // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
 
+    frc::SmartDashboard::PutBoolean("ClawBB: ", _clawBB.Get());
+
     if (_elevatorLeader.GetReverseLimitSwitch().Get()) {
         _elevatorLeader.GetEncoder().SetPosition(0);
         _elevatorFollower.GetEncoder().SetPosition(0);
@@ -163,21 +165,27 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
         case NO_CORAL:
 
-            if (_clawBB == true) {
+            if (!_clawBB.Get()){
+                _intakeTop.Set(0);
+            }
+
+            if (!_clawBB.Get()) {
                 // turn on intake
                 _light2.Set(false);
                 _light1.Set(true);
-                if (_clawBB == true){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
+
+                if (_clawBB.Get()){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
                     _light1.Set(false);     // it goes to the state "FULL"
                     _state = YES_CORAL;
                 }
+                
                 _state = YES_CORAL;
             }
             break;
 
         case YES_CORAL:
 
-            if(_clawBB == false){
+            if(_clawBB.Get()){
                 // turn intake off
                 _state = NO_CORAL;
                 _light1.Set(false);
