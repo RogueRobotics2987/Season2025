@@ -30,8 +30,10 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetElevator(double setElevator);
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
+  void ManualElevator(double increaseHeight);
+  void SetAlgyArm(double setAlgyArm);
 
-  void SetDesiredElevatorheight(double setElevatorHeight);
+  // void SetDesiredElevatorheight(double setElevatorHeight);
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
@@ -68,23 +70,22 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
 
     // intakeRight
-    // SparkMax _intakeRight{CoralSubsystemConstants::CANIdRightIntake, SparkMax::MotorType::kBrushless};
-    // SparkClosedLoopController _intakeRightclosedLoopController = _intakeRight.GetClosedLoopController();
-    // SparkRelativeEncoder _intakeRightencoder = _intakeRight.GetEncoder();
+    SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
+    SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
-    frc::DigitalInput _troughSensor{1};
-    frc::DigitalInput _clawSensor{0};
+    // frc::DigitalInput _troughSensor{1};
+    frc::DigitalInput _clawBB{3};
     
-    frc::DigitalOutput _light1{2};  
-    frc::DigitalOutput _light2{3};
+    frc::DigitalOutput _light1{1};  
+    frc::DigitalOutput _light2{4};
     
 
 
     // bool _funnelBB = false;
-    bool _troughBB = false;
-    bool _clawBB = false;
+    // bool _troughBB = false;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
 
     double _desiredElevatorHeight = restingElevatorHeight;
