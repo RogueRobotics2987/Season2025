@@ -16,12 +16,12 @@ using namespace subsystems;
 
 void CommandSwerveDrivetrain::MapleInit(){
     auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE");
-    if (table == nullptr) {
+    /*if (table == nullptr) {
         std::cout << "AHHHHHHHH" << std::endl;
     }else{
-        std::cout << "OOOOOH" << std::endl; // this one prints
-    }
+        std::cout << "OOOOOH" << std::endl; // this one prints*/
     positionSub = table->GetDoubleArrayTopic("position").Subscribe({});
+    orientationSub = table->GetDoubleArrayTopic("orientation").Subscribe({});
 
     // if (positionSub == nullptr) {
     //     std::cout << "AHHHHHHHH22222" << std::endl;
