@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/PlaceCMD.h"
-
 #include <iostream>
 
 PlaceCMD::PlaceCMD() {}
@@ -14,19 +13,33 @@ PlaceCMD::PlaceCMD(CoralSubsystem &CoralSubsystem) {
 }
 
 // Called when the command is initially scheduled.
-void PlaceCMD::Initialize() {}
+void PlaceCMD::Initialize() 
+{
+  m_coralSubsystem->SetIntakeMotors(0.3);
+}
 
 // Called repeatedly when this Command is scheduled to run
 void PlaceCMD::Execute() 
 {
   //std::cout << "WOAH" << std::endl;
-  m_coralSubsystem->SetIntakeMotors(0.3);
+   if(time >= 150)
+  {
+    timeIsUp = true;
+  }
+  else
+  {
+    time++;
+  }
 }
 
 // Called once the command ends or is interrupted.
-void PlaceCMD::End(bool interrupted) {}
+void PlaceCMD::End(bool interrupted) 
+{
+  m_coralSubsystem->SetIntakeMotors(0);
+}
 
 // Returns true when the command should end.
-bool PlaceCMD::IsFinished() {
-  return false;
+bool PlaceCMD::IsFinished() 
+{
+  return timeIsUp;
 }

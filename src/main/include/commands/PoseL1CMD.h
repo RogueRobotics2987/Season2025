@@ -36,5 +36,6 @@ class PoseL1CMD
 
   private:
   CoralSubsystem* m_coralSubsystem = nullptr;
-
+  int time = 0;
+  bool timeIsUp = false;
 };

@@ -3,8 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/PoseL4CMD.h"
-#include "subsystems/CoralSubsystem.h"
-
 #include <iostream>
 
 PoseL4CMD::PoseL4CMD() {}
@@ -25,8 +23,6 @@ void PoseL4CMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PoseL4CMD::Execute() 
 {
-  //std::cout << "WOW!" << std::endl;
-  //set elevator to pose L4
   if(time >= 150)
   {
     timeIsUp = true;
