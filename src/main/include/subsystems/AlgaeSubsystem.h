@@ -22,19 +22,19 @@ class AlgaeSubsystem : public frc2::SubsystemBase {
      void setIntakeMotors(double algaeIntakeSpeed); //intake motors for intake arm set speed
     
     // algae arm
-    SparkMax _algaeIntakeArm{CoralSubsystemConstants::CANIDAlgaeIntake, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorFollowerFirstStageClosedLoopController = _elevatorFollowerFirstStage.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorFollowerFirstStageEncoder = _elevatorFollowerFirstStage.GetEncoder();
+    SparkMax _algaeIntakeArm{algaeSubsystemConstants::CANIDAlgaeIntakeArm, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _algaeIntakeArmClosedLoopController = _algaeIntakeArm.GetClosedLoopController();
+    SparkRelativeEncoder _algaeIntakeArmEncoder = _algaeIntakeArm.GetEncoder();
 
     // intakeLeft
-    SparkMax _algaeIntake{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _intakeLeftclosedLoopController = _intakeLeft.GetClosedLoopController(); // TODO: no close loop controllers
-    SparkRelativeEncoder _intakeLeftencoder = _intakeLeft.GetEncoder();
+    SparkMax _algaeIntake{algaeSubsystemConstants::CANIDAlgaeIntake, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _algaeIntakeClosedLoopController = _algaeIntake.GetClosedLoopController(); // TODO: no close loop controllers
+    SparkRelativeEncoder _algaeIntakeEncoder = _algaeIntake.GetEncoder();
 
     // intakeRight
-    SparkMax _algaeRemoverArm{CoralSubsystemConstants::CANIdRightIntake, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _intakeRightclosedLoopController = _intakeRight.GetClosedLoopController();
-    SparkRelativeEncoder _intakeRightencoder = _intakeRight.GetEncoder();
+    SparkMax _algaeRemover{algaeSubsystemConstants::CANIDAlgaeRemover, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _algaeRemoverClosedLoopController = _algaeRemover.GetClosedLoopController();
+    SparkRelativeEncoder _algaeRemoverEncoder = _algaeRemover.GetEncoder();
     
 
 };

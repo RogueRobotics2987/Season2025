@@ -19,7 +19,7 @@
 //algae intake arm movement
 
 void AlgaeSubsystem::setIntakeMotors(double intakeSpeed){ //algae intake arm intake/out
-    _intake.Set(intakeSpeed);
+    _algaeIntake.Set(intakeSpeed);
 }
 
 
