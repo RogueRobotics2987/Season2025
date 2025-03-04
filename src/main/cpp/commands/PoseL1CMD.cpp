@@ -22,7 +22,7 @@ void PoseL1CMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PoseL1CMD::Execute() 
 {
-  if(time >= 150)
+  if(time >= 60)
   {
     timeIsUp = true;
   }

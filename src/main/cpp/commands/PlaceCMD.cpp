@@ -15,6 +15,9 @@ PlaceCMD::PlaceCMD(CoralSubsystem &CoralSubsystem) {
 // Called when the command is initially scheduled.
 void PlaceCMD::Initialize() 
 {
+  timeIsUp = false;
+  time = 0;
+  
   m_coralSubsystem->SetIntakeMotors(0.3);
 }
 
@@ -22,7 +25,7 @@ void PlaceCMD::Initialize()
 void PlaceCMD::Execute() 
 {
   //std::cout << "WOAH" << std::endl;
-   if(time >= 150)
+   if(time >= 60)
   {
     timeIsUp = true;
   }

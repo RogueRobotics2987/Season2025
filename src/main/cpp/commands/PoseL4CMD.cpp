@@ -23,7 +23,7 @@ void PoseL4CMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PoseL4CMD::Execute() 
 {
-  if(time >= 150)
+  if(time >= 60)
   {
     timeIsUp = true;
   }
@@ -36,7 +36,7 @@ void PoseL4CMD::Execute()
 // Called once the command ends or is interrupted.
 void PoseL4CMD::End(bool interrupted) 
 {
-  m_coralSubsystem->SetElevator(0);
+  //m_coralSubsystem->SetElevator(0);
 }
 
 // Returns true when the command should end.
