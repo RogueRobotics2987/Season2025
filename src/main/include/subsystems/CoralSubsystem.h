@@ -8,19 +8,16 @@
 #include <Constants.h>
 #include <rev/SparkMax.h>
 #include <frc/DigitalInput.h>
+#include <frc/DigitalOutput.h>
 #include <frc2/command/CommandPtr.h>
 
 using namespace rev::spark;
 using namespace CoralSubsystemConstants;
 
 enum PossibleStates {
-  // START_CALIBRATION,
-  // ZERO,
-  // EMPTY,
-  // // CORAL_IN_FUNNEL,
-  // CORAL_IN_TROUGH,
-  // ALLOW_CORAL_MOVE,
-  // CORAL_PLACE
+  ZERO,
+  NO_CORAL,
+  YES_CORAL
  };
 
 
@@ -30,15 +27,13 @@ class CoralSubsystem : public frc2::SubsystemBase {
   CoralSubsystem();
 
   // these's are the functions we use
-  void SetEverything(double setElevator);
+  void SetElevator(double setElevator);
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
+  void ManualElevator(double increaseHeight);
+  void SetAlgyArm(double setAlgyArm);
 
-  // void SetCoralPlace(bool setCoralPlace); //no state mechine
-  // void ResetState(); //no state mechine
-
-  void SetDesiredElevatorheight(double setElevatorHeight);
-  void SetElevator();
+  // void SetDesiredElevatorheight(double setElevatorHeight);
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
@@ -49,7 +44,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
  public:
-    // enum PossibleStates _state = START_CALIBRATION;
+    enum PossibleStates _state = ZERO;
 
     int ElevatorLevel = 0;
 
@@ -60,39 +55,37 @@ class CoralSubsystem : public frc2::SubsystemBase {
     // the motors on the robot
     
     // elevatorLeft
-    SparkMax _elevatorLeaderFirstStage{CoralSubsystemConstants::CANIdLeaderElevatorFirstStage, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorLeaderFirstStageClosedLoopController = _elevatorLeaderFirstStage.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorLeaderFirstStageEncoder = _elevatorLeaderFirstStage.GetEncoder();
+    SparkMax _elevatorLeader{CoralSubsystemConstants::CANIdLeaderElevator, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorLeaderClosedLoopController = _elevatorLeader.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorLeaderEncoder = _elevatorLeader.GetEncoder();
 
     // elevatorRight
-    SparkMax _elevatorFollowerFirstStage{CoralSubsystemConstants::CANIdFollowerElevatorFirstStage, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorFollowerFirstStageClosedLoopController = _elevatorFollowerFirstStage.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorFollowerFirstStageEncoder = _elevatorFollowerFirstStage.GetEncoder();
-
-    // elevatorSecondStage
-    SparkMax _elevatorSecondStage{CoralSubsystemConstants::CANIdElevatorSecondStage, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _elevatorSecondStageClosedLoopController = _elevatorSecondStage.GetClosedLoopController();
-    SparkRelativeEncoder _elevatorSecondStageEncoder = _elevatorSecondStage.GetEncoder();
+    SparkMax _elevatorFollower{CoralSubsystemConstants::CANIdFollowerElevator, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _elevatorFollowerClosedLoopController = _elevatorFollower.GetClosedLoopController();
+    SparkRelativeEncoder _elevatorFollowerEncoder = _elevatorFollower.GetEncoder();
 
     // intakeLeft
-    SparkMax _intakeLeft{CoralSubsystemConstants::CANIdLeftIntake, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _intakeLeftclosedLoopController = _intakeLeft.GetClosedLoopController(); // TODO: no close loop controllers
-    SparkRelativeEncoder _intakeLeftencoder = _intakeLeft.GetEncoder();
+    SparkMax _intakeTop{CoralSubsystemConstants::CANIdTopIntake, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _intakeTopClosedLoopController = _intakeTop.GetClosedLoopController(); // TODO: no close loop controllers
+    SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
 
     // intakeRight
-    SparkMax _intakeRight{CoralSubsystemConstants::CANIdRightIntake, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _intakeRightclosedLoopController = _intakeRight.GetClosedLoopController();
-    SparkRelativeEncoder _intakeRightencoder = _intakeRight.GetEncoder();
+    SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
+    SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
     // frc::DigitalInput _troughSensor{1};
-    frc::DigitalInput _clawSensor{0};
+    frc::DigitalInput _clawBB{3};
+    
+    frc::DigitalOutput _light1{1};  
+    frc::DigitalOutput _light2{4};
+    
+
 
     // bool _funnelBB = false;
     // bool _troughBB = false;
-    bool _clawBB = false;
-    bool _coralPlace = false;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
 
     double _desiredElevatorHeight = restingElevatorHeight;
