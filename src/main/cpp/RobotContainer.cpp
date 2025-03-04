@@ -26,8 +26,8 @@ void RobotContainer::ConfigureBindings()
           units::volt_t value{(1 - 0.25) * DriveStick.GetRightTriggerAxis() + 0.25};
           units::volt_t outputMult = filter.Calculate(value);
 
-            return drive.WithVelocityX(DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
-                .WithVelocityY(DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
+            return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
+                .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
                 .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
         })
     );
@@ -45,35 +45,6 @@ void RobotContainer::ConfigureBindings()
           m_coralSubsystem.SetElevator(0);
          }).ToPtr());
          
-    AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-        m_coralSubsystem.SetElevator(10.86);
-         }).ToPtr());
-
-    AuxStick.X().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-         m_coralSubsystem.SetElevator(20.5);
-         }).ToPtr());
-
-    AuxStick.Y().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-         m_coralSubsystem.SetElevator(21.16);
-         }).ToPtr());
-
-    AuxStick.RightTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator up
-         m_coralSubsystem.IncrementOffsets(0.01);
-         }).ToPtr());
-
-    AuxStick.LeftTrigger().WhileTrue(frc2::InstantCommand([this]() -> void { // manual elevator down
-        m_coralSubsystem.IncrementOffsets(-0.01);
-         }).ToPtr());
-
-    AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // Coral Place/Intake
-        m_coralSubsystem.SetIntakeMotors(0.2);
-         }).ToPtr());
-
-    AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // intake preset
-         m_coralSubsystem.SetElevator(0);
-         m_coralSubsystem.SetIntakeMotors(0.2);
-         // Beambreak auto stop
-         }).ToPtr());
      
      AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void {
           // to do, algae out
@@ -85,33 +56,43 @@ void RobotContainer::ConfigureBindings()
           // m_algaeSubsystem.alageIn(motorSpeed)
           }).ToPtr());
 
-    DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Climber up
-         m_climberSubsystem.SetClimberSpeed(0.25);
+    AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
+        m_coralSubsystem.SetElevator(9 + GravityoffsetIn);
          }).ToPtr());
 
-    DriveStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Climber up
-         m_climberSubsystem.SetClimberSpeed(0);
+    AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
+         m_coralSubsystem.SetElevator(25 + GravityoffsetIn);
          }).ToPtr());
 
-    DriveStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Climber down
-         m_climberSubsystem.SetClimberSpeed(-0.25);
+    AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
+         m_coralSubsystem.SetElevator(50.5 + GravityoffsetIn);
          }).ToPtr());
 
-    DriveStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Climber down
-         m_climberSubsystem.SetClimberSpeed(0);
+    AuxStick.LeftTrigger().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator up
+         m_coralSubsystem.ManualElevator(0.5);
          }).ToPtr());
 
-    DriveStick.LeftBumper().WhileTrue(frc2::InstantCommand([this]() -> void { // Move to Reef Via Apriltag (left side)
-         // to do
+    AuxStick.RightTrigger().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator down
+        m_coralSubsystem.ManualElevator(-0.5);
+         }).ToPtr());
+    
+    AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
+        m_coralSubsystem.SetIntakeMotors(0.3);
          }).ToPtr());
 
-    DriveStick.RightBumper().WhileTrue(frc2::InstantCommand([this]() -> void { // Move to Reef Via Apriltag (right side)
-         // to do
+    AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Button off
+        m_coralSubsystem.SetIntakeMotors(0);
+         }).ToPtr());
+    
+    AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button on
+        m_coralSubsystem.SetIntakeMotors(-0.3);
          }).ToPtr());
 
-    DriveStick.Back().WhileTrue(frc2::InstantCommand([this]() -> void { // Reset heading
-        drivetrain.ResetRotation(frc::Rotation2d(units::degree_t(0)));
+    AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Button off
+        m_coralSubsystem.SetIntakeMotors(0);
+
          }).ToPtr());
+         
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     (DriveStick.Back() && DriveStick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));
