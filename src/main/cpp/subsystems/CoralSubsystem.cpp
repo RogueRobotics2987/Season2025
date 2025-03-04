@@ -202,32 +202,32 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 void CoralSubsystem::LightsOff() {
     _light1.Set(false);
     _light2.Set(false);
-    _light3.Set(false);
+    //_light3.Set(false);
 }
 void CoralSubsystem::RBSwap() {
     _light1.Set(true);
     _light2.Set(false);
-    _light3.Set(false);
+    //_light3.Set(false);
 }
 void CoralSubsystem::LightsPink() {
     _light1.Set(false);
     _light2.Set(true);
-    _light3.Set(false);
+    //_light3.Set(false);
 }
 void CoralSubsystem::LightsCyan() {
     _light1.Set(false);
     _light2.Set(false);
-    _light3.Set(true);
+    //_light3.Set(true);
 }
 void CoralSubsystem::PinkBlink() {
     _light1.Set(true);
     _light2.Set(true);
-    _light3.Set(false);
+    //_light3.Set(false);
 }
 void CoralSubsystem::CyanBlink(){
     _light1.Set(true);
     _light2.Set(false);
-    _light3.Set(true);
+    //_light3.Set(true);
 }
 
 frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){

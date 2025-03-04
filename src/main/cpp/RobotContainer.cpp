@@ -41,11 +41,7 @@ void RobotContainer::ConfigureBindings()
     //      m_coralSubsystem.ResetState();
     //      }).ToPtr());
     
-    AuxStick.B().WhileTrue(frc2::InstantCommand([this]() -> void { // L1/Zero Button
-          m_coralSubsystem.SetElevator(0);
-         }).ToPtr());
          
-     
      AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void {
           // to do, algae out
           // m_algaeSubsystem.alageOut(motorSpeed)
@@ -55,6 +51,10 @@ void RobotContainer::ConfigureBindings()
           // to do, algae in
           // m_algaeSubsystem.alageIn(motorSpeed)
           }).ToPtr());
+          
+    AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1/Zero Button
+          m_coralSubsystem.SetElevator(0);
+         }).ToPtr());
 
     AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
         m_coralSubsystem.SetElevator(9 + GravityoffsetIn);
@@ -76,7 +76,7 @@ void RobotContainer::ConfigureBindings()
         m_coralSubsystem.ManualElevator(-0.5);
          }).ToPtr());
     
-    AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
+    AuxStick.A().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
         m_coralSubsystem.SetIntakeMotors(0.3);
          }).ToPtr());
 
@@ -84,15 +84,27 @@ void RobotContainer::ConfigureBindings()
         m_coralSubsystem.SetIntakeMotors(0);
          }).ToPtr());
     
-    AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button on
-        m_coralSubsystem.SetIntakeMotors(-0.3);
+    AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { //Algae in Button on
+        //algae in go
          }).ToPtr());
 
-    AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Button off
-        m_coralSubsystem.SetIntakeMotors(0);
-
+    AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { //Algae in Button off
+        //algae in stop
          }).ToPtr());
          
+    AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void { //Algae out Button on
+        //algae out go
+         }).ToPtr());
+
+    AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void { //Algae out Button off
+        //algae out stop
+         }).ToPtr());
+
+    AuxStick.Y().WhileTrue(frc2::InstantCommand([this]() -> void {
+        //intake preset
+        m_coralSubsystem.SetElevator(0);
+        m_coralSubsystem.SetIntakeMotors(0.3);
+    }).ToPtr());
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     (DriveStick.Back() && DriveStick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));
