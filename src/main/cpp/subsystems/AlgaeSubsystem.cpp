@@ -82,6 +82,12 @@ AlgaeSubsystem::AlgaeSubsystem(){
 
 void AlgaeSubsystem::setAlgaeArm(double setIntakeArm){
      intakeArmTotal = setIntakeArm * setIntakeArm * setIntakeArm;
+     if (intakeArmTotal > 40) {
+        intakeArmTotal = 40;
+     }
+    if (intakeArmTotal < 10) {
+        intakeArmTotal = 10;
+    }
     _algaeIntakeArmClosedLoopController.SetReference(intakeArmTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
@@ -91,6 +97,12 @@ void AlgaeSubsystem::setAlgaeIntakeMotors(double algaeIntakeSpeed){ //algae inta
 
 void AlgaeSubsystem::setRemoverArm(double setFlipperArm){
      removerArmTotal = setFlipperArm * setFlipperArm * setFlipperArm;
+    if (removerArmTotal > 40) {
+        removerArmTotal = 40;
+    }
+    if (removerArmTotal < 7) {
+        removerArmTotal = 7;
+    }
     _algaeRemoverClosedLoopController.SetReference(removerArmTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 

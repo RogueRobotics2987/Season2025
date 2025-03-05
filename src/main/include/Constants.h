@@ -28,8 +28,8 @@ namespace ClimberSubsystemConstants {
 
 namespace algaeSubsystemConstants {
     inline constexpr int CANIDAlgaeIntake = 26; //or 22
-    inline constexpr int CANIDAlgaeIntakeArm = 27; //unknown
-    inline constexpr int CANIDAlgaeRemover = 23; //unknown
+    inline constexpr int CANIDAlgaeIntakeArm = 27; //could be wrong
+    inline constexpr int CANIDAlgaeRemover = 23; //could be wrong
 
 }
 namespace CoralSubsystemConstants {
