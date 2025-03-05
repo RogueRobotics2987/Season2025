@@ -23,7 +23,7 @@ class IntakeCMD
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
   IntakeCMD();
-  IntakeCMD::IntakeCMD(CoralSubsystem &CoralSubsystem);
+  IntakeCMD(CoralSubsystem &CoralSubsystem);
 
   void Initialize() override;
 
