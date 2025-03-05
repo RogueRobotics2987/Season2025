@@ -8,7 +8,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <rev/config/SparkMaxConfig.h>
 
-CoralSubsystem::CoralSubsystem(){
+CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light{lights}{
+    
     SparkMaxConfig _elevatorLeaderFirstStageConfig;
     SparkMaxConfig _elevatorFollowerFirstStageConfig;
     SparkMaxConfig _intakeLeftConfig;
@@ -129,9 +130,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     frc::SmartDashboard::PutString("Periodic Running", "true");        
     frc::SmartDashboard::PutBoolean("_clawBB", _clawSensor.Get()); 
     frc::SmartDashboard::PutNumber("_state", _state); 
-    frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
-    frc::SmartDashboard::PutBoolean("_light2", _light2.Get());
-    frc::SmartDashboard::PutBoolean("_light3", _light3.Get());
+
 
     // Update Sensors
     // Gets the value of the digital input.  Returns true if the circuit is open.
@@ -160,7 +159,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         case NO_CORAL:
-            LightsOff();
+            _light.LightsOff();
             
             // turn on intake
             if (_clawBB == false){       
@@ -170,7 +169,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         case YES_CORAL:
-            RBSwap();
+            _light.RBSwap();
             if(_clawBB == true){
                 // turn intake off
                 _state = NO_CORAL;
@@ -182,37 +181,6 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     }
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
     frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
-}
-
-void CoralSubsystem::LightsOff() {
-    _light1.Set(false);
-    _light2.Set(false);
-    _light3.Set(false);
-}
-void CoralSubsystem::RBSwap() {
-    _light1.Set(true);
-    _light2.Set(false);
-    _light3.Set(false);
-}
-void CoralSubsystem::LightsPink() {
-    _light1.Set(false);
-    _light2.Set(true);
-    _light3.Set(false);
-}
-void CoralSubsystem::LightsCyan() {
-    _light1.Set(false);
-    _light2.Set(false);
-    _light3.Set(true);
-}
-void CoralSubsystem::PinkBlink() {
-    _light1.Set(true);
-    _light2.Set(true);
-    _light3.Set(false);
-}
-void CoralSubsystem::CyanBlink(){
-    _light1.Set(true);
-    _light2.Set(false);
-    _light3.Set(true);
 }
 
 frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
