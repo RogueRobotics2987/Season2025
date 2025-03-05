@@ -2,11 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/PlaceCMD.h"
-#include <iostream>
+#include "commands/IntakeCMD.h"
 
-PlaceCMD::PlaceCMD() {}
-PlaceCMD::PlaceCMD(CoralSubsystem &CoralSubsystem) 
+IntakeCMD::IntakeCMD() {}
+IntakeCMD::IntakeCMD(CoralSubsystem &CoralSubsystem)
 {
   // Use addRequirements() here to declare subsystem dependencies.
   m_coralSubsystem = &CoralSubsystem;
@@ -14,23 +13,23 @@ PlaceCMD::PlaceCMD(CoralSubsystem &CoralSubsystem)
 }
 
 // Called when the command is initially scheduled.
-void PlaceCMD::Initialize() 
+void IntakeCMD::Initialize() 
 {
-  m_coralSubsystem->coralPlace = true;
+  m_coralSubsystem->coralLoaded = false;
   m_coralSubsystem->SetIntakeMotors(0.3);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void PlaceCMD::Execute() {}
+void IntakeCMD::Execute() {}
 
 // Called once the command ends or is interrupted.
-void PlaceCMD::End(bool interrupted) 
+void IntakeCMD::End(bool interrupted) 
 {
   m_coralSubsystem->SetIntakeMotors(0);
 }
 
 // Returns true when the command should end.
-bool PlaceCMD::IsFinished() 
+bool IntakeCMD::IsFinished() 
 {
-  return !m_coralSubsystem->coralPlace;
+  return m_coralSubsystem->coralLoaded;
 }

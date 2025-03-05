@@ -22,6 +22,7 @@ using namespace pathplanner;
 RobotContainer::RobotContainer()
 {
     NamedCommands::registerCommand("PlaceCMD", std::move(PlaceCMD(m_coralSubsystem).ToPtr())); //NEEDS TO BE ABOVE CHOOSER
+    NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
 

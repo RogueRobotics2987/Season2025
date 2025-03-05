@@ -17,6 +17,7 @@
 #include "Constants.h"
 #include "Telemetry.h"
 #include "commands/PlaceCMD.h"
+#include "commands/IntakeCMD.h"
 #include "commands/PoseL1CMD.h"
 #include "commands/PoseL4CMD.h"
 

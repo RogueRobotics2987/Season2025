@@ -25,7 +25,13 @@
         {
           "type": "named",
           "data": {
-            "name": "PlaceCMD"
+            "name": "IntakeCMD"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
           }
         },
         {

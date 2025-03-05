@@ -16,14 +16,14 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class PlaceCMD
-    : public frc2::CommandHelper<frc2::Command, PlaceCMD> {
+class IntakeCMD
+    : public frc2::CommandHelper<frc2::Command, IntakeCMD> {
  public:
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  PlaceCMD();
-  PlaceCMD(CoralSubsystem &CoralSubsystem);
+  IntakeCMD();
+  IntakeCMD::IntakeCMD(CoralSubsystem &CoralSubsystem);
 
   void Initialize() override;
 
@@ -35,4 +35,5 @@ class PlaceCMD
 
   private:
   CoralSubsystem* m_coralSubsystem = nullptr;
+
 };
