@@ -40,17 +40,6 @@ void RobotContainer::ConfigureBindings()
     // DriveStick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
     //      m_coralSubsystem.ResetState();
     //      }).ToPtr());
-    
-         
-     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void {
-          // to do, algae out
-          // m_algaeSubsystem.alageOut(motorSpeed)
-          }).ToPtr());
- 
-     AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void {
-          // to do, algae in
-          // m_algaeSubsystem.alageIn(motorSpeed)
-          }).ToPtr());
           
     AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1/Zero Button
           m_coralSubsystem.SetElevator(0);
@@ -86,18 +75,22 @@ void RobotContainer::ConfigureBindings()
     
     AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { //Algae in Button on
         //algae in go
+        m_algaeSubsystem.setAlgaeIntakeMotors(0.3);
          }).ToPtr());
 
     AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { //Algae in Button off
         //algae in stop
-         }).ToPtr());
+        m_algaeSubsystem.setAlgaeIntakeMotors(0);
+        }).ToPtr());
          
     AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void { //Algae out Button on
         //algae out go
+        m_algaeSubsystem.setAlgaeIntakeMotors(-0.3);
          }).ToPtr());
 
     AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void { //Algae out Button off
         //algae out stop
+        m_algaeSubsystem.setAlgaeIntakeMotors(0);
          }).ToPtr());
 
     AuxStick.Y().WhileTrue(frc2::InstantCommand([this]() -> void {
@@ -105,6 +98,25 @@ void RobotContainer::ConfigureBindings()
         m_coralSubsystem.SetElevator(0);
         m_coralSubsystem.SetIntakeMotors(0.3);
     }).ToPtr());
+
+    AuxStick.LeftStick().WhileTrue(frc2::InstantCommand([this]() -> void {
+        double LeftY = AuxStick.GetLeftY();
+        if (LeftY > 0.1) { 
+            m_algaeSubsystem.setAlgaeArm(LeftY);
+        } else if (LeftY < -0.1) {
+            m_algaeSubsystem.setAlgaeArm(LeftY);
+        }
+        }).ToPtr());
+
+    AuxStick.RightStick().WhileTrue(frc2::InstantCommand([this]() -> void {
+        double RightY = AuxStick.GetRightY();
+        if (RightY > 0.1) { 
+            m_algaeSubsystem.setRemoverArm(RightY);
+        } else if (RightY < -0.1) {
+            m_algaeSubsystem.setRemoverArm(RightY);
+        }
+        }).ToPtr());
+
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
     (DriveStick.Back() && DriveStick.Y()).WhileTrue(drivetrain.SysIdDynamic(frc2::sysid::Direction::kForward));

@@ -10,6 +10,7 @@
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
+#include "subsystems/AlgaeSubsystem.h"
 #include "Telemetry.h"
 #include "subsystems/CoralSubsystem.h"
 #include <frc2/command/RunCommand.h>
@@ -61,6 +62,7 @@ public:
   // The robot's subsystems are defined here...
   CoralSubsystem m_coralSubsystem;
   ClimberSubsystem m_climberSubsystem;
+  AlgaeSubsystem m_algaeSubsystem;
 
 
   void ConfigureBindings();

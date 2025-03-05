@@ -19,7 +19,14 @@ class AlgaeSubsystem : public frc2::SubsystemBase {
     AlgaeSubsystem();
 
     //stuff we use
-     void setIntakeMotors(double algaeIntakeSpeed); //intake motors for intake arm set speed
+     void setAlgaeIntakeMotors(double algaeIntakeSpeed); //intake motors for intake arm set speed
+     void setAlgaeArm(double setAlgaeArm);
+     void setRemoverArm(double setRemoverArm);
+     
+    double intakeArmTotal;
+    double setIntakeArm;
+    double removerArmTotal;
+    double setFlipperArm;
     
     // algae arm
     SparkMax _algaeIntakeArm{algaeSubsystemConstants::CANIDAlgaeIntakeArm, SparkMax::MotorType::kBrushless};
