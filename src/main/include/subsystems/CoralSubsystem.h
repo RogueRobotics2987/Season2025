@@ -52,6 +52,8 @@ class CoralSubsystem : public frc2::SubsystemBase {
 
     double elevatorTotal = 0;
 
+    //bool coralLoaded = 0;
+
     // the motors on the robot
     
     // elevatorLeft

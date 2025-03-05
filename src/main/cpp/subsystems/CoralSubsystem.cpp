@@ -179,6 +179,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                     _state = YES_CORAL;
                 }
                 
+                //coralLoaded = true;
                 _state = YES_CORAL;
             }
             break;
@@ -187,6 +188,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
             if(_clawBB.Get()){
                 // turn intake off
+                //coralLoaded = false;
                 _state = NO_CORAL;
                 _light1.Set(false);
                 _light2.Set(true);

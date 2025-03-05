@@ -25,7 +25,7 @@ void PlaceCMD::Initialize()
 void PlaceCMD::Execute() 
 {
   //std::cout << "WOAH" << std::endl;
-   if(time >= 60)
+  if(time >= 200)
   {
     timeIsUp = true;
   }
@@ -45,4 +45,5 @@ void PlaceCMD::End(bool interrupted)
 bool PlaceCMD::IsFinished() 
 {
   return timeIsUp;
+  //return m_coralSubsystem->coralLoaded;
 }
