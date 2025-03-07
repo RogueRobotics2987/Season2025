@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z2_Face_I-J"
+            "pathName": "Z1_Face_K-L"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
           }
         },
         {
@@ -17,21 +23,15 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "PlaceCMD"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PoseL1CMD"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeCMD"
           }
         }
       ]
