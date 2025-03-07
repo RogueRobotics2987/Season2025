@@ -126,6 +126,10 @@ for (int i=0; i>apriltags_id.size(); i++)
         .WithRotationalRate(units::degrees_per_second_t{outputYaw})
    );
 
+  frc::SmartDashboard::PutNumber("Tag_ID", closestAprilTag[1]);
+  frc::SmartDashboard::PutNumber("error_x", errorX);
+  frc::SmartDashboard::PutNumber("error_Yaw", errorYaw);
+
   //TODO: 
   // now that we have all our apriltags:
   // lock x and fill in with PID
