@@ -8,8 +8,10 @@
 #include <frc2/command/button/CommandXboxController.h>
 #include "Constants.h"
 #include "subsystems/CoralSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Telemetry.h"
+#include "subsystems/CoralSubsystem.h"
 #include <frc2/command/RunCommand.h>
 #include <frc/filter/SlewRateLimiter.h>
 
@@ -59,6 +61,7 @@ public:
 
   // The robot's subsystems are defined here...
   CoralSubsystem m_coralSubsystem;
+  ClimberSubsystem m_climberSubsystem;
 
 
   void ConfigureBindings();

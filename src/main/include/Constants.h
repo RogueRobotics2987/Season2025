@@ -22,6 +22,10 @@ inline constexpr int kDriverControllerPort = 0;
 
 }  // namespace OperatorConstants
 
+namespace ClimberSubsystemConstants {
+    inline constexpr int CANIdClimber = 25;
+}
+
 
 namespace CoralSubsystemConstants {
     // 0 arm angle is when the arm is pointing down and 0 height is when the elevator is all the way down
