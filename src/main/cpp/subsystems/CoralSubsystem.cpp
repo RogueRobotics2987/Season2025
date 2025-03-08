@@ -33,7 +33,7 @@ CoralSubsystem::CoralSubsystem(){
       .P(0.02) // 0.01
       .I(0) // .I(0.000005)
       .D(0)
-      .OutputRange(-0.06, 1)
+      .OutputRange(-0.1, 1)
       ;
 
     _elevatorFollowerConfig.closedLoop
@@ -43,7 +43,7 @@ CoralSubsystem::CoralSubsystem(){
       .P(0.02)
       .I(0)
       .D(0)
-      .OutputRange(-0.06, 1);
+      .OutputRange(-0.1, 1);
 
     _intakeTopConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
@@ -134,16 +134,17 @@ void CoralSubsystem::ManualElevator(double increaseHeight){
  
  // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() { // TODO: should drivers be able to override evelator and arm all the time?
-//     frc::SmartDashboard::PutString("Periodic Running", "true");
-//     // Update Sensors
-//     // Gets the value of the digital input.  Returns true if the circuit is open.
+    frc::SmartDashboard::PutString("Periodic Running", "true");        
+    frc::SmartDashboard::PutBoolean("_clawBB", _clawBB.Get()); 
+    frc::SmartDashboard::PutNumber("_state", _state); 
+    frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
+    frc::SmartDashboard::PutBoolean("_light2", _light2.Get());
+    frc::SmartDashboard::PutBoolean("_light3", _light3.Get());
 
-//     _clawBB = _clawSensor.Get();
-
-//     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
-//     // _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
-//     _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
-//     // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
+    // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
+    // _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
+    // _clawBB = frc::SmartDashboard::GetBoolean("Claw Beam Break", false);
+    // _coralPlace = frc::SmartDashboard::GetBoolean("Coral Place", false);
 
     frc::SmartDashboard::PutBoolean("ClawBB: ", _clawBB.Get());
 
@@ -164,6 +165,8 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         case NO_CORAL:
+
+            LightsOff();
 
             if (!_clawBB.Get()){
                 _intakeTop.Set(0);
@@ -186,6 +189,8 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
         case YES_CORAL:
 
+            RBSwap();
+            
             if(_clawBB.Get()){
                 // turn intake off
                 _state = NO_CORAL;
