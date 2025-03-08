@@ -105,7 +105,7 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     };
 
     /* The SysId routine to test */
-    frc2::sysid::SysIdRoutine *m_sysIdRoutineToApply = &m_sysIdRoutineTranslation;
+    frc2::sysid::SysIdRoutine *m_sysIdRoutineToApply = &m_sysIdRoutineSteer;
 
 public:
     /**
