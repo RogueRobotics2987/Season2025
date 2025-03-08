@@ -20,14 +20,16 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class RightSideApriltagReefLineup
-    : public frc2::CommandHelper<frc2::Command, RightSideApriltagReefLineup> {
+class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, RightSideApriltagReefLineup> {
   
   public:
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, frc2::CommandXboxController &driveStick); // needs xbox perm? //dont think we need drivepose
+  RightSideApriltagReefLineup();
+  RightSideApriltagReefLineup(
+    subsystems::CommandSwerveDrivetrain &driveTrain, 
+    frc2::CommandXboxController &driveStick); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
@@ -36,9 +38,6 @@ class RightSideApriltagReefLineup
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-
-  frc::XboxController* m_driverController = nullptr; // make into smart pointer?
-  frc::XboxController* m_auxController = nullptr; // make into smart pointer?
 
   units::angular_velocity::radians_per_second_t rotApril = units::angular_velocity::radians_per_second_t(0);
 
@@ -58,8 +57,8 @@ class RightSideApriltagReefLineup
   .WithDeadband(MaxSpeed * 0.1).WithRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
-  subsystems::CommandSwerveDrivetrain& _driveTrain;
-  frc2::CommandXboxController& _driveStick;
+  subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
+  frc2::CommandXboxController* _driveStick = nullptr;
   
   double currentHeading = 0;
   double lastHeading = 0;

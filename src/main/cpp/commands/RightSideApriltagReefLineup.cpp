@@ -8,17 +8,22 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/RightSideApriltagReefLineup.h"
 
-RightSideApriltagReefLineup::RightSideApriltagReefLineup(subsystems::CommandSwerveDrivetrain &driveTrain, frc2::CommandXboxController &driveStick) : 
-_driveTrain(driveTrain) 
-,_driveStick(driveStick)
+#include <iostream>
 
+RightSideApriltagReefLineup::RightSideApriltagReefLineup() {}
+RightSideApriltagReefLineup::RightSideApriltagReefLineup(
+  subsystems::CommandSwerveDrivetrain &driveTrain, 
+  frc2::CommandXboxController &driveStick)
 {
-  AddRequirements({&_driveTrain});
+  _driveTrain = &driveTrain;
+  _driveStick = &driveStick;
+  AddRequirements({_driveTrain});
 }
 
 // Called when the command is initially scheduled.
 void RightSideApriltagReefLineup::Initialize() 
 {
+  //std::cout << "this command is being run" << std::endl;
   //change lights
   //make sure robot is robot centric
 }
@@ -26,7 +31,15 @@ void RightSideApriltagReefLineup::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void RightSideApriltagReefLineup::Execute() 
 {
-  frc::SmartDashboard::PutBoolean("AutoLineup", true);
+  std::cout << "this command is being run" << std::endl;
+
+  time++;
+  if(time > 200)
+  {
+    finished = true;
+    time = 0;
+  }
+  //frc::SmartDashboard::PutBoolean("AutoLineup", true);
   // TODO: get list of tags from maple
   // Table: maple
   // Topic: tags: vector<vector<double>>  --- 4 numbers {tag_id, x, y, z, yaw}
@@ -39,40 +52,40 @@ void RightSideApriltagReefLineup::Execute()
 
   // is this done? 
 
-nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
-nt::DoubleArraySubscriber apriltags_xSub;
-nt::DoubleArraySubscriber apriltags_ySub;
-nt::DoubleArraySubscriber apriltags_yawSub;
+//t nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
+//t nt::DoubleArraySubscriber apriltags_xSub;
+//t nt::DoubleArraySubscriber apriltags_ySub;
+//t nt::DoubleArraySubscriber apriltags_yawSub;
 
-//maple handles lose tracking for 100 ms sends the same thing
-auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
-apriltags_idSub = table->GetDoubleArrayTopic("apriltag_id").Subscribe({});// Getting apriltag data from the network table
-apriltags_xSub = table->GetDoubleArrayTopic("apriltag_x").Subscribe({});
-apriltags_ySub = table->GetDoubleArrayTopic("apriltag_y").Subscribe({});
-apriltags_yawSub = table->GetDoubleArrayTopic("apriltag_yaw").Subscribe({});
+// //maple handles lose tracking for 100 ms sends the same thing
+//t auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
+//t apriltags_idSub = table->GetDoubleArrayTopic("apriltag_id").Subscribe({});// Getting apriltag data from the network table
+//t apriltags_xSub = table->GetDoubleArrayTopic("apriltag_x").Subscribe({});
+//t apriltags_ySub = table->GetDoubleArrayTopic("apriltag_y").Subscribe({});
+//t apriltags_yawSub = table->GetDoubleArrayTopic("apriltag_yaw").Subscribe({});
 
-std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
-std::vector<double> apriltags_x = apriltags_xSub.Get();
-std::vector<double> apriltags_y = apriltags_ySub.Get();
-std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
+//t std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
+//t std::vector<double> apriltags_x = apriltags_xSub.Get();
+//t std::vector<double> apriltags_y = apriltags_ySub.Get();
+//t std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
 
-if(apriltags_id.empty())
-{
-  finished = true;
-  return;
-}
+//t if(apriltags_id.empty())
+//t {
+//t   finished = true;
+//t   return;
+//t }
 
 std::vector<std::vector<double>> mapleTags{};// Creating the vector in a vector that will hold all the apriltag data
 
-for (int i=0; i>apriltags_id.size(); i++) 
-{ // Repeats for how many numbers are in the apriltag_id vector
-  double cur_id = apriltags_id[i];// Gets the id/x/y/yaw based on which repeat it is on
-  double cur_x = apriltags_x[i];
-  double cur_y = apriltags_y[i];
-  double cur_yaw = apriltags_yaw[i];
+// for (int i=0; i>apriltags_id.size(); i++) 
+// { // Repeats for how many numbers are in the apriltag_id vector
+//   double cur_id = apriltags_id[i];// Gets the id/x/y/yaw based on which repeat it is on
+//   double cur_x = apriltags_x[i];
+//   double cur_y = apriltags_y[i];
+//   double cur_yaw = apriltags_yaw[i];
 
-  mapleTags.emplace_back(std::vector<double>{cur_id, cur_x, cur_y, cur_yaw});// Puts all the apriltag data into one vector in a vector
-};
+//   mapleTags.emplace_back(std::vector<double>{cur_id, cur_x, cur_y, cur_yaw});// Puts all the apriltag data into one vector in a vector
+// };
 
   //std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};  Replaced by the mapleTag data on line 62/70
   std::vector<std::vector<double>> allowedMapleTags{};
@@ -121,8 +134,8 @@ for (int i=0; i>apriltags_id.size(); i++)
   outputX = errorX * kP_x;
   outputYaw = errorYaw * kP_yaw;
 
-  _driveTrain.SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{outputX})
-        .WithVelocityY(units::meters_per_second_t{_driveStick.GetLeftY()})
+  _driveTrain->SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{outputX})
+        .WithVelocityY(units::meters_per_second_t{_driveStick->GetLeftY()})
         .WithRotationalRate(units::degrees_per_second_t{outputYaw})
    );
 
@@ -159,13 +172,13 @@ bool RightSideApriltagReefLineup::IsFinished()
     return true;
   }
 
-  if(errorX + errorYaw <= 0.05 || errorX + errorYaw >= -0.05) //within 5 cm
-  {
+  //if(errorX + errorYaw <= 0.05 || errorX + errorYaw >= -0.05) //within 5 cm
+  //{
     //change lights
-    return true; //end the command
-  }
-  else
-  {
-    return false;
-  }
+  //  return true; //end the command
+  //}
+  //else
+  //{
+  //  return false;
+  //}
 }
