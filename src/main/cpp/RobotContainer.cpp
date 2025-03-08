@@ -140,6 +140,22 @@ void RobotContainer::ConfigureBindings()
     AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Button off
             m_coralSubsystem.SetIntakeMotors(0);
         }).ToPtr());
+
+    AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+            m_algaeSubsystem.setAlgaeArm(AlgaeArmMax);
+        }, {&m_algaeSubsystem}).ToPtr());
+
+    AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void {
+            m_algaeSubsystem.setAlgaeArm(AlgaeArmMin);
+        }, {&m_algaeSubsystem}).ToPtr());
+
+    AuxStick.LeftBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void {
+            m_algaeSubsystem.setRemoverArm(FlipperMax);
+        }, {&m_algaeSubsystem}).ToPtr());
+
+    AuxStick.LeftBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void {
+            m_algaeSubsystem.setRemoverArm(FlipperMin);
+        }, {&m_algaeSubsystem}).ToPtr());
     
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.

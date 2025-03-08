@@ -31,6 +31,11 @@ namespace algaeSubsystemConstants {
     inline constexpr int CANIDAlgaeIntakeArm = 27;
     inline constexpr int CANIDAlgaeRemover = 23;
 
+    inline constexpr double FlipperMax = 0.86;
+    inline constexpr double FlipperMin = 0.6;
+
+    inline constexpr double AlgaeArmMax = 0.55;
+    inline constexpr double AlgaeArmMin = 0.36;
 }
 namespace CoralSubsystemConstants {
     // 0 arm angle is when the arm is pointing down and 0 height is when the elevator is all the way down
@@ -42,7 +47,6 @@ namespace CoralSubsystemConstants {
     inline constexpr int CANIdLeaderElevator = 21;
     inline constexpr int CANIdFollowerElevator = 20;
     inline constexpr int CANIdTopIntake = 22;
-    inline constexpr int CANIdAlgyArm = 27;
     // inline constexpr int CANIdClimber = 25;
     // inline constexpr int CANIdAlgaePlacerWheel = 26;
     // inline constexpr int CANIdAlgaePlacerArm = 27;

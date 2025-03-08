@@ -18,9 +18,9 @@ AlgaeSubsystem::AlgaeSubsystem(){
     SparkMaxConfig _algaeIntakeConfig;
     SparkMaxConfig _algaeIntakeArmConfig;
 
-    _algaeRemoverConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    _algaeRemoverConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1).Inverted(true);
     _algaeIntakeConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _algaeIntakeArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    _algaeIntakeArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1).Inverted(true);
 
     _algaeRemoverConfig.SmartCurrentLimit(50);
     _algaeIntakeConfig.SmartCurrentLimit(50);
@@ -29,9 +29,11 @@ AlgaeSubsystem::AlgaeSubsystem(){
 
     _algaeRemoverConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
+      .PositionWrappingEnabled(true)
+      .PositionWrappingInputRange(0, 1)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.01)
+      .P(1.2)
       .I(0)
       .D(0)
       .OutputRange(-1, 1)
@@ -60,9 +62,11 @@ AlgaeSubsystem::AlgaeSubsystem(){
 
     _algaeIntakeArmConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
+      .PositionWrappingEnabled(true)
+      .PositionWrappingInputRange(0, 1)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.01)
+      .P(1.58)
       .I(0)
       .D(0)
       .OutputRange(-1, 1)
@@ -77,16 +81,17 @@ AlgaeSubsystem::AlgaeSubsystem(){
     _algaeIntake.Configure(_algaeIntakeConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _algaeIntakeArm.Configure(_algaeIntakeArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
-
+    setAlgaeArm(AlgaeArmMin);
+    setRemoverArm(FlipperMin);
 }
 
 void AlgaeSubsystem::setAlgaeArm(double setIntakeArm){
-     intakeArmTotal = setIntakeArm * setIntakeArm * setIntakeArm;
-     if (intakeArmTotal > 40) {
-        intakeArmTotal = 40;
+     intakeArmTotal = setIntakeArm;
+     if (intakeArmTotal > AlgaeArmMax) {
+        intakeArmTotal = AlgaeArmMax;
      }
-    if (intakeArmTotal < 10) {
-        intakeArmTotal = 10;
+    if (intakeArmTotal < AlgaeArmMin) {
+        intakeArmTotal = AlgaeArmMin;
     }
     _algaeIntakeArmClosedLoopController.SetReference(intakeArmTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
@@ -96,12 +101,12 @@ void AlgaeSubsystem::setAlgaeIntakeMotors(double algaeIntakeSpeed){
 }
 
 void AlgaeSubsystem::setRemoverArm(double setFlipperArm){
-     removerArmTotal = setFlipperArm * setFlipperArm * setFlipperArm;
-    if (removerArmTotal > 40) {
-        removerArmTotal = 40;
+     removerArmTotal = setFlipperArm;
+    if (removerArmTotal > FlipperMax) {
+        removerArmTotal = FlipperMax;
     }
-    if (removerArmTotal < 7) {
-        removerArmTotal = 7;
+    if (removerArmTotal < FlipperMin) {
+        removerArmTotal = FlipperMin;
     }
     _algaeRemoverClosedLoopController.SetReference(removerArmTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }

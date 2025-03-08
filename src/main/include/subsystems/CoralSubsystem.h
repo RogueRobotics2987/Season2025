@@ -31,13 +31,11 @@ class CoralSubsystem : public frc2::SubsystemBase {
 void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
   void ManualElevator(double increaseHeight);
-  void SetAlgyArm(double setAlgyArm);
 
   // void SetDesiredElevatorheight(double setElevatorHeight);
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
-  double GetDesiredArmAngle();
   void LightsOff();
   void RBSwap();
   void LightsPink();
@@ -75,20 +73,15 @@ void SetIntakeMotors(double intakeSpeed);
     SparkMax _intakeTop{CoralSubsystemConstants::CANIdTopIntake, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _intakeTopClosedLoopController = _intakeTop.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
-
-    // intakeRight
-    SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
-    SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
     // frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawBB{3};
 
-    frc::DigitalOutput _light1{3};
-    frc::DigitalOutput _light2{4};
-    frc::DigitalOutput _light3{5};
+    frc::DigitalOutput _light1{4};
+    frc::DigitalOutput _light2{5};
+    frc::DigitalOutput _light3{6};
 
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
     double _desiredElevatorHeight = restingElevatorHeight;
