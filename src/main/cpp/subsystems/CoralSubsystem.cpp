@@ -8,7 +8,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <rev/config/SparkMaxConfig.h>
 
-CoralSubsystem::CoralSubsystem(){
+CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light{lights}{
+
     SparkMaxConfig _elevatorLeaderConfig;
     SparkMaxConfig _elevatorFollowerConfig;
     SparkMaxConfig _intakeTopConfig;
@@ -137,9 +138,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     frc::SmartDashboard::PutString("Periodic Running", "true");        
     frc::SmartDashboard::PutBoolean("_clawBB", _clawBB.Get()); 
     frc::SmartDashboard::PutNumber("_state", _state); 
-    frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
-    frc::SmartDashboard::PutBoolean("_light2", _light2.Get());
-    frc::SmartDashboard::PutBoolean("_light3", _light3.Get());
+
 
     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
     // _troughBB = frc::SmartDashboard::GetBoolean("Trough Beam Break", false);
@@ -166,7 +165,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
         case NO_CORAL:
 
-            LightsOff();
+            _light.LightsOff();
 
             if (!_clawBB.Get()){
                 _intakeTop.Set(0);
@@ -174,11 +173,9 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
             if (!_clawBB.Get()) {
                 // turn on intake
-                _light2.Set(false);
-                _light1.Set(true);
+
 
                 if (_clawBB.Get()){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
-                    _light1.Set(false);     // it goes to the state "FULL"
                     _state = YES_CORAL;
                 }
                 
@@ -189,7 +186,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
         case YES_CORAL:
 
-            RBSwap();
+            _light.RBSwap();
             
             if(_clawBB.Get()){
                 // turn intake off
@@ -202,37 +199,6 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     }
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
     frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
-}
-
-void CoralSubsystem::LightsOff() {
-    _light1.Set(false);
-    _light2.Set(false);
-    _light3.Set(false);
-}
-void CoralSubsystem::RBSwap() {
-    _light1.Set(true);
-    _light2.Set(false);
-    _light3.Set(false);
-}
-void CoralSubsystem::LightsPink() {
-    _light1.Set(false);
-    _light2.Set(true);
-    _light3.Set(false);
-}
-void CoralSubsystem::LightsCyan() {
-    _light1.Set(false);
-    _light2.Set(false);
-    _light3.Set(true);
-}
-void CoralSubsystem::PinkBlink() {
-    _light1.Set(true);
-    _light2.Set(true);
-    _light3.Set(false);
-}
-void CoralSubsystem::CyanBlink(){
-    _light1.Set(true);
-    _light2.Set(false);
-    _light3.Set(true);
 }
 
 frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
