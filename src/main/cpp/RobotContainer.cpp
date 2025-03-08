@@ -23,12 +23,26 @@ void RobotContainer::ConfigureBindings()
         drivetrain.ApplyRequest([this]() -> auto&& {
           units::volt_t value{(1 - 0.25) * DriveStick.GetRightTriggerAxis() + 0.25};
           units::volt_t outputMult = filter.Calculate(value);
+        
 
             return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
                 .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
                 .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
         })
     );
+
+    // drivetrain.SetDefaultCommand(
+    //     // Drivetrain will execute this command periodically
+    //     drivetrain.ApplyRequest([this]() -> auto&& {
+    //       units::volt_t value{(1 - 0.25) * DriveStick.GetLeftTriggerAxis() + 0.25};
+    //       units::volt_t outputMult = filter.Calculate(value);
+        
+
+    //         return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
+    //             .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
+    //             .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
+    //     })
+    // );
 
     // DriveStick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
     // DriveStick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
@@ -40,44 +54,44 @@ void RobotContainer::ConfigureBindings()
     //      }).ToPtr());
     
     AuxStick.POVUp().WhileTrue(frc2::InstantCommand([this]() -> void { // L1 Button
-          m_coralSubsystem.SetElevator(0);
-         }).ToPtr());
+            m_coralSubsystem.SetElevator(0);
+        }).ToPtr());
          
     AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-        m_coralSubsystem.SetElevator(9 + GravityoffsetIn);
-         }).ToPtr());
+            m_coralSubsystem.SetElevator(9 + GravityoffsetIn);
+        }).ToPtr());
 
     AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-         m_coralSubsystem.SetElevator(25 + GravityoffsetIn);
-         }).ToPtr());
+            m_coralSubsystem.SetElevator(25 + GravityoffsetIn);
+        }).ToPtr());
 
     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-         m_coralSubsystem.SetElevator(50.5 + GravityoffsetIn);
-         }).ToPtr());
+            m_coralSubsystem.SetElevator(50.5 + GravityoffsetIn);
+        }).ToPtr());
 
-    AuxStick.LeftTrigger().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator up
-         m_coralSubsystem.ManualElevator(0.5);
-         }).ToPtr());
+    AuxStick.RightTrigger().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator up
+            m_coralSubsystem.ManualElevator(1);
+        }).ToPtr());
 
-    AuxStick.RightTrigger().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator down
-        m_coralSubsystem.ManualElevator(-0.5);
-         }).ToPtr());
+    AuxStick.LeftTrigger().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator down
+            m_coralSubsystem.ManualElevator(-0.8);
+        }).ToPtr());
     
     AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
-        m_coralSubsystem.SetIntakeMotors(0.3);
-         }).ToPtr());
+            m_coralSubsystem.SetIntakeMotors(0.3);
+        }).ToPtr());
 
     AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Button off
-        m_coralSubsystem.SetIntakeMotors(0);
-         }).ToPtr());
+            m_coralSubsystem.SetIntakeMotors(0);
+        }).ToPtr());
     
     AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button on
-        m_coralSubsystem.SetIntakeMotors(-0.3);
-         }).ToPtr());
+            m_coralSubsystem.SetIntakeMotors(-0.3);
+        }).ToPtr());
 
     AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Button off
-        m_coralSubsystem.SetIntakeMotors(0);
-         }).ToPtr());
+            m_coralSubsystem.SetIntakeMotors(0);
+        }).ToPtr());
     
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.
