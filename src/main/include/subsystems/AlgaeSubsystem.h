@@ -31,17 +31,16 @@ class AlgaeSubsystem : public frc2::SubsystemBase {
     // algae arm
     SparkMax _algaeIntakeArm{algaeSubsystemConstants::CANIDAlgaeIntakeArm, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _algaeIntakeArmClosedLoopController = _algaeIntakeArm.GetClosedLoopController();
-    SparkRelativeEncoder _algaeIntakeArmEncoder = _algaeIntakeArm.GetEncoder();
+    SparkAbsoluteEncoder _algaeIntakeArmEncoder = _algaeIntakeArm.GetAbsoluteEncoder();
 
-    // intakeLeft
+    // intake
     SparkMax _algaeIntake{algaeSubsystemConstants::CANIDAlgaeIntake, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _algaeIntakeClosedLoopController = _algaeIntake.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _algaeIntakeEncoder = _algaeIntake.GetEncoder();
 
-    // intakeRight
+    // algae remover
     SparkMax _algaeRemover{algaeSubsystemConstants::CANIDAlgaeRemover, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _algaeRemoverClosedLoopController = _algaeRemover.GetClosedLoopController();
-    SparkRelativeEncoder _algaeRemoverEncoder = _algaeRemover.GetEncoder();
+    SparkAbsoluteEncoder _algaeRemoverEncoder = _algaeRemover.GetAbsoluteEncoder();
     
 
 };

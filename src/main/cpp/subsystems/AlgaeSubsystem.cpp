@@ -91,7 +91,7 @@ void AlgaeSubsystem::setAlgaeArm(double setIntakeArm){
     _algaeIntakeArmClosedLoopController.SetReference(intakeArmTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
-void AlgaeSubsystem::setAlgaeIntakeMotors(double algaeIntakeSpeed){ //algae intake arm intake/out
+void AlgaeSubsystem::setAlgaeIntakeMotors(double algaeIntakeSpeed){
     _algaeIntake.Set(algaeIntakeSpeed);
 }
 
@@ -105,5 +105,3 @@ void AlgaeSubsystem::setRemoverArm(double setFlipperArm){
     }
     _algaeRemoverClosedLoopController.SetReference(removerArmTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
-
-//algae removal arm movement
