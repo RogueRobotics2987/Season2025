@@ -36,6 +36,7 @@ namespace CoralSubsystemConstants {
     inline constexpr rev::spark::SparkMax::MotorType NeoMotorType = rev::spark::SparkMax::MotorType::kBrushless;
     inline constexpr int CANIdLeaderElevator = 21;
     inline constexpr int CANIdFollowerElevator = 20;
+    inline constexpr int CANIdClimber = 25;
     inline constexpr int CANIdTopIntake = 22;
     inline constexpr int CANIdAlgyArm = 27;
     // inline constexpr int CANIdClimber = 25;
