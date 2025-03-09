@@ -116,8 +116,10 @@ void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
 //     _desiredElevatorHeight = setElevatorHeight;
 // }
 
-void CoralSubsystem::SetClimber(double ClimberSpeed){
-    _climber.Set(ClimberSpeed);
+void CoralSubsystem::SetClimber(double ClimberPos){
+    climberTotal = ClimberPos;
+
+    _climberClosedLoopController.SetReference(climberTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
 double CoralSubsystem::GetDesiredElevatorHeight(){
