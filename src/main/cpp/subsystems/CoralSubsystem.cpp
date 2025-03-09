@@ -96,6 +96,7 @@ CoralSubsystem::CoralSubsystem(){
     _elevatorLeader.Configure(_elevatorLeaderConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _elevatorFollower.Configure(_elevatorFollowerConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeTop.Configure(_intakeTopConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    _climber.Configure(_climberConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     // _algyArm.Configure(_algyArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
     // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
