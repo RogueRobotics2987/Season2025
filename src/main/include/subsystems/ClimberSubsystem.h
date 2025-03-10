@@ -14,11 +14,10 @@ class ClimberSubsystem : public frc2::SubsystemBase {
  public:
   ClimberSubsystem();
 
-  // void SetClimber(double ClimberSpeed);
+  void SetClimber(double ClimberSpeed);
 
-  //   SparkMax _climber{CoralSubsystemConstants::CANIdClimber, SparkMax::MotorType::kBrushless};
-  //   SparkClosedLoopController _climberclosedLoopController = _climber.GetClosedLoopController();
-  //   SparkRelativeEncoder _climberencoder = _climber.GetEncoder();
+  SparkClosedLoopController _climberclosedLoopController = _climber.GetClosedLoopController();
+  SparkRelativeEncoder _climberencoder = _climber.GetEncoder();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

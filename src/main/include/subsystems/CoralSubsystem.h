@@ -31,7 +31,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
   void ManualElevator(double increaseHeight);
-  void SetClimber(double ClimberPos);
+  // void SetClimber(double ClimberPos);
   // void SetAlgyArm(double setAlgyArm);
 
   // void SetDesiredElevatorheight(double setElevatorHeight);
@@ -58,7 +58,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
     double elevatorOffset = 0;
     double elevatorTotal = 0;
 
-    double climberTotal = 0;
+    // double climberTotal = 0;
 
     // the motors on the robot
     
@@ -78,9 +78,9 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
 
     // climber
-    SparkMax _climber{CoralSubsystemConstants::CANIdClimber, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _climberClosedLoopController = _climber.GetClosedLoopController();
-    SparkRelativeEncoder _climberencoder = _climber.GetEncoder();
+    // SparkMax _climber{CoralSubsystemConstants::CANIdClimber, SparkMax::MotorType::kBrushless};
+    // SparkClosedLoopController _climberClosedLoopController = _climber.GetClosedLoopController();
+    // SparkRelativeEncoder _climberencoder = _climber.GetEncoder();
 
     // // intakeRight
     // SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};

@@ -103,11 +103,11 @@ void RobotContainer::ConfigureBindings()
                                    .ToPtr());
 
     AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetClimber(-0.1); })
+                                                   { m_climberSubsystem.SetClimber(0.3); })
                                   .ToPtr());
 
     AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void
-                                                    { m_coralSubsystem.SetClimber(0); })
+                                                    { m_climberSubsystem.SetClimber(0.3); })
                                    .ToPtr());
 
     // Run SysId routines when holding back/start and X/Y.
