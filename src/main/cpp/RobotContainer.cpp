@@ -85,17 +85,17 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                    .ToPtr());
 
     AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-                                      m_coralSubsystem.SetElevator(9 + GravityoffsetIn);
+                                      m_coralSubsystem.SetElevator(8 + GravityoffsetIn); // 9
                                   })
                                       .ToPtr());
 
     AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-                                     m_coralSubsystem.SetElevator(25 + GravityoffsetIn);
+                                     m_coralSubsystem.SetElevator(24 + GravityoffsetIn); // 25
                                  })
                                      .ToPtr());
 
     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-                                     m_coralSubsystem.SetElevator(50.5 + GravityoffsetIn);
+                                     m_coralSubsystem.SetElevator(49.5 + GravityoffsetIn); // 50.5
                                  })
                                      .ToPtr());
 
