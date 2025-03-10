@@ -54,6 +54,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
     int ElevatorLevel = 0;
     double elevatorOffset = 0;
     double elevatorTotal = 0;
+    int intakeDelayCount = 0;
 
     // double climberTotal = 0;
 

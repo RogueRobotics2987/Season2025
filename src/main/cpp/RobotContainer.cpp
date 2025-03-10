@@ -83,7 +83,7 @@ void RobotContainer::ConfigureBindings()
                                          .ToPtr());
 
     AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
-                               m_coralSubsystem.SetIntakeMotors(0.3);
+                               m_coralSubsystem.SetIntakeMotors(0.6);
                            })
                                .ToPtr());
 
@@ -93,7 +93,7 @@ void RobotContainer::ConfigureBindings()
                                    .ToPtr());
 
     AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button on
-                                  m_coralSubsystem.SetIntakeMotors(-0.3);
+                                  m_coralSubsystem.SetIntakeMotors(-0.6);
                               })
                                   .ToPtr());
 

@@ -158,7 +158,6 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             _elevatorLeader.GetEncoder().SetPosition(0);
             _elevatorFollower.GetEncoder().SetPosition(0);
             _state = NO_CORAL;
-
             break;
 
         case NO_CORAL:
@@ -166,7 +165,11 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             LightsOff();
 
             if (!_clawBB.Get()){
-                _intakeTop.Set(0);
+                if (intakeDelayCount == 20) {
+                    intakeDelayCount = 0;
+                    _intakeTop.Set(0);
+                }
+                intakeDelayCount++;
             }
 
             if (!_clawBB.Get()) {
