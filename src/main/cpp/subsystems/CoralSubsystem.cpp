@@ -165,26 +165,19 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             LightsOff();
 
             if (!_clawBB.Get()){
-                if (intakeDelayCount == 20) {
-                    intakeDelayCount = 0;
+                frc::SmartDashboard::PutNumber("_state", _state);
+                if (_intakeDelayCount >= 20) {
                     _intakeTop.Set(0);
-                }
-                intakeDelayCount++;
-            }
+                    _intakeDelayCount = 0;
 
-            if (!_clawBB.Get()) {
-                // turn on intake
-                _light2.Set(false);
-                _light1.Set(true);
-
-                if (_clawBB.Get()){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
-                    _light1.Set(false);     // it goes to the state "FULL"
+                    _light2.Set(false);
+                    _light1.Set(true);
+                    coralLoaded = true;
+                    coralPlace = true;
                     _state = YES_CORAL;
                 }
-                
-                coralLoaded = true;
-                coralPlace = true;
-                _state = YES_CORAL;
+
+                _intakeDelayCount++;
             }
 
             break;
