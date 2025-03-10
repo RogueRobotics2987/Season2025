@@ -6,15 +6,42 @@
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/CommandPtr.h>
+#include <frc2/command/Command.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
+#include <pathplanner/lib/path/PathPlannerPath.h>
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <memory> 
 
+using namespace pathplanner;
+     
 RobotContainer::RobotContainer()
 {
+    NamedCommands::registerCommand("PlaceCMD", std::move(PlaceCMD(m_coralSubsystem).ToPtr())); //NEEDS TO BE ABOVE CHOOSER
+    NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
+    NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
+    NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
+
+    
+
+    // Initialize all of your commands and subsystems here
+    m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests"); //change name
+    frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
+
+
+
+    //public:
+
+    // Configure the button bindings
     ConfigureBindings();
 }
 
-void RobotContainer::ConfigureBindings()
+void RobotContainer::ConfigureBindings() // more needs to be added somewhere in here *look at GIT for what
 {
 
     // Note that X is defined as forward according to WPILib convention,
@@ -43,10 +70,10 @@ void RobotContainer::ConfigureBindings()
     //     })
     // );
 
-    // DriveStick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
-    // DriveStick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
-    //     return point.WithModuleDirection(frc::Rotation2d{-DriveStick.GetLeftY(), -DriveStick.GetLeftX()});
-    // }));
+    DriveStick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
+    DriveStick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
+        return point.WithModuleDirection(frc::Rotation2d{-DriveStick.GetLeftY(), -DriveStick.GetLeftX()});
+    }));
     // DriveStick.POVUp().WhileTrue(m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height));
     // DriveStick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
     //      m_coralSubsystem.ResetState();
@@ -121,11 +148,12 @@ void RobotContainer::ConfigureBindings()
     DriveStick.LeftBumper().OnTrue(drivetrain.RunOnce([this]
                                                       { drivetrain.SeedFieldCentric(); }));
 
-    drivetrain.RegisterTelemetry([this](auto const &state)
-                                 { logger.Telemeterize(state); });
+    drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
+    drivetrain.GetState().Pose;
 }
 
-frc2::CommandPtr RobotContainer::GetAutonomousCommand()
+frc2::Command* RobotContainer::GetAutonomousCommand()
 {
-    return frc2::cmd::Print("No autonomous command configured");
+   return m_chooser.GetSelected(); //*m_chooser compiles when this is not being returned
+
 }

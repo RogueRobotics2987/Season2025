@@ -39,7 +39,7 @@ class TunerConstants {
     static constexpr swerve::SteerMotorArrangement kSteerMotorType = swerve::SteerMotorArrangement::TalonFX_Integrated;
 
     // The remote sensor feedback type to use for the steer motors;
-    // When not Pro-licensed, Fused*/Sync* automatically fall back to Remote*
+    // When not Pro-licensed, FusedCANcoder/SyncCANcoder automatically fall back to RemoteCANcoder
     static constexpr swerve::SteerFeedbackType kSteerFeedbackType = swerve::SteerFeedbackType::FusedCANcoder;
 
     // The stator current at which the wheels start to slip;
@@ -57,7 +57,6 @@ class TunerConstants {
                 .WithStatorCurrentLimit(60_A)
                 .WithStatorCurrentLimitEnable(true)
         );
-
     static constexpr configs::CANcoderConfiguration encoderInitialConfigs{};
     // Configs for the Pigeon 2; leave this nullopt to skip applying Pigeon 2 configs
     static constexpr std::optional<configs::Pigeon2Configuration> pigeonConfigs = std::nullopt;
@@ -71,14 +70,14 @@ public:
 
     // Theoretical free speed (m/s) at 12 V applied output;
     // This needs to be tuned to your individual robot
-    static constexpr units::meters_per_second_t kSpeedAt12Volts = 5.21_mps;
+    static constexpr units::meters_per_second_t kSpeedAt12Volts = 4.73_mps;
 
 private:
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
     static constexpr units::scalar_t kCoupleRatio = 3.5714285714285716;
 
-    static constexpr units::scalar_t kDriveGearRatio = 6.122448979591837;
+    static constexpr units::scalar_t kDriveGearRatio = 6.746031746031747;
     static constexpr units::scalar_t kSteerGearRatio = 21.428571428571427;
     static constexpr units::inch_t kWheelRadius = 2_in;
 
