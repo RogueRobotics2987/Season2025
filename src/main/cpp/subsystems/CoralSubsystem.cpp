@@ -117,7 +117,7 @@ void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
 // }
 
 void CoralSubsystem::SetClimber(double ClimberPos){
-    climberTotal = ClimberPos;
+    climberTotal = climberTotal + ClimberPos;
 
     _climberClosedLoopController.SetReference(climberTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
