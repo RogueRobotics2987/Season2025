@@ -1,7 +1,47 @@
 #include "subsystems/CommandSwerveDrivetrain.h"
+#include <networktables/DoubleArrayTopic.h>
+#include <networktables/NetworkTableInstance.h>
 #include <frc/RobotController.h>
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <pathplanner/lib/config/RobotConfig.h>
+#include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
+#include <frc/geometry/Pose2d.h>
+#include <frc/kinematics/ChassisSpeeds.h>
+#include <frc/DriverStation.h>
+// #include <frc/smartdashboard/SmartDashboard.h> //why???
+#include <iostream>
 
+using namespace pathplanner;
 using namespace subsystems;
+
+void CommandSwerveDrivetrain::ConfigureAutoBuilder(){
+    auto config = pathplanner::RobotConfig::fromGUISettings();
+    pathplanner::AutoBuilder::configure(
+        [this] {return GetState().Pose; },
+        [this] (frc::Pose2d const &pose) {return ResetPose(pose); },
+        [this] {return GetState().Speeds; },
+        [this](frc::ChassisSpeeds const &speeds, pathplanner::DriveFeedforwards const &feedforwards) {
+            return SetControl(
+                m_pathApplyRobotSpeeds.WithSpeeds(speeds)
+                    .WithWheelForceFeedforwardsX(feedforwards.robotRelativeForcesX)
+                    .WithWheelForceFeedforwardsY(feedforwards.robotRelativeForcesY)
+            );
+        },
+        std::make_shared<pathplanner::PPHolonomicDriveController>(
+            // PID constants for translation
+            pathplanner::PIDConstants{10.0, 0.0, 0.0},
+            // PID constants for rotation
+            pathplanner::PIDConstants{7.0, 0.0, 0.0}
+        ),
+        std::move(config),
+        // Assume the path needs to be flipped for Red vs Blue, this is normally the case
+        [] {
+            auto const alliance = frc::DriverStation::GetAlliance().value_or(frc::DriverStation::Alliance::kBlue);
+            return alliance == frc::DriverStation::Alliance::kRed;
+        },
+        this // Subsystem for requirements
+    );
+}
 
 void CommandSwerveDrivetrain::Periodic()
 {

@@ -33,7 +33,7 @@ CoralSubsystem::CoralSubsystem(){
       .P(0.02) // 0.01
       .I(0) // .I(0.000005)
       .D(0)
-      .OutputRange(-0.2, 1)
+      .OutputRange(-0.4, 1)
       ;
 
     _elevatorFollowerConfig.closedLoop
@@ -43,7 +43,7 @@ CoralSubsystem::CoralSubsystem(){
       .P(0.02)
       .I(0)
       .D(0)
-      .OutputRange(-0.2, 1);
+      .OutputRange(-0.4, 1);
 
     _intakeTopConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
@@ -182,6 +182,8 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                     _state = YES_CORAL;
                 }
                 
+                coralLoaded = true;
+                coralPlace = true;
                 _state = YES_CORAL;
             }
 
@@ -193,6 +195,8 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             
             if(_clawBB.Get()){
                 // turn intake off
+                coralLoaded = false;
+                coralPlace = false;
                 _state = NO_CORAL;
             }
             break;

@@ -56,7 +56,8 @@ class CoralSubsystem : public frc2::SubsystemBase {
     double elevatorTotal = 0;
     int intakeDelayCount = 0;
 
-    // double climberTotal = 0;
+    bool coralLoaded = false;
+    bool coralPlace = false;
 
     // the motors on the robot
     
@@ -74,11 +75,6 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkMax _intakeTop{CoralSubsystemConstants::CANIdTopIntake, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _intakeTopClosedLoopController = _intakeTop.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
-
-    // climber
-    // SparkMax _climber{CoralSubsystemConstants::CANIdClimber, SparkMax::MotorType::kBrushless};
-    // SparkClosedLoopController _climberClosedLoopController = _climber.GetClosedLoopController();
-    // SparkRelativeEncoder _climberencoder = _climber.GetEncoder();
 
     // // intakeRight
     SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
