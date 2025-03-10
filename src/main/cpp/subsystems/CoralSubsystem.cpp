@@ -12,22 +12,22 @@ CoralSubsystem::CoralSubsystem(){
     SparkMaxConfig _elevatorLeaderConfig;
     SparkMaxConfig _elevatorFollowerConfig;
     SparkMaxConfig _intakeTopConfig;
-    SparkMaxConfig _climberConfig;
-    // SparkMaxConfig _algyArmConfig;
+    // SparkMaxConfig _climberConfig;
+    SparkMaxConfig _algyArmConfig;
 
     _elevatorFollowerConfig.Follow(_elevatorLeader);
 
     _elevatorLeaderConfig.encoder.PositionConversionFactor(2.2167).VelocityConversionFactor(1); // 0, 16 inches | 12.857, 44.5 inches | 2.2167 conversation
     _elevatorFollowerConfig.encoder.PositionConversionFactor(2.2167).VelocityConversionFactor(1);
     _intakeTopConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    _climberConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    // _algyArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    // _climberConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    _algyArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
 
     _elevatorLeaderConfig.SmartCurrentLimit(50);
     _elevatorFollowerConfig.SmartCurrentLimit(50);
     _intakeTopConfig.SmartCurrentLimit(50);
-    _climberConfig.SmartCurrentLimit(50);
-    // _algyArmConfig.SmartCurrentLimit(50);
+    // _climberConfig.SmartCurrentLimit(50);
+    _algyArmConfig.SmartCurrentLimit(50);
 
     _elevatorLeaderConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
@@ -36,7 +36,7 @@ CoralSubsystem::CoralSubsystem(){
       .P(0.02) // 0.01
       .I(0) // .I(0.000005)
       .D(0)
-      .OutputRange(-0.2, 1)
+      .OutputRange(-0.4, 1)
       ;
 
     _elevatorFollowerConfig.closedLoop
@@ -46,7 +46,7 @@ CoralSubsystem::CoralSubsystem(){
       .P(0.02)
       .I(0)
       .D(0)
-      .OutputRange(-0.2, 1);
+      .OutputRange(-0.4, 1);
 
     _intakeTopConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
@@ -63,41 +63,41 @@ CoralSubsystem::CoralSubsystem(){
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
-      _climberConfig.closedLoop
-       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
-       // Set PID values for position control. We don't need to pass a closed
-       // loop slot, as it will default to slot 0.
-       .P(0.5)
-       .I(0)
-       .D(0)
-       .OutputRange(-1, 1)
-       // Set PID values for velocity control in slot 1
-       .P(0.0001, ClosedLoopSlot::kSlot1)
-       .I(0, ClosedLoopSlot::kSlot1)
-       .D(0, ClosedLoopSlot::kSlot1)
-       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
-       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
+    //   _climberConfig.closedLoop
+    //    .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
+    //    // Set PID values for position control. We don't need to pass a closed
+    //    // loop slot, as it will default to slot 0.
+    //    .P(0.5)
+    //    .I(0)
+    //    .D(0)
+    //    .OutputRange(-1, 1)
+    //    // Set PID values for velocity control in slot 1
+    //    .P(0.0001, ClosedLoopSlot::kSlot1)
+    //    .I(0, ClosedLoopSlot::kSlot1)
+    //    .D(0, ClosedLoopSlot::kSlot1)
+    //    .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
+    //    .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
-    // _algyArmConfig.closedLoop
-    //   .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
-    //   // Set PID values for position control. We don't need to pass a closed
-    //   // loop slot, as it will default to slot 0.
-    //   .P(0.01)
-    //   .I(0)
-    //   .D(0)
-    //   .OutputRange(-1, 1)
-    //   // Set PID values for velocity control in slot 1
-    //   .P(0.0001, ClosedLoopSlot::kSlot1)
-    //   .I(0, ClosedLoopSlot::kSlot1)
-    //   .D(0, ClosedLoopSlot::kSlot1)
-    //   .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
-    //   .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
+    _algyArmConfig.closedLoop
+      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
+      // Set PID values for position control. We don't need to pass a closed
+      // loop slot, as it will default to slot 0.
+      .P(0.01)
+      .I(0)
+      .D(0)
+      .OutputRange(-1, 1)
+      // Set PID values for velocity control in slot 1
+      .P(0.0001, ClosedLoopSlot::kSlot1)
+      .I(0, ClosedLoopSlot::kSlot1)
+      .D(0, ClosedLoopSlot::kSlot1)
+      .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
+      .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
     _elevatorLeader.Configure(_elevatorLeaderConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _elevatorFollower.Configure(_elevatorFollowerConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeTop.Configure(_intakeTopConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
-    _climber.Configure(_climberConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
-    // _algyArm.Configure(_algyArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    // _climber.Configure(_climberConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    _algyArm.Configure(_algyArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
 
     // _funnelBB = frc::SmartDashboard::SetDefaultBoolean("Funnel Beam Break", false);
     // _clawBB = frc::SmartDashboard::SetDefaultBoolean("Claw Beam Break", false);
@@ -108,19 +108,19 @@ void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     // _intakeRight.Set(intakeSpeed);
 }
 
-// void CoralSubsystem::SetAlgyArm(double setAlgyArm){
-//     _AlgyArmClosedLoopController.SetReference(setAlgyArm, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-// }
+void CoralSubsystem::SetAlgyArm(double setAlgyArm){
+    _algyArmClosedLoopController.SetReference(setAlgyArm, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+}
 
 // void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
 //     _desiredElevatorHeight = setElevatorHeight;
 // }
 
-void CoralSubsystem::SetClimber(double ClimberPos){
-    climberTotal = climberTotal + ClimberPos;
+// void CoralSubsystem::SetClimber(double ClimberPos){
+//     climberTotal = climberTotal + ClimberPos;
 
-    _climberClosedLoopController.SetReference(climberTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
-}
+//     _climberClosedLoopController.SetReference(climberTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+// }
 
 double CoralSubsystem::GetDesiredElevatorHeight(){
     return _desiredElevatorHeight;
