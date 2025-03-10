@@ -129,13 +129,13 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                })
                                    .ToPtr());
 
-    AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetClimber(-0.1); })
-                                  .ToPtr());
+    // AuxStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+    //                                                { m_coralSubsystem.SetClimber(-0.1); })
+    //                               .ToPtr());
 
-    AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void
-                                                    { m_coralSubsystem.SetClimber(0); })
-                                   .ToPtr());
+    // AuxStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+    //                                                 { m_coralSubsystem.SetClimber(0); })
+    //                                .ToPtr());
 
     // Run SysId routines when holding back/start and X/Y.
     // Note that each routine should be run exactly once in a single log.

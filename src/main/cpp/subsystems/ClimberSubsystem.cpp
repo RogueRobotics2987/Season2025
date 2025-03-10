@@ -6,7 +6,7 @@
 #include <rev/config/SparkMaxConfig.h>
 #include "Constants.h"
 
-ClimberSubsystem::ClimberSubsystem() = default;
+ClimberSubsystem::ClimberSubsystem() {
 
     // SparkMaxConfig _climberConfig;
 
@@ -27,7 +27,7 @@ ClimberSubsystem::ClimberSubsystem() = default;
     //    .D(0, ClosedLoopSlot::kSlot1)
     //    .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
     //    .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
-
+}
 // This method will be called once per scheduler run
 void ClimberSubsystem::Periodic() {}
 // void ClimberSubsystem::SetClimber(double ClimberSpeed){
