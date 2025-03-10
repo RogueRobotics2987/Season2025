@@ -7,19 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z2_Face_G-H"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PoseL4CMD"
+            "pathName": "Z1_Face_K-L"
           }
         },
         {
@@ -31,7 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "PlaceCMD"
+            "name": "PoseL4CMD"
           }
         },
         {
@@ -43,7 +31,25 @@
         {
           "type": "named",
           "data": {
+            "name": "PlaceCMD"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "PoseL1CMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face_K-L_S1"
           }
         }
       ]
