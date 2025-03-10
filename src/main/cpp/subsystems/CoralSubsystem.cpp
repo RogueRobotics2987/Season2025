@@ -30,7 +30,7 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.02) // 0.01
+      .P(0.03) // 0.01
       .I(0) // .I(0.000005)
       .D(0)
       .OutputRange(-0.4, 1)
@@ -40,7 +40,7 @@ CoralSubsystem::CoralSubsystem(){
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .P(0.02)
+      .P(0.03)
       .I(0)
       .D(0)
       .OutputRange(-0.4, 1);
