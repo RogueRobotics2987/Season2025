@@ -27,6 +27,8 @@ ClimberSubsystem::ClimberSubsystem() {
        .D(0, ClosedLoopSlot::kSlot1)
        .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
        .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
+
+    SetClimber(0);
 }
 
 // This method will be called once per scheduler run
