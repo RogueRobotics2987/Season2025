@@ -82,8 +82,6 @@ class CoralSubsystem : public frc2::SubsystemBase {
     // frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawBB{3};
 
-
-
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
     double _desiredElevatorHeight = restingElevatorHeight;
 

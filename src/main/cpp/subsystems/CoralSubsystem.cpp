@@ -34,7 +34,7 @@ CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light{lights}{
       .P(0.02) // 0.01
       .I(0) // .I(0.000005)
       .D(0)
-      .OutputRange(-0.1, 1)
+      .OutputRange(-0.2, 1)
       ;
 
     _elevatorFollowerConfig.closedLoop
@@ -44,7 +44,7 @@ CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light{lights}{
       .P(0.02)
       .I(0)
       .D(0)
-      .OutputRange(-0.1, 1);
+      .OutputRange(-0.2, 1);
 
     _intakeTopConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
