@@ -69,9 +69,9 @@ CoralSubsystem::CoralSubsystem(){
       .D(0)
       .OutputRange(-1, 1)
       // Set PID values for velocity control in slot 1
-      .P(0.0001, ClosedLoopSlot::kSlot1)
-      .I(0, ClosedLoopSlot::kSlot1)
-      .D(0, ClosedLoopSlot::kSlot1)
+      .P(0.0001, ClosedLoopSlot::kSlot0)
+      .I(0, ClosedLoopSlot::kSlot0)
+      .D(0, ClosedLoopSlot::kSlot0)
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
@@ -79,6 +79,7 @@ CoralSubsystem::CoralSubsystem(){
     _elevatorFollower.Configure(_elevatorFollowerConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeTop.Configure(_intakeTopConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _algyArm.Configure(_algyArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    SetAlgyArm(0.38);
 } 
 
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
@@ -86,8 +87,8 @@ void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     // _intakeRight.Set(intakeSpeed);
 }
 
-void CoralSubsystem::SetAlgyArm(double algyPower){
-     _algyArm.Set(algyPower);
+void CoralSubsystem::SetAlgyArm(double algyPose){
+     _AlgyArmClosedLoopController.SetReference(algyPose, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
 // void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
