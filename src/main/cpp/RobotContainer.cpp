@@ -7,6 +7,7 @@
 #include "subsystems/ClimberSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
+
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
@@ -129,8 +130,18 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                })
                                    .ToPtr());
 
+    DriveStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(-0.5); })
     AuxStick.Y().OnTrue(frc2::InstantCommand([this]() -> void
                                                    { m_coralSubsystem.SetAlgyArm(0.5); })
+                                  .ToPtr());
+
+    DriveStick.Y().OnFalse(frc2::InstantCommand([this]() -> void
+                                                   { m_coralSubsystem.SetAlgyArm(0); })
+                                  .ToPtr());
+
+    AuxStick.Y().OnTrue(frc2::InstantCommand([this]() -> void
+                                                   { m_coralSubsystem.SetAlgyArm(0.1); })
                                   .ToPtr());
 
     AuxStick.Y().OnFalse(frc2::InstantCommand([this]() -> void
@@ -138,7 +149,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                   .ToPtr());
 
     AuxStick.X().OnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetAlgyArm(-0.5); })
+                                                   { m_coralSubsystem.SetAlgyArm(-0.1); })
                                   .ToPtr());
 
     AuxStick.X().OnFalse(frc2::InstantCommand([this]() -> void
