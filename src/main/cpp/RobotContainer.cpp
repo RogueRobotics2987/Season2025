@@ -7,6 +7,7 @@
 #include "subsystems/ClimberSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
+
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
@@ -129,20 +130,28 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                })
                                    .ToPtr());
 
-    AuxStick.Y().OnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetAlgyArm(0.2); })
-                                  .ToPtr());
+    DriveStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(-0.5); })
+                                    .ToPtr());
 
-    AuxStick.Y().OnFalse(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetAlgyArm(0); })
-                                  .ToPtr());
+    DriveStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(0); })
+                                    .ToPtr());                                    
 
     AuxStick.X().OnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetAlgyArm(-0.2); })
+                                                   { m_coralSubsystem.SetAlgyArm(0.14); })
                                   .ToPtr());
 
-    AuxStick.X().OnFalse(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetAlgyArm(0); })
+    AuxStick.Y().OnTrue(frc2::InstantCommand([this]() -> void
+                                                   { m_coralSubsystem.SetAlgyArm(0.38); })
+                                  .ToPtr());
+
+    DriveStick.Start().OnTrue(frc2::InstantCommand([this]() -> void
+                                                        { m_coralSubsystem.SetFunnelPin(0.1);})
+                                  .ToPtr());
+                                  
+    DriveStick.Start().OnFalse(frc2::InstantCommand([this]() -> void
+                                                        { m_coralSubsystem.SetFunnelPin(0);})
                                   .ToPtr());
 
     // Run SysId routines when holding back/start and X/Y.
