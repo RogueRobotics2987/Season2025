@@ -13,6 +13,7 @@ CoralSubsystem::CoralSubsystem(){
     SparkMaxConfig _elevatorFollowerConfig;
     SparkMaxConfig _intakeTopConfig;
     SparkMaxConfig _algyArmConfig;
+    SparkMaxConfig _funnelPinConfig;
 
     _elevatorFollowerConfig.Follow(_elevatorLeader);
 
@@ -20,8 +21,9 @@ CoralSubsystem::CoralSubsystem(){
     _elevatorFollowerConfig.encoder.PositionConversionFactor(2.2167).VelocityConversionFactor(1);
     _intakeTopConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _algyArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-    //_grabberArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
-
+    _funnelPinConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    
+    _funnelPinConfig.SmartCurrentLimit(50);
     _elevatorLeaderConfig.SmartCurrentLimit(50);
     _elevatorFollowerConfig.SmartCurrentLimit(50);
     _intakeTopConfig.SmartCurrentLimit(50);
@@ -64,18 +66,40 @@ CoralSubsystem::CoralSubsystem(){
 
     _algyArmConfig.closedLoop
        .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
-       .P(1.5)
+       .P(2)
        .I(0)
        .D(0)
        .OutputRange(-1, 1);
+     
+     _funnelPinConfig.closedLoop
+       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
+       // Set PID values for position control. We don't need to pass a closed
+       // loop slot, as it will default to slot 0.
+       .P(0.5)
+       .I(0)
+       .D(0)
+       .OutputRange(-1, 1)
+       // Set PID values for velocity control in slot 1
+       .P(0.0001, ClosedLoopSlot::kSlot1)
+       .I(0, ClosedLoopSlot::kSlot1)
+       .D(0, ClosedLoopSlot::kSlot1)
+       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
+       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
     _elevatorLeader.Configure(_elevatorLeaderConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _elevatorFollower.Configure(_elevatorFollowerConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _intakeTop.Configure(_intakeTopConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _algyArm.Configure(_algyArmConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    _funnelPin.Configure(_funnelPinConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
+    
+    SetFunnelPin(0);
     SetAlgyArm(0.38);
 } 
 
+void CoralSubsystem::SetFunnelPin(double funnelPinSpeed){
+    frc::SmartDashboard::PutNumber("Funnel Pin Speed: ", funnelPinSpeed);
+    _funnelPin.Set(funnelPinSpeed);
+}
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     _intakeTop.Set(-intakeSpeed);
     // _intakeRight.Set(intakeSpeed);

@@ -32,6 +32,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void IncrementOffsets(double offsetElevator);
   void ManualElevator(double increaseHeight);
   void SetAlgyArm(double algyPose);
+  void SetFunnelPin(double funnelPinSpeed);
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
@@ -79,9 +80,10 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
     SparkAbsoluteEncoder _algyArmEncoder = _algyArm.GetAbsoluteEncoder();
-    //  SparkMax _grabberArm{CoralSubsystemConstants::CANIdGrabberArm, SparkMax::MotorType::kBrushless};
-    //  SparkClosedLoopController _grabberArmclosedLoopController = _grabberArm.GetClosedLoopController();
-    //  SparkAbsoluteEncoder _grabberArmencoder = _grabberArm.GetAbsoluteEncoder();
+    
+    SparkMax _funnelPin{CoralSubsystemConstants::CANIdFunnelPin, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _funnelPinclosedLoopController = _funnelPin.GetClosedLoopController();
+    SparkRelativeEncoder _funnelPinencoder = _funnelPin.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
