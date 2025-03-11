@@ -31,10 +31,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
   void ManualElevator(double increaseHeight);
-  // void SetClimber(double ClimberPos);
-  // void SetAlgyArm(double setAlgyArm);
-
-  // void SetDesiredElevatorheight(double setElevatorHeight);
+  void SetAlgyArm(double setAlgyArm);
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
@@ -57,8 +54,10 @@ class CoralSubsystem : public frc2::SubsystemBase {
     int ElevatorLevel = 0;
     double elevatorOffset = 0;
     double elevatorTotal = 0;
+    int _intakeDelayCount = 0;
 
-    // double climberTotal = 0;
+    bool coralLoaded = false;
+    bool coralPlace = false;
 
     // the motors on the robot
     
@@ -77,15 +76,10 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkClosedLoopController _intakeTopClosedLoopController = _intakeTop.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
 
-    // climber
-    // SparkMax _climber{CoralSubsystemConstants::CANIdClimber, SparkMax::MotorType::kBrushless};
-    // SparkClosedLoopController _climberClosedLoopController = _climber.GetClosedLoopController();
-    // SparkRelativeEncoder _climberencoder = _climber.GetEncoder();
-
     // // intakeRight
-    // SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
-    // SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
-    // SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
+    SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
+    SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
