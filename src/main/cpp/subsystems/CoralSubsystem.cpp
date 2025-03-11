@@ -20,6 +20,7 @@ CoralSubsystem::CoralSubsystem(){
     _elevatorFollowerConfig.encoder.PositionConversionFactor(2.2167).VelocityConversionFactor(1);
     _intakeTopConfig.encoder.PositionConversionFactor(1).VelocityConversionFactor(1);
     _algyArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
+    //_grabberArmConfig.absoluteEncoder.PositionConversionFactor(1).VelocityConversionFactor(1);
 
     _elevatorLeaderConfig.SmartCurrentLimit(50);
     _elevatorFollowerConfig.SmartCurrentLimit(50);
@@ -60,20 +61,13 @@ CoralSubsystem::CoralSubsystem(){
       .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
       .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
 
+
     _algyArmConfig.closedLoop
-      .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
-      // Set PID values for position control. We don't need to pass a closed
-      // loop slot, as it will default to slot 0.
-      .P(0.01)
-      .I(0)
-      .D(0)
-      .OutputRange(-1, 1)
-      // Set PID values for velocity control in slot 1
-      .P(0.0001, ClosedLoopSlot::kSlot0)
-      .I(0, ClosedLoopSlot::kSlot0)
-      .D(0, ClosedLoopSlot::kSlot0)
-      .VelocityFF(1.0 / 5767, ClosedLoopSlot::kSlot1)
-      .OutputRange(-1, 1, ClosedLoopSlot::kSlot1);
+       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
+       .P(1.5)
+       .I(0)
+       .D(0)
+       .OutputRange(-1, 1);
 
     _elevatorLeader.Configure(_elevatorLeaderConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
     _elevatorFollower.Configure(_elevatorFollowerConfig, SparkBase::ResetMode::kResetSafeParameters, SparkBase::PersistMode::kPersistParameters);
@@ -88,6 +82,7 @@ void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
 }
 
 void CoralSubsystem::SetAlgyArm(double algyPose){
+    frc::SmartDashboard::PutNumber("Algy Pose: ", algyPose);
      _AlgyArmClosedLoopController.SetReference(algyPose, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 

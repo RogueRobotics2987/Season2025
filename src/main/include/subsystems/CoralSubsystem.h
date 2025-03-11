@@ -76,10 +76,12 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkClosedLoopController _intakeTopClosedLoopController = _intakeTop.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
 
-    // // intakeRight
     SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
-    SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
+    SparkAbsoluteEncoder _algyArmEncoder = _algyArm.GetAbsoluteEncoder();
+    //  SparkMax _grabberArm{CoralSubsystemConstants::CANIdGrabberArm, SparkMax::MotorType::kBrushless};
+    //  SparkClosedLoopController _grabberArmclosedLoopController = _grabberArm.GetClosedLoopController();
+    //  SparkAbsoluteEncoder _grabberArmencoder = _grabberArm.GetAbsoluteEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
