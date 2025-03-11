@@ -85,17 +85,17 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                    .ToPtr());
 
     AuxStick.POVRight().WhileTrue(frc2::InstantCommand([this]() -> void { // L2 Button
-                                      m_coralSubsystem.SetElevator(8 + GravityoffsetIn); // 9
+                                      m_coralSubsystem.SetElevator(7 + GravityoffsetIn); // 9
                                   })
                                       .ToPtr());
 
     AuxStick.POVDown().WhileTrue(frc2::InstantCommand([this]() -> void { // L3 Button
-                                     m_coralSubsystem.SetElevator(24 + GravityoffsetIn); // 25
+                                     m_coralSubsystem.SetElevator(23 + GravityoffsetIn); // 25
                                  })
                                      .ToPtr());
 
     AuxStick.POVLeft().WhileTrue(frc2::InstantCommand([this]() -> void { // L4 Button
-                                     m_coralSubsystem.SetElevator(49.5 + GravityoffsetIn); // 50.5
+                                     m_coralSubsystem.SetElevator(48.5 + GravityoffsetIn); // 50.5
                                  })
                                      .ToPtr());
 
@@ -130,7 +130,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                    .ToPtr());
 
     AuxStick.Y().OnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetAlgyArm(0.5); })
+                                                   { m_coralSubsystem.SetAlgyArm(0.2); })
                                   .ToPtr());
 
     AuxStick.Y().OnFalse(frc2::InstantCommand([this]() -> void
@@ -138,7 +138,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                   .ToPtr());
 
     AuxStick.X().OnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetAlgyArm(-0.5); })
+                                                   { m_coralSubsystem.SetAlgyArm(-0.2); })
                                   .ToPtr());
 
     AuxStick.X().OnFalse(frc2::InstantCommand([this]() -> void

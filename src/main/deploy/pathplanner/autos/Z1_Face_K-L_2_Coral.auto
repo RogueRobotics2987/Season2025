@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L_2_Coral"
+            "pathName": "Z1_Face_K-L"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.25
           }
         },
         {
@@ -37,7 +37,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.25
+            "waitTime": 0.5
           }
         },
         {
@@ -49,13 +49,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Face_K-L_S1_2_Coral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "pathName": "Face_K-L_S1"
           }
         },
         {
@@ -67,13 +61,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1_Face_K-L"
+            "pathName": "S1_Face_K-L_2_Coral"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.25
           }
         },
         {
