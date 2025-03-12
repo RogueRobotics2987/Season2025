@@ -138,13 +138,33 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                                    { m_climberSubsystem.SetClimber(0); })
                                     .ToPtr());                                    
 
+    AuxStick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(-0.5); })
+                                    .ToPtr());
+
+    AuxStick.RightBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(0); })
+                                    .ToPtr());                                    
+
     AuxStick.X().OnTrue(frc2::InstantCommand([this]() -> void
                                                    { m_coralSubsystem.SetAlgyArm(0.14); })
                                   .ToPtr());
 
-    AuxStick.Y().OnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_coralSubsystem.SetAlgyArm(0.38); })
+    AuxStick.Y().WhileTrue(frc2::RunCommand([this]() -> void
+                                                   { m_coralSubsystem.SetAlgyArmManual(0.005); })
                                   .ToPtr());
+
+    AuxStick.Y().WhileFalse(frc2::RunCommand([this]() -> void
+                                                   { m_coralSubsystem.SetAlgyArmManual(0); })
+                                  .ToPtr());
+
+    // AuxStick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+    //                                                { m_coralSubsystem.SetAlgyArmManual(0.2); })
+    //                                 .ToPtr());
+
+    // AuxStick.RightBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+    //                                                { m_coralSubsystem.SetAlgyArmManual(0); })
+    //                                 .ToPtr());        
 
     DriveStick.Start().OnTrue(frc2::InstantCommand([this]() -> void
                                                         { m_coralSubsystem.SetFunnelPin(0.1);})

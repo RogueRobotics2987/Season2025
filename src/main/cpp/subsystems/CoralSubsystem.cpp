@@ -36,7 +36,7 @@ CoralSubsystem::CoralSubsystem(){
       .P(0.03) // 0.01
       .I(0) // .I(0.000005)
       .D(0)
-      .OutputRange(-0.4, 1)
+      .OutputRange(-0.3, 1)
       ;
 
     _elevatorFollowerConfig.closedLoop
@@ -46,7 +46,7 @@ CoralSubsystem::CoralSubsystem(){
       .P(0.03)
       .I(0)
       .D(0)
-      .OutputRange(-0.4, 1);
+      .OutputRange(-0.3, 1);
 
     _intakeTopConfig.closedLoop
       .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
@@ -105,9 +105,21 @@ void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     // _intakeRight.Set(intakeSpeed);
 }
 
-void CoralSubsystem::SetAlgyArm(double algyPose){
-    frc::SmartDashboard::PutNumber("Algy Pose: ", algyPose);
-     _AlgyArmClosedLoopController.SetReference(algyPose, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+void CoralSubsystem::SetAlgyArm(double algyDesiredPoint){
+    frc::SmartDashboard::PutNumber("Algy Pose: ", algySetPoint);
+    algySetPoint = algyDesiredPoint;
+    _AlgyArmClosedLoopController.SetReference(algySetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
+}
+
+void CoralSubsystem::SetAlgyArmManual(double algyPoseStepSize){
+    algySetPoint = algySetPoint + algyPoseStepSize;
+
+    if (algySetPoint > 0.35) {
+        algySetPoint = 0.35;
+    }
+
+    frc::SmartDashboard::PutNumber("Algy Pose: ", algySetPoint);
+     _AlgyArmClosedLoopController.SetReference(algySetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
 // void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){

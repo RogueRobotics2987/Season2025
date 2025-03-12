@@ -32,6 +32,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void IncrementOffsets(double offsetElevator);
   void ManualElevator(double increaseHeight);
   void SetAlgyArm(double algyPose);
+  void SetAlgyArmManual(double algyPoseStepSize);
   void SetFunnelPin(double funnelPinSpeed);
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
@@ -55,6 +56,9 @@ class CoralSubsystem : public frc2::SubsystemBase {
     int ElevatorLevel = 0;
     double elevatorOffset = 0;
     double elevatorTotal = 0;
+    double algyPose = 0.35;
+    double algySetPoint = 0.35;
+
     int _intakeDelayCount = 0;
 
     bool coralLoaded = false;
