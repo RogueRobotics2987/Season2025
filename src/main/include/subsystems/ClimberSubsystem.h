@@ -14,7 +14,10 @@ class ClimberSubsystem : public frc2::SubsystemBase {
  public:
   ClimberSubsystem();
 
-  void SetClimberSpeed(double ClimberSpeed);
+  void SetClimber(double ClimberSpeed);
+
+  SparkClosedLoopController _climberclosedLoopController = _climber.GetClosedLoopController();
+  SparkRelativeEncoder _climberencoder = _climber.GetEncoder();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
