@@ -146,15 +146,15 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                                    { m_climberSubsystem.SetClimber(0); })
                                     .ToPtr());                                    
 
-    AuxStick.X().OnTrue(frc2::InstantCommand([this]() -> void
+    AuxStick.Y().OnTrue(frc2::InstantCommand([this]() -> void
                                                    { m_coralSubsystem.SetAlgyArm(0.14); })
                                   .ToPtr());
 
-    AuxStick.Y().WhileTrue(frc2::RunCommand([this]() -> void
+    AuxStick.LeftBumper().WhileTrue(frc2::RunCommand([this]() -> void
                                                    { m_coralSubsystem.SetAlgyArmManual(0.005); })
                                   .ToPtr());
 
-    AuxStick.Y().WhileFalse(frc2::RunCommand([this]() -> void
+    AuxStick.LeftBumper().WhileFalse(frc2::RunCommand([this]() -> void
                                                    { m_coralSubsystem.SetAlgyArmManual(0); })
                                   .ToPtr());
 
