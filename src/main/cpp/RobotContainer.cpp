@@ -150,6 +150,10 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                                    { m_coralSubsystem.SetAlgyArm(0.14); })
                                   .ToPtr());
 
+    AuxStick.X().OnTrue(frc2::InstantCommand([this]() -> void
+                                                   { m_coralSubsystem.SetAlgyArm(0); })
+                                  .ToPtr());
+
     AuxStick.LeftBumper().WhileTrue(frc2::RunCommand([this]() -> void
                                                    { m_coralSubsystem.SetAlgyArmManual(0.005); })
                                   .ToPtr());

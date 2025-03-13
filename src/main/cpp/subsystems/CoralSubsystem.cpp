@@ -66,6 +66,8 @@ CoralSubsystem::CoralSubsystem(){
 
     _algyArmConfig.closedLoop
        .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
+       .PositionWrappingEnabled(true)
+       .PositionWrappingInputRange(0, 1)
        .P(2)
        .I(0)
        .D(0)
