@@ -104,6 +104,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Zone1",
+  "folder": "Not used",
   "choreoAuto": false
 }
