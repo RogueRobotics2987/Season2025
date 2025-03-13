@@ -124,7 +124,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // reset the field-centric heading on left bumper press
     DriveStick.LeftBumper().OnTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
     //TODO: look at last years code and find out why its not being scheduled
-    DriveStick.RightBumper().OnTrue(RightSideApriltagReefLineup(drivetrain, DriveStick).ToPtr());
+    DriveStick.RightBumper().ToggleOnTrue(RightSideApriltagReefLineup(drivetrain, DriveStick).ToPtr());
     // THINGS WE KNOW FOR SURE: 
     // - .OnTrue
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });

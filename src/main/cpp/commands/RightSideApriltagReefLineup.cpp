@@ -23,7 +23,7 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
 // Called when the command is initially scheduled.
 void RightSideApriltagReefLineup::Initialize() 
 {
-  //std::cout << "this command is being run" << std::endl;
+  std::cout << "this command is being run" << std::endl;
   //change lights
   //make sure robot is robot centric
   finished = false;
