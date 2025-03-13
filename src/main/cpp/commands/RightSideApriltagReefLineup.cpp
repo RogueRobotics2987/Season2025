@@ -76,21 +76,21 @@ void RightSideApriltagReefLineup::Execute()
    return;
  }
 
-std::vector<std::vector<double>> mapleTags{};// Creating the vector in a vector that will hold all the apriltag data
-
-for (int i=0; i>apriltags_id.size(); i++) 
-{ // Repeats for how many numbers are in the apriltag_id vector
-  double cur_id = apriltags_id[i];// Gets the id/x/y/yaw based on which repeat it is on
-  double cur_x = apriltags_x[i];
-  double cur_y = apriltags_y[i];
-  double cur_yaw = apriltags_yaw[i];
-
-  mapleTags.emplace_back(std::vector<double>{cur_id, cur_x, cur_y, cur_yaw});// Puts all the apriltag data into one vector in a vector
-};
+// std::vector<std::vector<double>> mapleTags{};// Creating the vector in a vector that will hold all the apriltag data
 
   std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};  //Replaced by the mapleTag data on line 62/70
   std::vector<std::vector<double>> allowedMapleTags{};
   std::vector<double> closestAprilTag{-1.0, 0.0, 0.0, 0.0, 0.0};
+
+  for (int i=0; i>apriltags_id.size(); i++) 
+  { // Repeats for how many numbers are in the apriltag_id vector
+    double cur_id = apriltags_id[i];// Gets the id/x/y/yaw based on which repeat it is on
+    double cur_x = apriltags_x[i];
+    double cur_y = apriltags_y[i];
+    double cur_yaw = apriltags_yaw[i];
+
+  mapleTags.emplace_back(std::vector<double>{cur_id, cur_x, cur_y, cur_yaw});// Puts all the apriltag data into one vector in a vector
+  };
 
   int minDistance = 99999;
 
