@@ -60,25 +60,28 @@ void RightSideApriltagReefLineup::Execute()
 
 // //maple handles lose tracking for 100 ms sends the same thing
  auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
- apriltags_idSub = table->GetDoubleArrayTopic("apriltag_id").Subscribe({});// Getting apriltag data from the network table
- apriltags_xSub = table->GetDoubleArrayTopic("apriltag_x").Subscribe({});
- apriltags_ySub = table->GetDoubleArrayTopic("apriltag_y").Subscribe({});
- apriltags_yawSub = table->GetDoubleArrayTopic("apriltag_yaw").Subscribe({});
+ apriltags_idSub = table->GetDoubleArrayTopic("robot_relative_tagid").Subscribe({});// Getting apriltag data from the network table
+ apriltags_xSub = table->GetDoubleArrayTopic("robot_relative_x").Subscribe({});
+ apriltags_ySub = table->GetDoubleArrayTopic("robot_relative_y").Subscribe({});
+ apriltags_yawSub = table->GetDoubleArrayTopic("robot_relative_yaw").Subscribe({});
 
  std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
  std::vector<double> apriltags_x = apriltags_xSub.Get();
  std::vector<double> apriltags_y = apriltags_ySub.Get();
  std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
 
+ std::cout << apriltags_x[0];
+
  if(apriltags_id.empty())
  {
    finished = true;
+  
    return;
  }
 
 // std::vector<std::vector<double>> mapleTags{};// Creating the vector in a vector that will hold all the apriltag data
 
-  std::vector<std::vector<double>> mapleTags{{3, 0.3, 0.3, 0.0, 0.5}, {5, 0.6, 0.0, 0.0, 0.3}};  //Replaced by the mapleTag data on line 62/70
+  std::vector<std::vector<double>> mapleTags;
   std::vector<std::vector<double>> allowedMapleTags{};
   std::vector<double> closestAprilTag{-1.0, 0.0, 0.0, 0.0, 0.0};
 
