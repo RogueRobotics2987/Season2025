@@ -17,19 +17,20 @@ void PoseL1CMD::Initialize()
 {
   //set elevator to pose L1
   m_coralSubsystem->SetElevator(0);
+
 }
 
 // Called repeatedly when this Command is scheduled to run
 void PoseL1CMD::Execute() 
 {
-  if(time >= 60)
-  {
-    timeIsUp = true;
-  }
-  else
-  {
-    time++;
-  }
+  // if(time >= 60)
+  // {
+  //   timeIsUp = true;
+  // }
+  // else
+  // {
+  //   time++;
+  // }
 }
 
 // Called once the command ends or is interrupted.
@@ -38,5 +39,12 @@ void PoseL1CMD::End(bool interrupted) {}
 // Returns true when the command should end.
 bool PoseL1CMD::IsFinished() 
 {
-  return timeIsUp;
+  if(m_coralSubsystem->_elevatorLeader.GetEncoder().GetPosition() == 0)
+  {
+    return true;
+  }else
+  {
+    return false;
+  }
+//   return timeIsUp;
 }

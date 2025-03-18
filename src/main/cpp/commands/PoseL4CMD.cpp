@@ -23,14 +23,14 @@ void PoseL4CMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PoseL4CMD::Execute() 
 {
-  if(time >= 60)
-  {
-    timeIsUp = true;
-  }
-  else
-  {
-    time++;
-  }
+  // if(time >= 60)
+  // {
+  //   timeIsUp = true;
+  // }
+  // else
+  // {
+  //   time++;
+  // }
 }
 
 // Called once the command ends or is interrupted.
@@ -42,5 +42,12 @@ void PoseL4CMD::End(bool interrupted)
 // Returns true when the command should end.
 bool PoseL4CMD::IsFinished() 
 {
-  return timeIsUp;
+  if(m_coralSubsystem->_elevatorLeader.GetEncoder().GetPosition() == 50.5 + GravityoffsetIn)
+  {
+    return true;
+  }else
+  {
+    return false;
+  }
+  // return timeIsUp;
 }
