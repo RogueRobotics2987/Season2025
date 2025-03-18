@@ -7,10 +7,12 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/sysid/SysIdRoutine.h>
-
+#include <networktables/DoubleArrayTopic.h>
 #include "generated/TunerConstants.h"
 
 using namespace ctre::phoenix6;
+
+//TunerSwerveDrivetrain();
 
 namespace subsystems {
 
@@ -22,7 +24,6 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     static constexpr units::second_t kSimLoopPeriod = 5_ms;
     std::unique_ptr<frc::Notifier> m_simNotifier;
     units::second_t m_lastSimTime;
-
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     static constexpr frc::Rotation2d kBlueAlliancePerspectiveRotation{0_deg};
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
@@ -30,6 +31,7 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     /* Keep track if we've ever applied the operator perspective before or not */
     bool m_hasAppliedOperatorPerspective = false;
 
+    swerve::requests::ApplyRobotSpeeds m_pathApplyRobotSpeeds;
     /* Swerve requests to apply during SysId characterization */
     swerve::requests::SysIdSwerveTranslation m_translationCharacterization;
     swerve::requests::SysIdSwerveSteerGains m_steerCharacterization;
@@ -108,6 +110,8 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
     frc2::sysid::SysIdRoutine *m_sysIdRoutineToApply = &m_sysIdRoutineSteer;
 
 public:
+    nt::DoubleArraySubscriber positionSub;
+    // nt::DoubleArraySubscriber orientationSub;
     /**
      * \brief Constructs a CTRE SwerveDrivetrain using the specified constants.
      *
@@ -125,6 +129,8 @@ public:
         if (utils::IsSimulation()) {
             StartSimThread();
         }
+
+        ConfigureAutoBuilder();
     }
 
     /**
@@ -151,6 +157,7 @@ public:
         if (utils::IsSimulation()) {
             StartSimThread();
         }
+        ConfigureAutoBuilder();
     }
 
     /**
@@ -184,6 +191,7 @@ public:
         if (utils::IsSimulation()) {
             StartSimThread();
         }
+        ConfigureAutoBuilder();
     }
 
     /**
@@ -248,8 +256,8 @@ public:
         return m_sysIdRoutineToApply->Dynamic(direction);
     }
 
-private:
-    void StartSimThread();
-};
-
+    private:
+        void ConfigureAutoBuilder();
+        void StartSimThread();
+    };
 }

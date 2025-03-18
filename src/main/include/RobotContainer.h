@@ -6,14 +6,21 @@
 
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/button/CommandXboxController.h>
+#include <frc2/command/Command.h>
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/filter/SlewRateLimiter.h>
+#include <frc2/command/RunCommand.h>
+
 #include "Constants.h"
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
+#include "Constants.h"
 #include "Telemetry.h"
-#include "subsystems/CoralSubsystem.h"
-#include <frc2/command/RunCommand.h>
-#include <frc/filter/SlewRateLimiter.h>
+#include "commands/PlaceCMD.h"
+#include "commands/IntakeCMD.h"
+#include "commands/PoseL1CMD.h"
+#include "commands/PoseL4CMD.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -46,15 +53,21 @@ public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
 
     RobotContainer();
-
-    frc2::CommandPtr GetAutonomousCommand();
+    
+    frc2::Command* GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 
     frc::SlewRateLimiter<units::volts> filter{8_V / 1_s};
 
  private:
+    // Replace with CommandPS4Controller or CommandJoystick if needed
+    frc2::CommandXboxController m_driverController{
+        OperatorConstants::kDriverControllerPort};
+
+    frc::SendableChooser<frc2::Command*> m_chooser;
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  frc2::CommandXboxController m_driverController{
-      OperatorConstants::kDriverControllerPort};
+//   frc2::CommandXboxController m_driverController{ //declared twice
+//       OperatorConstants::kDriverControllerPort}; // declared twice
 
     double elevatorOffset = 0;
 

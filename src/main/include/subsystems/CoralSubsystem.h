@@ -31,7 +31,9 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
   void ManualElevator(double increaseHeight);
+  void SetClimber(double ClimberPos);
   void SetAlgyArm(double setAlgyArm);
+  // void SetAlgyArm(double setAlgyArm);
 
   // void SetDesiredElevatorheight(double setElevatorHeight);
 
@@ -54,10 +56,14 @@ class CoralSubsystem : public frc2::SubsystemBase {
     enum PossibleStates _state = ZERO;
 
     int ElevatorLevel = 0;
-
     double elevatorOffset = 0;
-
     double elevatorTotal = 0;
+
+    bool coralLoaded = false;
+    bool coralPlace = false;
+
+
+    double climberTotal = 0;
 
     // the motors on the robot
     
@@ -71,15 +77,20 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkClosedLoopController _elevatorFollowerClosedLoopController = _elevatorFollower.GetClosedLoopController();
     SparkRelativeEncoder _elevatorFollowerEncoder = _elevatorFollower.GetEncoder();
 
-    // intakeLeft
+    // intakeTop
     SparkMax _intakeTop{CoralSubsystemConstants::CANIdTopIntake, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _intakeTopClosedLoopController = _intakeTop.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
 
-    // intakeRight
+    // algae remover
     SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
-    SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
+    SparkClosedLoopController _algyArmClosedLoopController = _algyArm.GetClosedLoopController();
     SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
+
+    // // intakeRight
+    // SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
+    // SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
+    // SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
