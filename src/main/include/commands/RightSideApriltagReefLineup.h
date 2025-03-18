@@ -26,7 +26,6 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  RightSideApriltagReefLineup();
   RightSideApriltagReefLineup(
     subsystems::CommandSwerveDrivetrain &driveTrain, 
     frc2::CommandXboxController &driveStick); // needs xbox perm? //dont think we need drivepose
@@ -59,6 +58,11 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
 
   subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
   frc2::CommandXboxController* _driveStick = nullptr;
+
+ nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
+ nt::DoubleArraySubscriber apriltags_xSub;
+ nt::DoubleArraySubscriber apriltags_ySub;
+ nt::DoubleArraySubscriber apriltags_yawSub;
   
   double currentHeading = 0;
   double lastHeading = 0;

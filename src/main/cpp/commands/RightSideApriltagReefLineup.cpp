@@ -10,7 +10,6 @@
 
 #include <iostream>
 
-RightSideApriltagReefLineup::RightSideApriltagReefLineup() {}
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(
   subsystems::CommandSwerveDrivetrain &driveTrain, 
   frc2::CommandXboxController &driveStick)
@@ -18,6 +17,13 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
   _driveTrain = &driveTrain;
   _driveStick = &driveStick;
   AddRequirements({_driveTrain});
+
+// //maple handles lose tracking for 100 ms sends the same thing
+ auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
+ apriltags_idSub = table->GetDoubleArrayTopic("robot_relative_tagid").Subscribe({});// Getting apriltag data from the network table
+ apriltags_xSub = table->GetDoubleArrayTopic("robot_relative_x").Subscribe({});
+ apriltags_ySub = table->GetDoubleArrayTopic("robot_relative_y").Subscribe({});
+ apriltags_yawSub = table->GetDoubleArrayTopic("robot_relative_yaw").Subscribe({});
 }
 
 // Called when the command is initially scheduled.
@@ -52,18 +58,6 @@ void RightSideApriltagReefLineup::Execute()
   //    type: vector<vector<double>>
 
   // is this done? 
-
- nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
- nt::DoubleArraySubscriber apriltags_xSub;
- nt::DoubleArraySubscriber apriltags_ySub;
- nt::DoubleArraySubscriber apriltags_yawSub;
-
-// //maple handles lose tracking for 100 ms sends the same thing
- auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
- apriltags_idSub = table->GetDoubleArrayTopic("robot_relative_tagid").Subscribe({});// Getting apriltag data from the network table
- apriltags_xSub = table->GetDoubleArrayTopic("robot_relative_x").Subscribe({});
- apriltags_ySub = table->GetDoubleArrayTopic("robot_relative_y").Subscribe({});
- apriltags_yawSub = table->GetDoubleArrayTopic("robot_relative_yaw").Subscribe({});
 
  std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
  std::vector<double> apriltags_x = apriltags_xSub.Get();
