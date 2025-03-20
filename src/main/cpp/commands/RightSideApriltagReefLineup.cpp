@@ -170,10 +170,12 @@ bool RightSideApriltagReefLineup::IsFinished()
   //   return true;
   // }
 
-  if(errorX + errorYaw <= 0.05 || errorX + errorYaw >= -0.05) //within 5 cm
+  if(errorX + errorYaw <= 0.05 && errorX + errorYaw >= -0.05) //within 5 cm
   {
    //change lights
-   std::cout << "Done!" << std::endl;
+   std::cout << "Done!" << std::endl << "\n";
+   std::cout << errorX << std::endl << "\n";
+   std::cout << errorYaw << std::endl << "\n";
    return true; //end the command
   }
   else
