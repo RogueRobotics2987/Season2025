@@ -38,7 +38,7 @@ void PoseL1CMD::End(bool interrupted) {}
 // Returns true when the command should end.
 bool PoseL1CMD::IsFinished() 
 {
-  if(m_coralSubsystem->_elevatorLeader.GetEncoder().GetPosition() == 0)
+  if(m_coralSubsystem->_elevatorLeader.GetEncoder().GetPosition() == L1Height)
   {
     return true;
   }else
