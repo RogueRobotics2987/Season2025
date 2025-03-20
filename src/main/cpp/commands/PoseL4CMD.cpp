@@ -42,8 +42,11 @@ void PoseL4CMD::End(bool interrupted)
 // Returns true when the command should end.
 bool PoseL4CMD::IsFinished() 
 {
-  if(m_coralSubsystem->_elevatorLeader.GetEncoder().GetPosition() == 50.5 + GravityoffsetIn)
+  double error = std::abs(m_coralSubsystem->_elevatorLeader.GetEncoder().GetPosition() - (50.5 + GravityoffsetIn));
+  //std::cout << error << std::endl;
+  if(error < 6)
   {
+    //std::cout << "it is ending" << std::endl;
     return true;
   }else
   {
