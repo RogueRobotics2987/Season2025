@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L_Side-L"
+            "pathName": "Z2_Face_G-H_Side-L"
           }
         },
         {
@@ -50,6 +50,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Zone1",
+  "folder": "Zone2",
   "choreoAuto": false
 }
