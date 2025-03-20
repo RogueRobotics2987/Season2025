@@ -7,31 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L_Side-R"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PoseL4CMD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PlaceCMD"
+            "pathName": "Z1_Face_K-L"
           }
         },
         {
@@ -43,19 +19,31 @@
         {
           "type": "named",
           "data": {
-            "name": "PoseL1CMD"
+            "name": "PoseL4CMD"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Face_K-L_Side-R_S1"
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PlaceCMD"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL1CMD"
           }
         },
         {
@@ -67,13 +55,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1_Face_K-L_Side-L"
+            "pathName": "Face_K-L_S1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1_Face_K-L_2_Coral"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.25
           }
         },
         {
@@ -85,7 +79,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 1.0
           }
         },
         {
@@ -105,11 +99,23 @@
           "data": {
             "name": "PoseL1CMD"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face_K-L_S1_2_Coral"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Not used",
+  "folder": "Zone1",
   "choreoAuto": false
 }

@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.704,
-        "y": 5.0499487704918025
+        "x": 4.0122532894736835,
+        "y": 5.189
       },
       "prevControl": {
-        "x": 3.5996689001893616,
-        "y": 5.586685749013222
+        "x": 3.9173054316939604,
+        "y": 5.727476059637791
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,20 +31,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "PoseL4CMD",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "PlaceCMD",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.5,
     "maxAcceleration": 2.5,

@@ -17,7 +17,7 @@ PlaceCMD::PlaceCMD(CoralSubsystem &CoralSubsystem)
 void PlaceCMD::Initialize() 
 {
   m_coralSubsystem->coralPlace = true;
-  m_coralSubsystem->SetIntakeMotors(0.3);
+  m_coralSubsystem->SetIntakeMotors(0.5);
 }
 
 // Called repeatedly when this Command is scheduled to run

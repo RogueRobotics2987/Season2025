@@ -13,6 +13,7 @@
 
 #include "Constants.h"
 #include "subsystems/CoralSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Constants.h"
 #include "Telemetry.h"
@@ -36,7 +37,7 @@ private:
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     swerve::requests::FieldCentric drive = swerve::requests::FieldCentric{}
-        .WithDeadband(MaxSpeed * 0.1).WithRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+        .WithDeadband(MaxSpeed * 0.03).WithRotationalDeadband(MaxAngularRate * 0.03) // Add a 10% deadband
         .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
     swerve::requests::SwerveDriveBrake brake{};
     swerve::requests::PointWheelsAt point{};
@@ -55,7 +56,7 @@ public:
     
     frc2::Command* GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 
-    frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
+    frc::SlewRateLimiter<units::volts> filter{8_V / 1_s};
 
  private:
     // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -72,6 +73,7 @@ public:
 
   // The robot's subsystems are defined here...
   CoralSubsystem m_coralSubsystem;
+  ClimberSubsystem m_climberSubsystem;
 
 
   void ConfigureBindings();

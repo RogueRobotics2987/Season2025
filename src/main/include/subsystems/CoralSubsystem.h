@@ -31,12 +31,19 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
   void ManualElevator(double increaseHeight);
-  void SetAlgyArm(double setAlgyArm);
-
-  // void SetDesiredElevatorheight(double setElevatorHeight);
+  void SetAlgyArm(double algyPose);
+  void SetAlgyArmManual(double algyPoseStepSize);
+  void SetFunnelPin(double funnelPinSpeed);
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
+  double GetDesiredArmAngle();
+  void LightsOff();
+  void RBSwap();
+  void LightsPink();
+  void LightsCyan();
+  void PinkBlink();
+  void CyanBlink();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -47,14 +54,15 @@ class CoralSubsystem : public frc2::SubsystemBase {
     enum PossibleStates _state = ZERO;
 
     int ElevatorLevel = 0;
-
     double elevatorOffset = 0;
-
     double elevatorTotal = 0;
+    double algyPose = 0.35;
+    double algySetPoint = 0.35;
+
+    int _intakeDelayCount = 0;
 
     bool coralLoaded = false;
     bool coralPlace = false;
-
 
     // the motors on the robot
     
@@ -68,30 +76,29 @@ class CoralSubsystem : public frc2::SubsystemBase {
     SparkClosedLoopController _elevatorFollowerClosedLoopController = _elevatorFollower.GetClosedLoopController();
     SparkRelativeEncoder _elevatorFollowerEncoder = _elevatorFollower.GetEncoder();
 
-    // intakeLeft
+    // intakeTop
     SparkMax _intakeTop{CoralSubsystemConstants::CANIdTopIntake, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _intakeTopClosedLoopController = _intakeTop.GetClosedLoopController(); // TODO: no close loop controllers
     SparkRelativeEncoder _intakeTopEncoder = _intakeTop.GetEncoder();
 
-    // intakeRight
     SparkMax _algyArm{CoralSubsystemConstants::CANIdAlgyArm, SparkMax::MotorType::kBrushless};
     SparkClosedLoopController _AlgyArmClosedLoopController = _algyArm.GetClosedLoopController();
-    SparkRelativeEncoder _algyArmEncoder = _algyArm.GetEncoder();
+    SparkAbsoluteEncoder _algyArmEncoder = _algyArm.GetAbsoluteEncoder();
+    
+    SparkMax _funnelPin{CoralSubsystemConstants::CANIdFunnelPin, SparkMax::MotorType::kBrushless};
+    SparkClosedLoopController _funnelPinclosedLoopController = _funnelPin.GetClosedLoopController();
+    SparkRelativeEncoder _funnelPinencoder = _funnelPin.GetEncoder();
     
     // Initializes a DigitalInput on DIO 0
     // frc::DigitalInput _funnelSensor{0};
     // frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawBB{3};
-    
-    frc::DigitalOutput _light1{1};  
-    frc::DigitalOutput _light2{4};
-    
 
+    frc::DigitalOutput _light1{4};
+    frc::DigitalOutput _light2{5};
+    frc::DigitalOutput _light3{6};
 
-    // bool _funnelBB = false;
-    // bool _troughBB = false;
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
-
     double _desiredElevatorHeight = restingElevatorHeight;
 
   // Components (e.g. motor controllers and sensors) should generally be
