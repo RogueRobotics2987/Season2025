@@ -9,12 +9,13 @@
 class LightSubsystem : public frc2::SubsystemBase {
  public:
   LightSubsystem();
-  void LightsOff();
-  void RBSwap();
-  void LightsPink();
-  void LightsCyan();
-  void PinkBlink();
-  void CyanBlink();
+  void Idle();
+  void GreenBlink();
+  void Green();
+  void RedBlink();
+  void Red();
+  void BlueBlink();
+  void Blue();
   frc::DigitalOutput _light1{3};
   frc::DigitalOutput _light2{4};
   frc::DigitalOutput _light3{5};

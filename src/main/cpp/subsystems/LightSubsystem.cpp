@@ -7,34 +7,39 @@
 
 LightSubsystem::LightSubsystem() = default;
 
-void LightSubsystem::LightsOff() {
+void LightSubsystem::Idle() {
     _light1.Set(false);
     _light2.Set(false);
     _light3.Set(false);
   }
-  void LightSubsystem::RBSwap() {
+  void LightSubsystem::GreenBlink() {
     _light1.Set(true);
     _light2.Set(false);
     _light3.Set(false);
   }
- void LightSubsystem::LightsPink() {
+ void LightSubsystem::Green() {
     _light1.Set(false);
     _light2.Set(true);
     _light3.Set(false);
   }
-  void LightSubsystem::LightsCyan() {
+  void LightSubsystem::RedBlink() {
     _light1.Set(false);
     _light2.Set(false);
     _light3.Set(true);
   }
-  void LightSubsystem::PinkBlink() {
+  void LightSubsystem::Red() {
     _light1.Set(true);
     _light2.Set(true);
     _light3.Set(false);
   }
-  void LightSubsystem::CyanBlink(){
+  void LightSubsystem::BlueBlink(){
     _light1.Set(true);
     _light2.Set(false);
+    _light3.Set(true);
+  }
+  void LightSubsystem::Blue(){
+    _light1.Set(false);
+    _light2.Set(true);
     _light3.Set(true);
   }
 
