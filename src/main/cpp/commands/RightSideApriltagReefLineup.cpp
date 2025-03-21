@@ -89,7 +89,7 @@ void RightSideApriltagReefLineup::Execute()
     double cur_y = apriltags_y[i];
     double cur_yaw = apriltags_yaw[i];
 
-  mapleTags.emplace_back(std::vector<double>{cur_id, cur_x, cur_y, cur_yaw});// Puts all the apriltag data into one vector in a vector
+    mapleTags.emplace_back(std::vector<double>{cur_id, cur_x, cur_y, cur_yaw});// Puts all the apriltag data into one vector in a vector
   };
 
   int minDistance = 99999;
@@ -107,7 +107,7 @@ void RightSideApriltagReefLineup::Execute()
         allowedTag = true;
       }
     }
-    if(allowedTag == true)
+    if (allowedTag)
     {
       //add to new vector 
       allowedMapleTags.emplace_back(currentTag);
@@ -119,12 +119,12 @@ void RightSideApriltagReefLineup::Execute()
   std::cout << "idk" << std::endl;
   for(std::vector<double> currentTag: allowedMapleTags)
   {
-    std::cout << "ct1: " << currentTag[1] << ", ct2: " << std::endl;
+    std::cout << "ct1: " << currentTag[1] << ", ct2: " << currentTag[2] << std::endl;
     double distance = sqrt(currentTag[1] * currentTag[1] + currentTag[2] * currentTag[2]); // square roots of a^2 + b^2 making it a + b = c
     if(distance < minDistance)
     {
       minDistance = distance;
-      closestAprilTag[0] = currentTag[0];
+      closestAprilTag = currentTag;
     }
   }
 
@@ -142,7 +142,7 @@ void RightSideApriltagReefLineup::Execute()
         .WithRotationalRate(units::degrees_per_second_t{outputYaw})
    );
 
-  frc::SmartDashboard::PutNumber("Tag_ID", closestAprilTag[1]);
+  frc::SmartDashboard::PutNumber("Tag_ID", closestAprilTag[0]);
   frc::SmartDashboard::PutNumber("error_x", errorX);
   frc::SmartDashboard::PutNumber("error_Yaw", errorYaw);
 
@@ -172,6 +172,7 @@ bool RightSideApriltagReefLineup::IsFinished()
 
   if(finished)
   {
+    std::cout << "Done No Tag" << std::endl;
     return true;
   }
 
