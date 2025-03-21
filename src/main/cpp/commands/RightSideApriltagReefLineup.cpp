@@ -58,13 +58,11 @@ void RightSideApriltagReefLineup::Execute()
   //    type: vector<vector<double>>
 
   // is this done? 
-
+ std::cout << "getting data" << std::endl;
  std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
  std::vector<double> apriltags_x = apriltags_xSub.Get();
  std::vector<double> apriltags_y = apriltags_ySub.Get();
  std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
-
- std::cout << apriltags_x[0];
 
  if(apriltags_id.empty())
  {
@@ -79,8 +77,13 @@ void RightSideApriltagReefLineup::Execute()
   std::vector<std::vector<double>> allowedMapleTags{};
   std::vector<double> closestAprilTag{-1.0, 0.0, 0.0, 0.0, 0.0};
 
-  for (int i=0; i>apriltags_id.size(); i++) 
+  std::cout << apriltags_id.size() << std::endl;
+  for (int i=  0; i < apriltags_id.size(); i++) 
   { // Repeats for how many numbers are in the apriltag_id vector
+    std::cout << "id: " << apriltags_id[i] << std::endl;
+    std::cout << "x: " << apriltags_x[i] << std::endl;
+    std::cout << "y: " << apriltags_y[i] << std::endl;
+    std::cout << "yaw: " << apriltags_yaw[i] << std::endl;
     double cur_id = apriltags_id[i];// Gets the id/x/y/yaw based on which repeat it is on
     double cur_x = apriltags_x[i];
     double cur_y = apriltags_y[i];
@@ -113,8 +116,10 @@ void RightSideApriltagReefLineup::Execute()
   }
 
   //another network table getting our pose??
+  std::cout << "idk" << std::endl;
   for(std::vector<double> currentTag: allowedMapleTags)
   {
+    std::cout << "ct1: " << currentTag[1] << ", ct2: " << std::endl;
     double distance = sqrt(currentTag[1] * currentTag[1] + currentTag[2] * currentTag[2]); // square roots of a^2 + b^2 making it a + b = c
     if(distance < minDistance)
     {
@@ -151,7 +156,7 @@ void RightSideApriltagReefLineup::Execute()
   //errorx = currentx - desiredx;
   //erroryaw = currentyaw - desiredyaw;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   
+ std::cout << "end of execute" << std::endl;
 }
 
 // Called once the command ends or is interrupted.
@@ -165,10 +170,10 @@ bool RightSideApriltagReefLineup::IsFinished()
 {
   //set all variables to what their start is just in case?
 
-  // if(finished == true)
-  // {
-  //   return true;
-  // }
+  if(finished)
+  {
+    return true;
+  }
 
   if(errorX + errorYaw <= 0.05 && errorX + errorYaw >= -0.05) //within 5 cm
   {
