@@ -128,21 +128,44 @@ void RightSideApriltagReefLineup::Execute()
     }
   }
 
+  frc::SmartDashboard::PutNumber("Tag_ID", closestAprilTag[0]);
+  frc::SmartDashboard::PutNumber("Tag_X", closestAprilTag[1]);
+  frc::SmartDashboard::PutNumber("Tag_Y", closestAprilTag[2]);
+  frc::SmartDashboard::PutNumber("Tag_Yaw", closestAprilTag[3]);
+
+
   double currentX = closestAprilTag[1]; // i dont think its supposed to be minDistanceTagID
   double currentYaw = closestAprilTag[3]; //placeholder, dont know the how to get the value yet
   double outputX = 0;
   double outputYaw = 0;
   errorX = currentX - 0.25; //tune for the offset of the tag
   errorYaw = currentYaw - 0; // our yaw will always be parallel with the tag
+
+  if(errorYaw > 180)
+  {
+    errorYaw = errorYaw + -360;
+  }
+  else if(errorYaw < -180)
+  {
+    errorYaw = errorYaw + 360;
+  }
+  else
+  {
+    errorYaw = errorYaw;
+  }
+
   outputX = errorX * kP_x;
-  outputYaw = errorYaw * kP_yaw;
+  outputYaw = errorYaw * - kP_yaw;
 
-  _driveTrain->SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{outputX})
-        .WithVelocityY(units::meters_per_second_t{_driveStick->GetLeftY()})
-        .WithRotationalRate(units::degrees_per_second_t{outputYaw})
-   );
+  frc::SmartDashboard::PutNumber("output_x", outputX);
+  frc::SmartDashboard::PutNumber("outputYaw", outputYaw);
 
-  frc::SmartDashboard::PutNumber("Tag_ID", closestAprilTag[0]);
+  // _driveTrain->SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{outputX})
+  //       .WithVelocityY(units::meters_per_second_t{_driveStick->GetLeftX()})
+  //       .WithRotationalRate(units::degrees_per_second_t{outputYaw})
+   //);
+
+
   frc::SmartDashboard::PutNumber("error_x", errorX);
   frc::SmartDashboard::PutNumber("error_Yaw", errorYaw);
 
@@ -176,7 +199,7 @@ bool RightSideApriltagReefLineup::IsFinished()
     return true;
   }
 
-  if(errorX + errorYaw <= 0.05 && errorX + errorYaw >= -0.05) //within 5 cm
+  if(errorX + errorYaw <= 0.03 && errorX + errorYaw >= -0.03) //within 5 cm
   {
    //change lights
    std::cout << "Done!" << std::endl << "\n";
