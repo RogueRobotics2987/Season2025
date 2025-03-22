@@ -193,7 +193,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
         case NO_CORAL:
 
-            _light.LightsOff();
+            _light.Off();
 
             if (!_clawBB.Get()){
                 frc::SmartDashboard::PutNumber("_state", _state);
@@ -216,7 +216,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
         case YES_CORAL:
 
-            _light.RBSwap();
+            _light.Green();
             
             if(_clawBB.Get()){
                 // turn intake off

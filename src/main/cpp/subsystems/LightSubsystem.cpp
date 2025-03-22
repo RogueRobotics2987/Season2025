@@ -7,7 +7,7 @@
 
 LightSubsystem::LightSubsystem() = default;
 
-void LightSubsystem::Idle() {
+  void LightSubsystem::Off() {
     _light1.Set(false);
     _light2.Set(false);
     _light3.Set(false);
@@ -39,6 +39,11 @@ void LightSubsystem::Idle() {
   }
   void LightSubsystem::Blue(){
     _light1.Set(false);
+    _light2.Set(true);
+    _light3.Set(true);
+  }
+    void LightSubsystem::Idle(){
+    _light1.Set(true);
     _light2.Set(true);
     _light3.Set(true);
   }

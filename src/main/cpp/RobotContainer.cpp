@@ -112,11 +112,13 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
     AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
                                m_coralSubsystem.SetIntakeMotors(0.6);
+                               m_lightSubsystem.GreenBlink();
                            })
                                .ToPtr());
 
     AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Button off
                                    m_coralSubsystem.SetIntakeMotors(0);
+                                   m_lightSubsystem.Off();
                                })
                                    .ToPtr());
 

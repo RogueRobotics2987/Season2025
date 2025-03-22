@@ -9,6 +9,7 @@
 class LightSubsystem : public frc2::SubsystemBase {
  public:
   LightSubsystem();
+  void Off();
   void Idle();
   void GreenBlink();
   void Green();
