@@ -16,7 +16,7 @@ PoseL4CMD::PoseL4CMD(CoralSubsystem &CoralSubsystem)
 // Called when the command is initially scheduled.
 void PoseL4CMD::Initialize() 
 {
-  m_coralSubsystem->SetElevator(50.5 + GravityoffsetIn);
+  m_coralSubsystem->SetElevator(L4Height + GravityoffsetIn);
   //m_coralSubsystem->SetIntakeMotors(0.3);
 }
 

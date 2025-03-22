@@ -16,7 +16,7 @@ PoseL1CMD::PoseL1CMD(CoralSubsystem &CoralSubsystem)
 void PoseL1CMD::Initialize() 
 {
   //set elevator to pose L1
-  m_coralSubsystem->SetElevator(0);
+  m_coralSubsystem->SetElevator(L1Height);
 }
 
 // Called repeatedly when this Command is scheduled to run
