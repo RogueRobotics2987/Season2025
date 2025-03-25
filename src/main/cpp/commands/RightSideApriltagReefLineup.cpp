@@ -138,8 +138,8 @@ void RightSideApriltagReefLineup::Execute()
   double currentYaw = closestAprilTag[3]; //placeholder, dont know the how to get the value yet
   double outputX = 0;
   double outputYaw = 0;
-  errorX = currentX - 0.25; //tune for the offset of the tag
-  errorYaw = currentYaw - 0; // our yaw will always be parallel with the tag
+  errorX = currentX - 0.5; //tune for the offset of the tag
+  errorYaw = currentYaw - -80; // our yaw will always be parallel with the tag
 
   if(errorYaw > 180)
   {
@@ -154,16 +154,26 @@ void RightSideApriltagReefLineup::Execute()
     errorYaw = errorYaw;
   }
 
-  outputX = errorX * kP_x;
+  outputX = errorX * - kP_x;
   outputYaw = errorYaw * - kP_yaw;
+
+ if(outputYaw < 0)
+ {
+  outputYaw = outputYaw - 13;
+ }else if(outputYaw > 0)
+ {
+  outputYaw = outputYaw + 13;
+ }
+  outputX = 0;
+  //outputYaw = 0;
 
   frc::SmartDashboard::PutNumber("output_x", outputX);
   frc::SmartDashboard::PutNumber("outputYaw", outputYaw);
-
-  // _driveTrain->SetControl(robotCentricDrive.WithVelocityX(units::meters_per_second_t{outputX})
-  //       .WithVelocityY(units::meters_per_second_t{_driveStick->GetLeftX()})
-  //       .WithRotationalRate(units::degrees_per_second_t{outputYaw})
-   //);
+  
+  _driveTrain->SetControl(robotCentricDrive.WithVelocityY(units::meters_per_second_t{outputX})
+        .WithVelocityX(units::meters_per_second_t{_driveStick->GetLeftY()})
+        .WithRotationalRate(units::degrees_per_second_t{outputYaw})
+   );
 
 
   frc::SmartDashboard::PutNumber("error_x", errorX);
