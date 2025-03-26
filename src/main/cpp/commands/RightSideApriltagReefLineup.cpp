@@ -135,11 +135,14 @@ void RightSideApriltagReefLineup::Execute()
 
 
   double currentX = closestAprilTag[1]; // i dont think its supposed to be minDistanceTagID
+  double currentY = closestAprilTag[2];
   double currentYaw = closestAprilTag[3]; //placeholder, dont know the how to get the value yet
   double outputX = 0;
+  double outputY = 0;
   double outputYaw = 0;
-  errorX = currentX - 0.5; //tune for the offset of the tag
-  errorYaw = currentYaw - -80; // our yaw will always be parallel with the tag
+  errorX = currentX - 0; //tune for the offset of the tag //left side
+  errorY = currentY - 1;
+  errorYaw = currentYaw - 0; // our yaw will always be parallel with the tag
 
   if(errorYaw > 180)
   {
@@ -154,29 +157,36 @@ void RightSideApriltagReefLineup::Execute()
     errorYaw = errorYaw;
   }
 
-  outputX = errorX * - kP_x;
+  outputX = errorX * kP_x; //turn the kp positive? ^
+  outputY = errorY * kP_y;
   outputYaw = errorYaw * - kP_yaw;
+
+  if(std::fabs(errorYaw) > 20)
+  {
+    outputX = 0;
+  }
 
  if(outputYaw < 0)
  {
-  outputYaw = outputYaw - 13;
+  outputYaw = outputYaw - 6;
  }else if(outputYaw > 0)
  {
-  outputYaw = outputYaw + 13;
+  outputYaw = outputYaw + 6;
  }
-  outputX = 0;
+  //outputX = 0;
   //outputYaw = 0;
 
   frc::SmartDashboard::PutNumber("output_x", outputX);
   frc::SmartDashboard::PutNumber("outputYaw", outputYaw);
   
   _driveTrain->SetControl(robotCentricDrive.WithVelocityY(units::meters_per_second_t{outputX})
-        .WithVelocityX(units::meters_per_second_t{_driveStick->GetLeftY()})
+        .WithVelocityX(units::meters_per_second_t{- _driveStick->GetLeftY()})
         .WithRotationalRate(units::degrees_per_second_t{outputYaw})
    );
 
 
   frc::SmartDashboard::PutNumber("error_x", errorX);
+  frc::SmartDashboard::PutNumber("error_y", errorY);
   frc::SmartDashboard::PutNumber("error_Yaw", errorYaw);
 
   //TODO: 
@@ -202,24 +212,24 @@ void RightSideApriltagReefLineup::End(bool interrupted)
 bool RightSideApriltagReefLineup::IsFinished() 
 {
   //set all variables to what their start is just in case?
+  return false;
+  // if(finished)
+  // {
+  //   std::cout << "Done No Tag" << std::endl;
+  //   return true;
+  // }
 
-  if(finished)
-  {
-    std::cout << "Done No Tag" << std::endl;
-    return true;
-  }
-
-  if(errorX + errorYaw <= 0.03 && errorX + errorYaw >= -0.03) //within 5 cm
-  {
-   //change lights
-   std::cout << "Done!" << std::endl << "\n";
-   std::cout << errorX << std::endl << "\n";
-   std::cout << errorYaw << std::endl << "\n";
-   return true; //end the command
-  }
-  else
-  {
-   std::cout << "Nope!" << std::endl;
-   return false;
-  }
+  // if(errorX + errorYaw <= 0.03 && errorX + errorYaw >= -0.03) //within 5 cm
+  // {
+  //  //change lights
+  //  std::cout << "Done!" << std::endl << "\n";
+  //  std::cout << errorX << std::endl << "\n";
+  //  std::cout << errorYaw << std::endl << "\n";
+  //  return true; //end the command
+  // }
+  // else
+  // {
+  //  std::cout << "Nope!" << std::endl;
+  //  return false;
+  // }
 }

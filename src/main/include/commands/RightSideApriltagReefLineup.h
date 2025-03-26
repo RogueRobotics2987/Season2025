@@ -70,10 +70,11 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   double speedY = 0;
   double rot = 0; //some of these are in private some arent
   double kP_x = 1.5; //tune these //max speed: 1.25 mps
+  double kP_y = 1.5;
   double kP_yaw = 2.0; //tune these //max output: 90* max // max error: 60*
   double errorX;
-  double errorYaw;
   double errorY; //still need to calculate even though its not in PID
+  double errorYaw;
   double currentYaw;
   
   int currentx;
