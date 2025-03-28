@@ -7,8 +7,8 @@
 #define NUMPIXELS 144 // Number of LEDs in strip
 
 // Here's how to control the LEDs from any two pins:
-#define DATAPIN    9
-#define CLOCKPIN   8
+#define DATAPIN    8
+#define CLOCKPIN   9
 Adafruit_DotStar strip(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
 const int buttonPin = 0; // the number of the pushbutton pin
 const int buttonPin2 = 2;
@@ -17,6 +17,20 @@ int buttonState = 0;         // variable for reading the pushbutton status
 int buttonState2 = 0;
 int buttonState3 = 0;
 
+//void brighten() {
+//  for (int i = 0; i > 100; i++) {
+//    strip.setBrightness(i);
+//    strip.show();
+//  }
+//}
+//
+//void darken() {
+//  for (int i = 100; i > 0; i--) {
+//    strip.setBrightness(i);
+//    strip.show();
+//  }
+//}
+
 void setup() {
   pinMode(buttonPin, INPUT);
   pinMode(buttonPin2, INPUT);
@@ -24,6 +38,10 @@ void setup() {
   strip.begin();
   strip.clear();
   strip.show();
+}
+
+void Off() {
+  strip.clear();
 }
 
 void Idle () {
@@ -37,49 +55,56 @@ void Idle () {
   }
 }
 
-void GreenBlink() { //make it blink or fade or something
+void GreenBlink() {
   uint32_t green = strip.Color(50, 0, 0);
-  strip.fill(green, 0, 144);
+  uint32_t off = strip.Color(0, 0, 0);
+  strip.fill(green , 0, NUMPIXELS);
+  delay(100);
   strip.show();
-  delay(250);
-  strip.clear();
-  delay(250);
+  strip.fill(off , 0, NUMPIXELS);
+  delay(100);
+  strip.show();
 }
 
 void Green() {
   uint32_t green = strip.Color(50, 0, 0);
-  strip.fill(green, 0, 144);
+  strip.fill(green, 0, NUMPIXELS);
   strip.show();
 }
 
 void Red() {
-  uint32_t red = strip.Color(0, 0, 50);
-  strip.fill(red, 0, 144);
+  uint32_t red = strip.Color(0, 50, 0);
+  strip.fill(red, 0, NUMPIXELS);
   strip.show();
+  Serial.println("Red");
 }
 
-void RedBlink() { //make it blink or fade or something
-  uint32_t red = strip.Color(0, 0, 50);
-  strip.fill(red, 0, 144);
+void RedBlink() {
+  uint32_t red = strip.Color(0, 50, 0);
+  uint32_t off = strip.Color(0, 0, 0);
+  strip.fill(red , 0, NUMPIXELS);
+  delay(100);
   strip.show();
-    delay(250);
-  strip.clear();
-  delay(250);
+  strip.fill(off , 0, NUMPIXELS);
+  delay(100);
+  strip.show();
 }
 
 void Blue() {
-  uint32_t blue = strip.Color(0, 50, 0);
-  strip.fill(blue, 0, 144);
+  uint32_t blue = strip.Color(0, 0, 50);
+  strip.fill(blue, 0, NUMPIXELS);
   strip.show();
 }
 
-void BlueBlink() { //make it blink or fade or something
-  uint32_t blue = strip.Color(0, 50, 0);
-  strip.fill(blue, 0, 144);
+void BlueBlink() {
+  uint32_t blue = strip.Color(0, 0, 50);
+  uint32_t off = strip.Color(0, 0, 0);
+  strip.fill(blue , 0, NUMPIXELS);
+  delay(100);
   strip.show();
-    delay(250);
-  strip.clear();
-  delay(250);
+  strip.fill(off , 0, NUMPIXELS);
+  delay(100);
+  strip.show();
 }
 
 void loop() {
@@ -87,7 +112,10 @@ void loop() {
   buttonState2 = digitalRead(buttonPin2);
   buttonState3 = digitalRead(buttonPin3);
 
-  if (buttonState == 1 && buttonState2 == 0 && buttonState3 == 0) {
+  if (buttonState == 0 && buttonState2 == 0 && buttonState3 == 0) {
+    Off();
+  }
+ else if (buttonState == 1 && buttonState2 == 0 && buttonState3 == 0) {
     GreenBlink();
   }
   else if (buttonState == 0 && buttonState2 == 1 && buttonState3 == 0) {

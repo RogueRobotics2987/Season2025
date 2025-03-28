@@ -17,9 +17,9 @@ class LightSubsystem : public frc2::SubsystemBase {
   void Red();
   void BlueBlink();
   void Blue();
-  frc::DigitalOutput _light1{3};
-  frc::DigitalOutput _light2{4};
-  frc::DigitalOutput _light3{5};
+  frc::DigitalOutput _light1{0};
+  frc::DigitalOutput _light2{1};
+  frc::DigitalOutput _light3{2};
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
