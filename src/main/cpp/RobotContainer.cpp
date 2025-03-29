@@ -136,10 +136,18 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
     DriveStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void
                                                    { m_climberSubsystem.SetClimber(0); })
-                                    .ToPtr());                                    
+                                    .ToPtr());
+
+    DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(0.5); })
+                                    .ToPtr());
+
+    DriveStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(0); })
+                                    .ToPtr());                    
 
     AuxStick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(-0.5); })
+                                                   { m_climberSubsystem.SetClimber(0.5); })
                                     .ToPtr());
 
     AuxStick.RightBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
