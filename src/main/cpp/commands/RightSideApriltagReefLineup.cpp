@@ -140,8 +140,10 @@ void RightSideApriltagReefLineup::Execute()
   double outputX = 0;
   double outputY = 0;
   double outputYaw = 0;
+
+  // these are set points
   errorX = currentX - 0; //tune for the offset of the tag //left side
-  errorY = currentY - 1;
+  errorY = currentY - 0.27;
   errorYaw = currentYaw - 0; // our yaw will always be parallel with the tag
 
   if(errorYaw > 180)
@@ -180,7 +182,8 @@ void RightSideApriltagReefLineup::Execute()
   frc::SmartDashboard::PutNumber("outputYaw", outputYaw);
   
   _driveTrain->SetControl(robotCentricDrive.WithVelocityY(units::meters_per_second_t{outputX})
-        .WithVelocityX(units::meters_per_second_t{- _driveStick->GetLeftY()})
+        .WithVelocityX(units::meters_per_second_t{outputY})
+        // .WithVelocityX(units::meters_per_second_t{- _driveStick->GetLeftY()})
         .WithRotationalRate(units::degrees_per_second_t{outputYaw})
    );
 
