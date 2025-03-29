@@ -28,7 +28,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
    */
   RightSideApriltagReefLineup(
     subsystems::CommandSwerveDrivetrain &driveTrain, 
-    frc2::CommandXboxController &driveStick); // needs xbox perm? //dont think we need drivepose
+    frc2::CommandXboxController &driveStick, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
@@ -69,14 +69,17 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   double speedX = 0;
   double speedY = 0;
   double rot = 0; //some of these are in private some arent
-  double kP_x = 1.5; //tune these //max speed: 1.25 mps
+  double kP_x = 2; //tune these //max speed: 1.25 mps
   double kP_y = 1.5;
   double kP_yaw = 2.0; //tune these //max output: 90* max // max error: 60*
   double errorX;
   double errorY; //still need to calculate even though its not in PID
   double errorYaw;
   double currentYaw;
-  
+  double _setPointX = 0;
+  double _setPointY = 0;
+  double _setPointYaw = 0;
+
   int currentx;
 
   bool NoJoystickInput = false;

@@ -12,11 +12,14 @@
 
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(
   subsystems::CommandSwerveDrivetrain &driveTrain, 
-  frc2::CommandXboxController &driveStick)
+  frc2::CommandXboxController &driveStick, double setPointX, double setPointY, double setPointYaw)
 {
   _driveTrain = &driveTrain;
   _driveStick = &driveStick;
   AddRequirements({_driveTrain});
+  _setPointX = setPointX;
+  _setPointY = setPointY;
+  _setPointYaw = setPointYaw;
 
 // //maple handles lose tracking for 100 ms sends the same thing
  auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
@@ -142,9 +145,9 @@ void RightSideApriltagReefLineup::Execute()
   double outputYaw = 0;
 
   // these are set points
-  errorX = currentX - 0; //tune for the offset of the tag //left side
-  errorY = currentY - 0.27;
-  errorYaw = currentYaw - 0; // our yaw will always be parallel with the tag
+  errorX = currentX - _setPointX; //tune for the offset of the tag //left side //-0.2
+  errorY = currentY - _setPointY; //0.35
+  errorYaw = currentYaw - _setPointYaw; // our yaw will always be parallel with the tag //0
 
   if(errorYaw > 180)
   {
@@ -159,7 +162,7 @@ void RightSideApriltagReefLineup::Execute()
     errorYaw = errorYaw;
   }
 
-  outputX = errorX * kP_x; //turn the kp positive? ^
+  outputX = -errorX * kP_x; //turn the kp positive? ^
   outputY = errorY * kP_y;
   outputYaw = errorYaw * - kP_yaw;
 
