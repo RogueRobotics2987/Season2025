@@ -3,24 +3,20 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
-#include "commands/PlaceL4CMD.h"
+#include "commands/PoseL4CMD.h"
 #include "commands/RightSideApriltagReefLineup.h"
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
-
-
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
+
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandPtr.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <memory> 
-#include <frc2/command/InstantCommand.h>
 
 using namespace pathplanner;
 
@@ -30,7 +26,7 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
-
+    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, m_driverController, -0.2, 0.35, 0).ToPtr()));
     
 
     // Initialize all of your commands and subsystems here

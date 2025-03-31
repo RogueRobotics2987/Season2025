@@ -38,7 +38,7 @@ class RobotContainer
 
 public:
   RobotContainer();
-  frc2::CommandPtr GetAutonomousCommand(); // smart pointer because pathplanner LIB sendable chooser
+  frc2::Command* GetAutonomousCommand(); // smart pointer because pathplanner LIB sendable chooser
   frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
 
 private:
@@ -62,11 +62,9 @@ private:
 
   subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
 
-    RobotContainer();
+    //RobotContainer();
     
-    frc2::Command* GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
-
-    frc::SlewRateLimiter<units::volts> filter{8_V / 1_s};
+    //frc2::Command* GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 
  private:
     // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -80,8 +78,6 @@ private:
 //       OperatorConstants::kDriverControllerPort}; // declared twice
 
     double elevatorOffset = 0;
-
-  frc::SendableChooser<frc2::Command *> m_chooser;
 
   // The robot's subsystems are defined here...
   CoralSubsystem m_coralSubsystem;

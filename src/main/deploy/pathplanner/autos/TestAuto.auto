@@ -5,21 +5,28 @@
     "data": {
       "commands": [
         {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Z2_Face_G-H_Side-R"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RightLineUp"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "IntakeCMD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Z2_MoveOut"
+            "name": "PlaceCMD"
           }
         }
       ]
