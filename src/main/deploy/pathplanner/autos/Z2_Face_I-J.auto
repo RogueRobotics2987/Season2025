@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L"
+            "pathName": "Z2_Face_G-H"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.5
           }
         },
         {
@@ -45,17 +45,11 @@
           "data": {
             "name": "PoseL1CMD"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Face_K-L_S1"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TestAuto",
+  "folder": "Zone2",
   "choreoAuto": false
 }

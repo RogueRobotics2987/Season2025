@@ -9,7 +9,13 @@
     "Zone2",
     "Zone3"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Not used",
+    "TestAuto",
+    "Zone1",
+    "Zone2",
+    "Zone3"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

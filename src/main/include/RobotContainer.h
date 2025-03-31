@@ -6,10 +6,14 @@
 
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/button/CommandXboxController.h>
-#include "Constants.h"
-#include "subsystems/CoralSubsystem.h"
 #include <frc2/command/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/filter/SlewRateLimiter.h>
+#include <frc2/command/RunCommand.h>
+
+#include "Constants.h"
+#include "subsystems/CoralSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 #include "Telemetry.h"
 #include <frc2/command/RunCommand.h>
@@ -23,14 +27,15 @@
  * commands, and trigger mappings) should be declared here.
  */
 
-class RobotContainer
-{
+/**
+ * This class is where the bulk of the robot should be declared.  Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls).  Instead, the structure of the robot (including subsystems,
+ * commands, and trigger mappings) should be declared here.
+ */
 
-public:
-  RobotContainer();
-  frc2::CommandPtr GetAutonomousCommand(); // smart pointer because pathplanner LIB sendable chooser
-  frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
-
+class RobotContainer {
 private:
   units::meters_per_second_t MaxSpeed = TunerConstants::kSpeedAt12Volts; // kSpeedAt12Volts desired top speed
   units::radians_per_second_t MaxAngularRate = 0.75_tps;                 // 3/4 of a rotation per second max angular velocity
@@ -52,12 +57,31 @@ private:
 
   subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
 
-  double elevatorOffset = 0;
+    RobotContainer();
+    
+    frc2::Command* GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
+
+    frc::SlewRateLimiter<units::volts> filter{8_V / 1_s};
+
+ private:
+    // Replace with CommandPS4Controller or CommandJoystick if needed
+    frc2::CommandXboxController m_driverController{
+        OperatorConstants::kDriverControllerPort};
+
+    frc::SendableChooser<frc2::Command*> m_chooser;
+
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+//   frc2::CommandXboxController m_driverController{ //declared twice
+//       OperatorConstants::kDriverControllerPort}; // declared twice
+
+    double elevatorOffset = 0;
 
   frc::SendableChooser<frc2::Command *> m_chooser;
 
   // The robot's subsystems are defined here...
   CoralSubsystem m_coralSubsystem;
+  ClimberSubsystem m_climberSubsystem;
+
 
   void ConfigureBindings();
 };

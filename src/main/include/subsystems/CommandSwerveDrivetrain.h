@@ -258,7 +258,6 @@ public:
 
     private:
         void ConfigureAutoBuilder();
-        void MapleInit();
         void StartSimThread();
     };
 }

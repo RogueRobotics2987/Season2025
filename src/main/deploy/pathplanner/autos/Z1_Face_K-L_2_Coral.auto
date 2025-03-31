@@ -13,7 +13,61 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL4CMD"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PlaceCMD"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL1CMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face_K-L_S1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1_Face_K-L_2_Coral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
           }
         },
         {
@@ -45,17 +99,11 @@
           "data": {
             "name": "PoseL1CMD"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Face_K-L_S1"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TestAuto",
+  "folder": "Not used",
   "choreoAuto": false
 }
