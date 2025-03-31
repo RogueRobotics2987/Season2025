@@ -14,6 +14,23 @@
 using namespace pathplanner;
 using namespace subsystems;
 
+void CommandSwerveDrivetrain::MapleInit(){
+    auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE");
+    /*if (table == nullptr) {
+        std::cout << "AHHHHHHHH" << std::endl;
+    }else{
+        std::cout << "OOOOOH" << std::endl; // this one prints*/
+    positionSub = table->GetDoubleArrayTopic("position").Subscribe({});
+    orientationSub = table->GetDoubleArrayTopic("orientation").Subscribe({});
+
+    // if (positionSub == nullptr) {
+    //     std::cout << "AHHHHHHHH22222" << std::endl;
+    // }else{
+    //     std::cout << "OOOOOH22222" << std::endl;
+    // }
+    // orientationSub = table->GetDoubleArrayTopic("orientation").Subscribe({});
+}
+
 void CommandSwerveDrivetrain::ConfigureAutoBuilder(){
     auto config = pathplanner::RobotConfig::fromGUISettings();
     pathplanner::AutoBuilder::configure(
@@ -63,6 +80,42 @@ void CommandSwerveDrivetrain::Periodic()
             m_hasAppliedOperatorPerspective = true;
         }
     }
+
+    // Grabs the position and orintation values from the network table 'MAPLE'
+    std::vector<double> position = positionSub.Get(); //elements x, y, z
+    std::vector<double> orientation = orientationSub.Get(); //elements roll, pitch, yaw
+    double xPose = position[0]; // taking x
+    double yPose = position[1]; // taking y
+    double yawAngle = orientation[2]; // taking yaw
+   
+    // units::meter_t xPoseInMeters = units::meter_t {xPose}; 
+    // units::meter_t yPoseInMeters = units::meter_t {yPose};
+    // units::angle::degree_t yawAngleInDegree = units::angle::degree_t {yawAngle};
+   
+    // frc::Rotation2d yawRotation2D = frc::Rotation2d(yawAngleInDegree);
+
+    // frc::Pose2d pose2D(xPoseInMeters, yPoseInMeters, yawRotation2D);
+    
+    // units::time::second_t epochStartupTime = utils::GetCurrentTime();   //find utils for currenttime () 
+    // units::time::second_t convertedEpochStartupTime = utils::FPGAToCurrentTime(epochStartupTime);
+    // AddVisionMeasurement(pose2D, convertedEpochStartupTime); //make pose2d()
+
+
+    // std::cout << xPose << std::endl;
+    // std::cout << yPose << std::endl;
+    // std::cout << yawAngle << std::endl;
+    //TODO: TEST PRINT OF THE VALUES; Delete these once testing is complete - we don't want to print 6 lines every cycle.
+    // std::cout << "position XYZ: ";
+    // for (double pos : position) {
+    //     std::cout << pos << " ";
+    // }
+    // std::cout << std::endl;
+
+    // std::cout << "orientation RPY: ";
+    // for (double angle : orientation) {
+    //     std::cout << angle << " ";
+    // }
+    // std::cout << std::endl;
 }
 
 void CommandSwerveDrivetrain::StartSimThread()

@@ -3,24 +3,27 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
+#include "commands/PlaceL4CMD.h"
+#include "commands/RightSideApriltagReefLineup.h"
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
 
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandPtr.h>
-#include <frc2/command/Command.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <memory> 
+#include <frc2/command/InstantCommand.h>
 
 using namespace pathplanner;
-     
+
 RobotContainer::RobotContainer()
 {
     NamedCommands::registerCommand("PlaceCMD", std::move(PlaceCMD(m_coralSubsystem).ToPtr())); //NEEDS TO BE ABOVE CHOOSER
@@ -49,32 +52,20 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // and Y is defined as to the left according to WPILib convention.
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
-        drivetrain.ApplyRequest([this]() -> auto &&
-                                {
-                                    units::volt_t value{DriveStick.GetRightTriggerAxis() + 0.25 > 1 ? 1 : DriveStick.GetRightTriggerAxis() + 0.25};
-                                    units::volt_t outputMult = filter.Calculate(value);
+        drivetrain.ApplyRequest([this]() -> auto&& {
+          units::volt_t value{(1 - 0.25) * DriveStick.GetRightTriggerAxis() + 0.25};
+          units::volt_t outputMult = filter.Calculate(value);
 
-                                    return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value())      // Drive forward with positive Y (forward)
-                                        .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value())              // Drive left with positive X (left)
-                                        .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
-                                }));
+            return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
+                .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
+                .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
+        })
+    );
 
-    // drivetrain.SetDefaultCommand(
-    //     // Drivetrain will execute this command periodically
-    //     drivetrain.ApplyRequest([this]() -> auto&& {
-    //       units::volt_t value{(1 - 0.25) * DriveStick.GetLeftTriggerAxis() + 0.25};
-    //       units::volt_t outputMult = filter.Calculate(value);
-
-    //         return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
-    //             .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
-    //             .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
-    //     })
-    // );
-
-    DriveStick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
-    DriveStick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
-        return point.WithModuleDirection(frc::Rotation2d{-DriveStick.GetLeftY(), -DriveStick.GetLeftX()});
-    }));
+    // DriveStick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
+    // DriveStick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
+    //     return point.WithModuleDirection(frc::Rotation2d{-DriveStick.GetLeftY(), -DriveStick.GetLeftX()});
+    // }));
     // DriveStick.POVUp().WhileTrue(m_coralSubsystem.SetArmAndElevator(L1Angle, L1Height));
     // DriveStick.Back().WhileTrue(frc2::InstantCommand([this]() -> void {
     //      m_coralSubsystem.ResetState();
@@ -186,11 +177,16 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     (DriveStick.Start() && DriveStick.X()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kReverse));
 
     // reset the field-centric heading on left bumper press
-    DriveStick.LeftBumper().OnTrue(drivetrain.RunOnce([this]
-                                                      { drivetrain.SeedFieldCentric(); }));
+    DriveStick.Back().WhileTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
+    //TODO: look at last years code and find out why its not being scheduled
+    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, DriveStick, 0.2, 0.35, 0).ToPtr());
+    
 
+    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, DriveStick, -0.2, 0.35, 0).ToPtr());
+    // THINGS WE KNOW FOR SURE: 
+    // - .OnTrue
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
-    drivetrain.GetState().Pose;
+    // drivetrain.GetState().Pose;
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand()

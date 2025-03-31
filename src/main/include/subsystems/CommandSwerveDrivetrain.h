@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ctre/phoenix6/SignalLogger.hpp"
-
 #include <frc/DriverStation.h>
 #include <frc/Notifier.h>
 #include <frc2/command/CommandPtr.h>
@@ -11,8 +10,6 @@
 #include "generated/TunerConstants.h"
 
 using namespace ctre::phoenix6;
-
-//TunerSwerveDrivetrain();
 
 namespace subsystems {
 
@@ -111,7 +108,7 @@ class CommandSwerveDrivetrain : public frc2::SubsystemBase, public TunerSwerveDr
 
 public:
     nt::DoubleArraySubscriber positionSub;
-    // nt::DoubleArraySubscriber orientationSub;
+    nt::DoubleArraySubscriber orientationSub;
     /**
      * \brief Constructs a CTRE SwerveDrivetrain using the specified constants.
      *
@@ -131,6 +128,7 @@ public:
         }
 
         ConfigureAutoBuilder();
+        // TODO: MapleInit();
     }
 
     /**
@@ -158,6 +156,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
+        // TODO: MapleInit();
     }
 
     /**
@@ -192,6 +191,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
+        // TODO: MapleInit();
     }
 
     /**
