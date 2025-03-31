@@ -28,17 +28,26 @@ void setup() {
 
 void Idle () {
   for(int i = 0; i < 144; i++) {
+    if (buttonState == 1, buttonState2 == 1, buttonState3 == 1) {
+      return;
+    }
     strip.setPixelColor(i, 0, 25, 0);
     strip.show();
   }
    for(int i = 0; i < 144; i++) {
+    if (buttonState == 1, buttonState2 == 1, buttonState3 == 1) {
+      return;
+    }
     strip.setPixelColor(i, 0, 0, 25);
     strip.show();
   }
 }
 
-void GreenBlink() { //make it blink or fade or something
+void GreenBlink() {
   uint32_t green = strip.Color(50, 0, 0);
+  if (buttonState == 1, buttonState2 == 0, buttonState3 == 0) {
+    return;
+  }
   strip.fill(green, 0, 144);
   strip.show();
   delay(250);
@@ -48,18 +57,27 @@ void GreenBlink() { //make it blink or fade or something
 
 void Green() {
   uint32_t green = strip.Color(50, 0, 0);
+  if (buttonState == 1, buttonState2 == 0, buttonState3 == 1) {
+    return;
+  }
   strip.fill(green, 0, 144);
   strip.show();
 }
 
 void Red() {
   uint32_t red = strip.Color(0, 0, 50);
+  if (buttonState == 1, buttonState2 == 1, buttonState3 == 0) {
+    return;
+  }
   strip.fill(red, 0, 144);
   strip.show();
 }
 
-void RedBlink() { //make it blink or fade or something
+void RedBlink() { 
   uint32_t red = strip.Color(0, 0, 50);
+  if (buttonState == 0, buttonState == 0, buttonState3 == 1) {
+    return;
+  }
   strip.fill(red, 0, 144);
   strip.show();
     delay(250);
@@ -69,12 +87,18 @@ void RedBlink() { //make it blink or fade or something
 
 void Blue() {
   uint32_t blue = strip.Color(0, 50, 0);
+  if (buttonState == 0, buttonState2 == 1, buttonState3 == 1) {
+    return;
+  }
   strip.fill(blue, 0, 144);
   strip.show();
 }
 
-void BlueBlink() { //make it blink or fade or something
+void BlueBlink() {
   uint32_t blue = strip.Color(0, 50, 0);
+  if (buttonState == 1, buttonState2 == 0, buttonState3 == 1) {
+    return;
+  }
   strip.fill(blue, 0, 144);
   strip.show();
     delay(250);
