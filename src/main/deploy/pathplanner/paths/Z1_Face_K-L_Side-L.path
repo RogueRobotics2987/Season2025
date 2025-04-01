@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.18,
-        "y": 7.58
+        "x": 7.17,
+        "y": 7.56
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.1580554445170534,
-        "y": 6.9925934831081795
+        "x": 4.148055444517054,
+        "y": 6.972593483108179
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.241,
-        "y": 5.349
+        "x": 4.0,
+        "y": 5.21
       },
       "prevControl": {
-        "x": 4.1366689001893615,
-        "y": 5.88573697852142
+        "x": 3.8956689001893614,
+        "y": 5.74673697852142
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,23 +31,10 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "PoseL4CMD",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "PlaceCMD",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -63,5 +50,5 @@
     "velocity": 0,
     "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -6,13 +6,15 @@
 
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/button/CommandXboxController.h>
+#include "Constants.h"
+#include "subsystems/CoralSubsystem.h"
 #include <frc2/command/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/filter/SlewRateLimiter.h>
 #include <frc2/command/RunCommand.h>
 
-#include "Constants.h"
-#include "subsystems/CoralSubsystem.h"
+
+
 #include "subsystems/ClimberSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
 // #include "Constants.h" // TODO: removed during auto line up merge
@@ -30,10 +32,17 @@
  * commands, and trigger mappings) should be declared here.
  */
 
-class RobotContainer {
-  private:
-    units::meters_per_second_t MaxSpeed = TunerConstants::kSpeedAt12Volts; // kSpeedAt12Volts desired top speed
-    units::radians_per_second_t MaxAngularRate = 0.75_tps; // 3/4 of a rotation per second max angular velocity
+class RobotContainer
+{
+
+public:
+  RobotContainer();
+  frc2::Command* GetAutonomousCommand(); // smart pointer because pathplanner LIB sendable chooser
+  frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
+
+private:
+  units::meters_per_second_t MaxSpeed = TunerConstants::kSpeedAt12Volts; // kSpeedAt12Volts desired top speed
+  units::radians_per_second_t MaxAngularRate = 0.75_tps;                 // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     swerve::requests::FieldCentric drive = swerve::requests::FieldCentric{}
@@ -47,17 +56,15 @@ class RobotContainer {
     *       define a destructor to un-register the telemetry from the drivetrain */
     Telemetry logger{MaxSpeed};
 
-    frc2::CommandXboxController DriveStick{0};
-    frc2::CommandXboxController AuxStick{1};
+  frc2::CommandXboxController DriveStick{0};
+  frc2::CommandXboxController AuxStick{1};
 
   public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
 
-    RobotContainer();
+    //RobotContainer();
     
-    frc2::Command* GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
-
-    frc::SlewRateLimiter<units::volts> filter{8_V / 1_s};
+    //frc2::Command* GetAutonomousCommand(); //smart pointer because pathplanner LIB sendable chooser
 
  private:
     // Replace with CommandPS4Controller or CommandJoystick if needed

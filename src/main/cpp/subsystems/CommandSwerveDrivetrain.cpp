@@ -8,7 +8,7 @@
 #include <frc/geometry/Pose2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/DriverStation.h>
-// #include <frc/smartdashboard/SmartDashboard.h> //why???
+// #include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
 
 using namespace pathplanner;
