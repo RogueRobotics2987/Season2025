@@ -4,7 +4,7 @@
 #include <SPI.h>         // COMMENT OUT THIS LINE FOR GEMMA OR TRINKET
 //#include <avr/power.h> // ENABLE THIS LINE FOR GEMMA OR TRINKET
 
-#define NUMPIXELS 144 // Number of LEDs in strip
+#define NUMPIXELS 128 // Number of LEDs in strip
 
 // Here's how to control the LEDs from any two pins:
 #define DATAPIN    8
@@ -45,14 +45,14 @@ void Off() {
 }
 
 void Idle () {
-  for(int i = 0; i < 123; i++) { 
+  for(int i = 0; i < NUMPIXELS; i++) { 
     if (buttonState == 1 && buttonState2 == 1 && buttonState3 == 1) {
       return;
     } 
     strip.setPixelColor(i, 0, 25, 0);
     strip.show();
   }
-   for(int i = 0; i < 123; i++) {
+   for(int i = 0; i < NUMPIXELS; i++) {
     if (buttonState == 1 && buttonState2 == 1 && buttonState3 == 1) {
       return;
     } 
@@ -85,17 +85,17 @@ void Green() {
 }
 
 void Red() {
-  uint32_t red = strip.Color(0, 50, 0);
-  if (buttonState == 1 && buttonState2 == 1 && buttonState3 == 0) {
-      return;
-    } 
+  uint32_t red = strip.Color(0, 0, 50);
+  if (buttonState == 1, buttonState2 == 1, buttonState3 == 0) {
+    return;
+  }
   strip.fill(red, 0, NUMPIXELS);
   strip.show();
   Serial.println("Red");
 }
 
 void RedBlink() {
-  uint32_t red = strip.Color(0, 50, 0);
+  uint32_t red = strip.Color(0, 0, 50);
   uint32_t off = strip.Color(0, 0, 0);
   if (buttonState == 0 && buttonState2 == 0 && buttonState3 == 1) {
       return;
@@ -109,16 +109,16 @@ void RedBlink() {
 }
 
 void Blue() {
-  uint32_t blue = strip.Color(0, 0, 50);
-  if (buttonState == 0 && buttonState2 == 1 && buttonState3 == 1) {
-      return;
-    } 
+  uint32_t blue = strip.Color(0, 50, 0);
+  if (buttonState == 0, buttonState2 == 1, buttonState3 == 1) {
+    return;
+  }
   strip.fill(blue, 0, NUMPIXELS);
   strip.show();
 }
 
 void BlueBlink() {
-  uint32_t blue = strip.Color(0, 0, 50);
+  uint32_t blue = strip.Color(0, 50, 0);
   uint32_t off = strip.Color(0, 0, 0);
   if (buttonState == 1 && buttonState2 == 0 && buttonState3 == 1) {
       return;
