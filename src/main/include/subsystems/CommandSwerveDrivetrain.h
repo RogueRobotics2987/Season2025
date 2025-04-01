@@ -260,6 +260,5 @@ public:
         void ConfigureAutoBuilder();
         void MapleInit();
         void StartSimThread();
-        void MapleInit();
     };
 }
