@@ -7,13 +7,15 @@
 #include "subsystems/ClimberSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include "commands/RightSideApriltagReefLineup.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandPtr.h>
-#include <frc2/command/Command.h>
+// #include <frc2/command/Command.h> // TODO: Removed during auto line up merge
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
@@ -28,23 +30,17 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
 
-    
-
     // Initialize all of your commands and subsystems here
     m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests"); //change name
     frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
 
-
-
     //public:
-
     // Configure the button bindings
     ConfigureBindings();
 }
 
 void RobotContainer::ConfigureBindings() // more needs to be added somewhere in here *look at GIT for what
 {
-
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
     drivetrain.SetDefaultCommand(
@@ -58,18 +54,6 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                         .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value())              // Drive left with positive X (left)
                                         .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
                                 }));
-
-    // drivetrain.SetDefaultCommand(
-    //     // Drivetrain will execute this command periodically
-    //     drivetrain.ApplyRequest([this]() -> auto&& {
-    //       units::volt_t value{(1 - 0.25) * DriveStick.GetLeftTriggerAxis() + 0.25};
-    //       units::volt_t outputMult = filter.Calculate(value);
-
-    //         return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value()) // Drive forward with positive Y (forward)
-    //             .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value()) // Drive left with positive X (left)
-    //             .WithRotationalRate(-DriveStick.GetRightX() * MaxAngularRate * outputMult.value()); // Drive counterclockwise with negative X (left)
-    //     })
-    // );
 
     DriveStick.A().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& { return brake; }));
     DriveStick.B().WhileTrue(drivetrain.ApplyRequest([this]() -> auto&& {
@@ -194,15 +178,17 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     (DriveStick.Start() && DriveStick.X()).WhileTrue(drivetrain.SysIdQuasistatic(frc2::sysid::Direction::kReverse));
 
     // reset the field-centric heading on left bumper press
-    DriveStick.LeftBumper().OnTrue(drivetrain.RunOnce([this]
-                                                      { drivetrain.SeedFieldCentric(); }));
+    DriveStick.Back().WhileTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
+    //TODO: look at last years code and find out why its not being scheduled
+    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, DriveStick, 0.2, 0.35, 0).ToPtr());
+    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, DriveStick, -0.2, 0.35, 0).ToPtr());
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
-    drivetrain.GetState().Pose;
+    // drivetrain.GetState().Pose; // TODO: Removed during auto line up merge
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand()
 {
-   return m_chooser.GetSelected(); //*m_chooser compiles when this is not being returned
-
+    // return PathPlannerAuto("TestAuto").ToPtr();
+    return m_chooser.GetSelected(); //*m_chooser compiles when this is not being returned. // TODO: Removed during auto line up merge
 }

@@ -15,12 +15,12 @@
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
-#include "Constants.h"
+// #include "Constants.h" // TODO: removed during auto line up merge
 #include "Telemetry.h"
-#include "commands/PlaceCMD.h"
-#include "commands/IntakeCMD.h"
-#include "commands/PoseL1CMD.h"
-#include "commands/PoseL4CMD.h"
+#include "commands/PlaceCMD.h" // TODO: removed during auto line up merge
+#include "commands/IntakeCMD.h" // TODO: removed during auto line up merge
+#include "commands/PoseL1CMD.h" // TODO: removed during auto line up merge
+#include "commands/PoseL4CMD.h" // TODO: removed during auto line up merge
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -31,25 +31,26 @@
  */
 
 class RobotContainer {
-private:
+  private:
     units::meters_per_second_t MaxSpeed = TunerConstants::kSpeedAt12Volts; // kSpeedAt12Volts desired top speed
     units::radians_per_second_t MaxAngularRate = 0.75_tps; // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     swerve::requests::FieldCentric drive = swerve::requests::FieldCentric{}
-        .WithDeadband(MaxSpeed * 0.03).WithRotationalDeadband(MaxAngularRate * 0.03) // Add a 10% deadband
-        .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
+                                              .WithDeadband(MaxSpeed * 0.03)
+                                              .WithRotationalDeadband(MaxAngularRate * 0.03)                     // Add a 10% deadband
+                                              .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
     swerve::requests::SwerveDriveBrake brake{};
     swerve::requests::PointWheelsAt point{};
 
     /* Note: This must be constructed before the drivetrain, otherwise we need to
-     *       define a destructor to un-register the telemetry from the drivetrain */
+    *       define a destructor to un-register the telemetry from the drivetrain */
     Telemetry logger{MaxSpeed};
 
     frc2::CommandXboxController DriveStick{0};
     frc2::CommandXboxController AuxStick{1};
 
-public:
+  public:
     subsystems::CommandSwerveDrivetrain drivetrain{TunerConstants::CreateDrivetrain()};
 
     RobotContainer();
