@@ -73,7 +73,8 @@ class RobotContainer {
     double elevatorOffset = 0;
 
   // The robot's subsystems are defined here...
-  CoralSubsystem m_coralSubsystem;
+  LightSubsystem m_lightSubsystem;
+  CoralSubsystem m_coralSubsystem{m_lightSubsystem};
   ClimberSubsystem m_climberSubsystem;
 
 
