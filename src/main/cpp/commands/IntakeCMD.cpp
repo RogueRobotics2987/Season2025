@@ -16,7 +16,7 @@ IntakeCMD::IntakeCMD(CoralSubsystem &CoralSubsystem)
 void IntakeCMD::Initialize() 
 {
   m_coralSubsystem->coralLoaded = false;
-  m_coralSubsystem->SetIntakeMotors(0.3);
+  m_coralSubsystem->SetIntakeMotors(intakeSpeed);
 }
 
 // Called repeatedly when this Command is scheduled to run

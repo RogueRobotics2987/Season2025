@@ -10,12 +10,11 @@
 
 #include <iostream>
 
+RightSideApriltagReefLineup::RightSideApriltagReefLineup(){}
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(
-  subsystems::CommandSwerveDrivetrain &driveTrain, 
-  frc2::CommandXboxController &driveStick, double setPointX, double setPointY, double setPointYaw)
+  subsystems::CommandSwerveDrivetrain &driveTrain, double setPointX, double setPointY, double setPointYaw)
 {
   _driveTrain = &driveTrain;
-  _driveStick = &driveStick;
   AddRequirements({_driveTrain});
   _setPointX = setPointX;
   _setPointY = setPointY;
@@ -169,6 +168,7 @@ void RightSideApriltagReefLineup::Execute()
   if(std::fabs(errorYaw) > 20)
   {
     outputX = 0;
+    outputY = 0;
   }
 
  if(outputYaw < 0)
@@ -217,25 +217,28 @@ void RightSideApriltagReefLineup::End(bool interrupted)
 // Returns true when the command should end.
 bool RightSideApriltagReefLineup::IsFinished() 
 {
+  
+  
+  
   //set all variables to what their start is just in case?
-  return false;
+  //return false;
   // if(finished)
   // {
   //   std::cout << "Done No Tag" << std::endl;
   //   return true;
   // }
 
-  // if(errorX + errorYaw <= 0.03 && errorX + errorYaw >= -0.03) //within 5 cm
-  // {
-  //  //change lights
+  if(std::fabs(errorX) < 0.03 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 1.0) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
+  {
+   //change lights
   //  std::cout << "Done!" << std::endl << "\n";
   //  std::cout << errorX << std::endl << "\n";
   //  std::cout << errorYaw << std::endl << "\n";
-  //  return true; //end the command
-  // }
-  // else
-  // {
-  //  std::cout << "Nope!" << std::endl;
-  //  return false;
-  // }
+   return true; //end the command
+  }
+  else
+  {
+   std::cout << "Nope!" << std::endl;
+   return false;
+  }
 }
