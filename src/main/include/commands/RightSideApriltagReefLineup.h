@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include "subsystems/CommandSwerveDrivetrain.h"
+#include "subsystems/LightSubsystem.h"
 #include "ctre/phoenix6/swerve/SwerveDrivetrain.hpp"
 #include "RobotContainer.h"
 #include "Telemetry.h"
@@ -28,6 +29,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
    */
   RightSideApriltagReefLineup(
     subsystems::CommandSwerveDrivetrain &driveTrain, 
+    LightSubsystem &lightSubsystem,
     frc2::CommandXboxController &driveStick, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
@@ -57,6 +59,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
   subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
+  LightSubsystem* m_lightSubsystem = nullptr;
   frc2::CommandXboxController* _driveStick = nullptr;
 
  nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data

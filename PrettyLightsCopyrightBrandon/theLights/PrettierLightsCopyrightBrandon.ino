@@ -4,7 +4,7 @@
 #include <SPI.h>         // COMMENT OUT THIS LINE FOR GEMMA OR TRINKET
 //#include <avr/power.h> // ENABLE THIS LINE FOR GEMMA OR TRINKET
 
-#define NUMPIXELS 131 // Number of LEDs in strip
+#define NUMPIXELS 116 // Number of LEDs in strip 
 
 // Here's how to control the LEDs from any two pins:
 #define DATAPIN    8
@@ -13,9 +13,9 @@ Adafruit_DotStar strip(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
 const int buttonPin = 0; // the number of the pushbutton pin
 const int buttonPin2 = 2;
 const int buttonPin3 = 6;
-int buttonState = 0;         // variable for reading the pushbutton status
-int buttonState2 = 0;
-int buttonState3 = 0;
+buttonState = digitalRead(buttonPin);         // variable for reading the pushbutton status
+buttonState2 = digitalRead(buttonPin2);
+buttonState3 = digitalRead(buttonPin3);
 
 //void brighten() {
 //  for (int i = 0; i > 100; i++) {
@@ -86,7 +86,7 @@ void Green() {
 
 void Red() {
   uint32_t red = strip.Color(0, 0, 50);
-  if (buttonState == 1, buttonState2 == 1, buttonState3 == 0) {
+  if (buttonState == 1 && buttonState2 == 1 && buttonState3 == 0) {
     return;
   }
   strip.fill(red, 0, NUMPIXELS);

@@ -7,11 +7,13 @@
 #include <networktables/NetworkTableInstance.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/RightSideApriltagReefLineup.h"
+#include "subsystems/LightSubsystem.h"
 
 #include <iostream>
 
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(
   subsystems::CommandSwerveDrivetrain &driveTrain, 
+  LightSubsystem &lightSubsystem,
   frc2::CommandXboxController &driveStick, double setPointX, double setPointY, double setPointYaw)
 {
   _driveTrain = &driveTrain;
@@ -33,7 +35,7 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
 void RightSideApriltagReefLineup::Initialize() 
 {
   std::cout << "this command is being run" << std::endl;
-  //change lights
+  m_lightSubsystem->RedBlink();
   //make sure robot is robot centric
   finished = false;
 }
