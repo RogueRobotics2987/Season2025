@@ -36,9 +36,9 @@ class RobotContainer
 {
 
 public:
-  RobotContainer();
+  RobotContainer(); //comment out?
   frc2::Command* GetAutonomousCommand(); // smart pointer because pathplanner LIB sendable chooser
-  frc::SlewRateLimiter<units::volts> filter{4_V / 1_s};
+  frc::SlewRateLimiter<units::volts> filter{4_V / 1_s}; //8_V / 1_s
 
 private:
   units::meters_per_second_t MaxSpeed = TunerConstants::kSpeedAt12Volts; // kSpeedAt12Volts desired top speed

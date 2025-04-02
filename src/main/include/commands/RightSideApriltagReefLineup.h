@@ -26,9 +26,10 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
+
+  RightSideApriltagReefLineup();
   RightSideApriltagReefLineup(
-    subsystems::CommandSwerveDrivetrain &driveTrain, 
-    frc2::CommandXboxController &driveStick, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
+    subsystems::CommandSwerveDrivetrain &driveTrain, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
@@ -57,7 +58,6 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
   subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
-  frc2::CommandXboxController* _driveStick = nullptr;
 
  nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
  nt::DoubleArraySubscriber apriltags_xSub;

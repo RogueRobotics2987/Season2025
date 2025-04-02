@@ -5,28 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Z2_Face_G-H_Side-R"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "RightLineUp"
-                }
-              }
-            ]
+            "pathName": "Z2_Face_G-H_Side-R"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PlaceCMD"
+            "name": "RightLineUp"
           }
         }
       ]

@@ -13,7 +13,6 @@
 
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc2/command/CommandPtr.h>
-// #include <frc2/command/Command.h> // TODO: Removed during auto line up merge
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
@@ -27,7 +26,7 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
-    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, m_driverController, -0.2, 0.35, 0).ToPtr()));
+    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, -0.2, 0.35, 0).ToPtr())); //boot loops the robot
     
 
     // Initialize all of your commands and subsystems here
@@ -179,8 +178,8 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // reset the field-centric heading on left bumper press
     DriveStick.Back().WhileTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
     //TODO: look at last years code and find out why its not being scheduled
-    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, DriveStick, 0.2, 0.35, 0).ToPtr());
-    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, DriveStick, -0.2, 0.35, 0).ToPtr());
+    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, 0.2, 0.35, 0).ToPtr());
+    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, -0.2, 0.35, 0).ToPtr());
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     // drivetrain.GetState().Pose; // TODO: Removed during auto line up merge
