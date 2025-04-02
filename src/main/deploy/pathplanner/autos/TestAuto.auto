@@ -15,6 +15,24 @@
           "data": {
             "name": "RightLineUp"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL4CMD"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PlaceCMD"
+          }
         }
       ]
     }

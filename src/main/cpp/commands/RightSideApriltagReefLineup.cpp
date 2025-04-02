@@ -168,6 +168,7 @@ void RightSideApriltagReefLineup::Execute()
   if(std::fabs(errorYaw) > 20)
   {
     outputX = 0;
+    outputY = 0;
   }
 
  if(outputYaw < 0)
@@ -216,20 +217,23 @@ void RightSideApriltagReefLineup::End(bool interrupted)
 // Returns true when the command should end.
 bool RightSideApriltagReefLineup::IsFinished() 
 {
+  
+  
+  
   //set all variables to what their start is just in case?
-  return false;
+  //return false;
   // if(finished)
   // {
   //   std::cout << "Done No Tag" << std::endl;
   //   return true;
   // }
 
-  if(errorX + errorY <= 0.03 && errorX + errorY >= -0.03) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
+  if(std::fabs(errorX) < 0.03 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 1.0) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
   {
    //change lights
-   std::cout << "Done!" << std::endl << "\n";
-   std::cout << errorX << std::endl << "\n";
-   std::cout << errorYaw << std::endl << "\n";
+  //  std::cout << "Done!" << std::endl << "\n";
+  //  std::cout << errorX << std::endl << "\n";
+  //  std::cout << errorYaw << std::endl << "\n";
    return true; //end the command
   }
   else

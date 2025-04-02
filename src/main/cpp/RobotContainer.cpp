@@ -28,7 +28,9 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, -0.2, 0.35, 0).ToPtr())); //boot loops the robot
     
-
+    // Robot relative tag position 9 - x: $ -0.18, y: 0.42, z: 0.21, yaw: 6.07 // right
+    // Robot relative tag position 9 - x: $ 0.17, y: 0.41, z: 0.22, yaw: 0.46 // left
+    
     // Initialize all of your commands and subsystems here
     m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests"); //change name
     frc::SmartDashboard::PutData("Auto Chooser", &m_chooser);
@@ -178,8 +180,8 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // reset the field-centric heading on left bumper press
     DriveStick.Back().WhileTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
     //TODO: look at last years code and find out why its not being scheduled
-    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, 0.2, 0.35, 0).ToPtr());
-    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, -0.2, 0.35, 0).ToPtr());
+    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, 0.17, 0.4, 0.46).ToPtr());
+    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, -0.13, 0.4, 6).ToPtr());
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     // drivetrain.GetState().Pose; // TODO: Removed during auto line up merge

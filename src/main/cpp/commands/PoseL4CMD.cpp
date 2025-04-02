@@ -44,7 +44,7 @@ bool PoseL4CMD::IsFinished()
 {
   double error = std::abs(m_coralSubsystem->_elevatorLeader.GetEncoder().GetPosition() - (L4Height + GravityoffsetIn));
   //std::cout << error << std::endl;
-  if(error < 6)
+  if(error < 6) //might be to big
   {
     //std::cout << "it is ending" << std::endl;
     return true;
