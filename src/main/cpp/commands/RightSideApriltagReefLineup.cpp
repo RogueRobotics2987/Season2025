@@ -162,7 +162,36 @@ void RightSideApriltagReefLineup::Execute()
   }
 
   outputX = -errorX * kP_x; //turn the kp positive? ^
+
+  double MaxLineupSpeed = 0.25;
+
+  if(outputX > (MaxSpeed.value() * MaxLineupSpeed))
+  {
+    outputX = (MaxSpeed.value() * MaxLineupSpeed);
+  }
+
+  if(outputX < (-MaxSpeed.value() * MaxLineupSpeed))
+  {
+    outputX = (-MaxSpeed.value() * MaxLineupSpeed);
+  }
+  
+  //std::cout << outputX << std::endl;
+  frc::SmartDashboard::PutNumber("output_x", outputX);
   outputY = errorY * kP_y;
+  
+  if(outputY > (MaxSpeed.value() * MaxLineupSpeed))
+  {
+    outputY = (MaxSpeed.value() * MaxLineupSpeed);
+  }
+
+  if(outputY < (-MaxSpeed.value() * MaxLineupSpeed))
+  {
+    outputY = (-MaxSpeed.value() * MaxLineupSpeed);
+  }
+  
+  //std::cout << outputY << std::endl;
+  frc::SmartDashboard::PutNumber("output_y", outputY);
+
   outputYaw = errorYaw * - kP_yaw;
 
   if(std::fabs(errorYaw) > 20)
@@ -180,7 +209,6 @@ void RightSideApriltagReefLineup::Execute()
   //outputX = 0;
   //outputYaw = 0;
 
-  frc::SmartDashboard::PutNumber("output_x", outputX);
   frc::SmartDashboard::PutNumber("outputYaw", outputYaw);
 
   _driveTrain->SetControl(robotCentricDrive.WithVelocityY(units::meters_per_second_t{outputX})

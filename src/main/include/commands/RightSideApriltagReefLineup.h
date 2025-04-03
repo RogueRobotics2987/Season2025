@@ -64,6 +64,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
  nt::DoubleArraySubscriber apriltags_ySub;
  nt::DoubleArraySubscriber apriltags_yawSub;
 
+  double MaxLineupSpeed;
   double currentHeading = 0;
   double lastHeading = 0;
   double speedX = 0;

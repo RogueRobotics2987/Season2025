@@ -26,8 +26,8 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
-    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, -0.2, 0.35, 0).ToPtr()));
-    NamedCommands::registerCommand("LeftLineUp", std::move(RightSideApriltagReefLineup(drivetrain, 0.2, 0.35, 0).ToPtr()));
+    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr()));
+    NamedCommands::registerCommand("LeftLineUp", std::move(RightSideApriltagReefLineup(drivetrain, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr()));
 
     
 
@@ -117,23 +117,23 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     //                                .ToPtr());
 
     DriveStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(-0.5); })
+                                                   { m_climberSubsystem.SetClimber(10); })
                                     .ToPtr());
 
     DriveStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void
                                                    { m_climberSubsystem.SetClimber(0); })
                                     .ToPtr());
 
-    DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(0.5); })
-                                    .ToPtr());
+    // DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+    //                                                { m_climberSubsystem.SetClimber(-1); })
+    //                                 .ToPtr());
 
-    DriveStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(0); })
-                                    .ToPtr());                    
+    // DriveStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+    //                                                { m_climberSubsystem.SetClimber(0); })
+    //                                 .ToPtr());                    
 
     AuxStick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(0.5); })
+                                                   { m_climberSubsystem.SetClimber(10); })
                                     .ToPtr());
 
     AuxStick.RightBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
@@ -182,8 +182,8 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // reset the field-centric heading on left bumper press
     DriveStick.Back().WhileTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
     //TODO: look at last years code and find out why its not being scheduled
-    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, 0.2, 0.35, 0).ToPtr());
-    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, -0.2, 0.35, 0).ToPtr());
+    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr());
+    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr());
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     // drivetrain.GetState().Pose; // TODO: Removed during auto line up merge
