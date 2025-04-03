@@ -26,7 +26,7 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
-    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, -0.2, 0.35, 0).ToPtr())); //boot loops the robot
+    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, -0.13, 0.4, 6).ToPtr())); //boot loops the robot
     
     // Robot relative tag position 9 - x: $ -0.18, y: 0.42, z: 0.21, yaw: 6.07 // right
     // Robot relative tag position 9 - x: $ 0.17, y: 0.41, z: 0.22, yaw: 0.46 // left

@@ -228,7 +228,7 @@ bool RightSideApriltagReefLineup::IsFinished()
   //   return true;
   // }
 
-  if(std::fabs(errorX) < 0.03 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 1.0) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
+  if(std::fabs(errorX) < 0.04 && std::fabs(errorY) < 0.04 && std::fabs(errorYaw) < 1.0) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
   {
    //change lights
   //  std::cout << "Done!" << std::endl << "\n";
