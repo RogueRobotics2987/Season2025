@@ -46,9 +46,11 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // and Y is defined as to the left according to WPILib convention.
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
-        drivetrain.ApplyRequest([this]() -> auto&& {
-          units::volt_t value{(1 - 0.25) * DriveStick.GetRightTriggerAxis() + 0.25};
-          units::volt_t outputMult = filter.Calculate(value);
+         drivetrain.ApplyRequest([this]() -> auto &&
+                                {
+                                    units::volt_t value{DriveStick.GetRightTriggerAxis() + 0.25 > 1 ? 1 : DriveStick.GetRightTriggerAxis() + 0.25};
+                                    units::volt_t outputMult = filter.Calculate(value);
+
 
                                     return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value())      // Drive forward with positive Y (forward)
                                         .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value())              // Drive left with positive X (left)
