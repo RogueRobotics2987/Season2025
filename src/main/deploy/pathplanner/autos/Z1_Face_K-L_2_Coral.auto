@@ -7,13 +7,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L_Side-L"
+            "pathName": "Z1_Face_K-L_Side-R"
           }
         },
         {
-          "type": "wait",
+          "type": "race",
           "data": {
-            "waitTime": 0.5
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RightLineUp"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 10.0
+                }
+              }
+            ]
           }
         },
         {
@@ -23,21 +36,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "PlaceCMD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
           }
         },
         {
@@ -49,19 +50,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Face_K-L_Side-L_S1"
+            "pathName": "Face_K-L_Side-R_S1"
           }
         },
         {
-          "type": "wait",
+          "type": "race",
           "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeCMD"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeCMD"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.25
+                }
+              }
+            ]
           }
         },
         {
@@ -71,9 +79,22 @@
           }
         },
         {
-          "type": "wait",
+          "type": "race",
           "data": {
-            "waitTime": 0.5
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LeftLineUp"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              }
+            ]
           }
         },
         {
@@ -83,27 +104,40 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "PlaceCMD"
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "PoseL1CMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face_K-L_Side-R_S1"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeCMD"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
           }
         }
       ]
