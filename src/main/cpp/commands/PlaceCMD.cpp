@@ -26,7 +26,7 @@ void PlaceCMD::Execute() {}
 // Called once the command ends or is interrupted.
 void PlaceCMD::End(bool interrupted) 
 {
-  m_coralSubsystem->SetIntakeMotors(intakeSpeed);
+  m_coralSubsystem->SetIntakeMotors(0.0);
 }
 
 // Returns true when the command should end.

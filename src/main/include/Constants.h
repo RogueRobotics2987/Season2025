@@ -65,6 +65,8 @@ namespace CoralSubsystemConstants {
     inline constexpr double leftBranchSetPointY = 0.42;
     inline constexpr double leftBranchSetPointYaw = 0;
 
+    inline constexpr double ClimberSpeed = 40;
+
     //-0.2, 0.35, 0 right
 
 
