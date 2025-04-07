@@ -32,6 +32,7 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
 void RightSideApriltagReefLineup::Initialize() 
 {
   std::cout << "this command is being run" << std::endl;
+  frc::SmartDashboard::PutNumber("KP_X", kP_x);
   //change lights
   //make sure robot is robot centric
   finished = false;
@@ -49,6 +50,9 @@ void RightSideApriltagReefLineup::Execute()
   //   time = 0;
   // }
   frc::SmartDashboard::PutBoolean("AutoLineup", true);
+  kP_x = frc::SmartDashboard::GetNumber("KP_X", kP_x);
+
+
   // TODO: get list of tags from maple
   // Table: maple
   // Topic: tags: vector<vector<double>>  --- 4 numbers {tag_id, x, y, z, yaw}
@@ -252,7 +256,7 @@ bool RightSideApriltagReefLineup::IsFinished()
   //   return true;
   // }
 
-   if(std::fabs(errorX) < 0.03 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 1.0) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
+   if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 1.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
    {//change lights
   //  std::cout << "Done!" << std::endl << "\n";
   //  std::cout << errorX << std::endl << "\n";

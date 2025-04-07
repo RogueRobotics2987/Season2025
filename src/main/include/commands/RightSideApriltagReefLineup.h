@@ -54,7 +54,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   units::radians_per_second_t MaxAngularRate = 0.75_tps; // 3/4 of a rotation per second max angular velocity
 
   swerve::requests::RobotCentric robotCentricDrive = swerve::requests::RobotCentric{}
-  .WithDeadband(MaxSpeed * 0.03).WithRotationalDeadband(MaxAngularRate * 0.03) // Add a 10% deadband
+  .WithDeadband(MaxSpeed * 0.02).WithRotationalDeadband(MaxAngularRate * 0.02) // Add a 10% deadband
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
   subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
@@ -70,7 +70,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   double speedX = 0;
   double speedY = 0;
   double rot = 0; //some of these are in private some arent
-  double kP_x = 2; //tune these //max speed: 1.25 mps
+  double kP_x = 2.7; //tune these //max speed: 1.25 mps //2.5
   double kP_y = 2.5;
   double kP_yaw = 2.0; //tune these //max output: 90* max // max error: 60*
   double errorX;
