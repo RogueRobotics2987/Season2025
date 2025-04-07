@@ -20,17 +20,7 @@ void PoseL1CMD::Initialize()
 }
 
 // Called repeatedly when this Command is scheduled to run
-void PoseL1CMD::Execute() 
-{
-  // if(time >= 60)
-  // {
-  //   timeIsUp = true;
-  // }
-  // else
-  // {
-  //   time++;
-  // }
-}
+void PoseL1CMD::Execute() {}
 
 // Called once the command ends or is interrupted.
 void PoseL1CMD::End(bool interrupted) {}
@@ -45,5 +35,4 @@ bool PoseL1CMD::IsFinished()
   {
     return false;
   }
-//   return timeIsUp;
 }

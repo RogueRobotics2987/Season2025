@@ -29,7 +29,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
 
   RightSideApriltagReefLineup();
   RightSideApriltagReefLineup(
-    subsystems::CommandSwerveDrivetrain &driveTrain, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
+  subsystems::CommandSwerveDrivetrain &driveTrain, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
