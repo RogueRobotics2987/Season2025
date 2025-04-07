@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L_Side-R"
+            "pathName": "Z1_Face_K-L"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Face_K-L_Side-R_S1"
+            "pathName": "Face_K-L_S1"
           }
         },
         {
@@ -75,7 +75,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1_Face_K-L_Side-R"
+            "pathName": "S1_Face_K-L"
           }
         },
         {
@@ -118,7 +118,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Face_K-L_Side-R_S1"
+            "pathName": "Face_K-L_S1"
           }
         },
         {
