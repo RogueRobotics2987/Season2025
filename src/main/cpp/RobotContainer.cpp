@@ -26,8 +26,8 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
-    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr()));
-    NamedCommands::registerCommand("LeftLineUp", std::move(RightSideApriltagReefLineup(drivetrain, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr()));
+    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr()));
+    NamedCommands::registerCommand("LeftLineUp", std::move(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr()));
 
     
 
@@ -184,8 +184,8 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // reset the field-centric heading on left bumper press
     DriveStick.Back().WhileTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
     //TODO: look at last years code and find out why its not being scheduled
-    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr());
-    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr());
+    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr());
+    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr());
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     // drivetrain.GetState().Pose; // TODO: Removed during auto line up merge
