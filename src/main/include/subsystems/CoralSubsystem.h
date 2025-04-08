@@ -31,6 +31,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetIntakeMotors(double intakeSpeed);
   void IncrementOffsets(double offsetElevator);
   void ManualElevator(double increaseHeight);
+  void ElevatorOveride(double increaseHeight);
   void SetAlgyArm(double algyPose);
   void SetAlgyArmManual(double algyPoseStepSize);
   void SetFunnelPin(double funnelPinSpeed);
