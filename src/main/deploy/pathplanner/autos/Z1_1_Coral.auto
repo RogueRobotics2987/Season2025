@@ -11,28 +11,35 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "RightLineUp"
+                  "name": "PoseL4CMD"
                 }
               },
               {
-                "type": "wait",
+                "type": "race",
                 "data": {
-                  "waitTime": 1.75
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "RightLineUp"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.75
+                      }
+                    }
+                  ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PoseL4CMD"
           }
         },
         {
