@@ -7,49 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "Z2_Face_G-H_Side-R"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PoseL4CMD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PlaceCMD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PoseL1CMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Face_K-L_S1"
+            "name": "RightLineUp"
           }
         }
       ]

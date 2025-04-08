@@ -67,6 +67,8 @@ CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light{lights}{
 
     _algyArmConfig.closedLoop
        .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder)
+       .PositionWrappingEnabled(true)
+       .PositionWrappingInputRange(0, 1)
        .P(2)
        .I(0)
        .D(0)
@@ -197,7 +199,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
             if (!_clawBB.Get()){
                 frc::SmartDashboard::PutNumber("_state", _state);
-                if (_intakeDelayCount >= 4) {
+                if (_intakeDelayCount >= 3) {
                     _intakeTop.Set(0);
                     _intakeDelayCount = 0;
 
