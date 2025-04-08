@@ -1,0 +1,149 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Z1_Face_K-L"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RightLineUp"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL4CMD"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PlaceCMD"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL1CMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face_K-L_S1"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeCMD"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1_Face_K-L"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LeftLineUp"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL4CMD"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PlaceCMD"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL1CMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face_K-L_S1"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeCMD"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Zone1",
+  "choreoAuto": false
+}

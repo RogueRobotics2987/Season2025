@@ -11,13 +11,12 @@
 
 #include <iostream>
 
+RightSideApriltagReefLineup::RightSideApriltagReefLineup(){}
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(
   subsystems::CommandSwerveDrivetrain &driveTrain, 
-  LightSubsystem &lightSubsystem,
-  frc2::CommandXboxController &driveStick, double setPointX, double setPointY, double setPointYaw)
+  LightSubsystem &lightSubsystem, double setPointX, double setPointY, double setPointYaw)
 {
   _driveTrain = &driveTrain;
-  _driveStick = &driveStick;
   AddRequirements({_driveTrain});
   _setPointX = setPointX;
   _setPointY = setPointY;
@@ -35,6 +34,7 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
 void RightSideApriltagReefLineup::Initialize() 
 {
   std::cout << "this command is being run" << std::endl;
+  frc::SmartDashboard::PutNumber("KP_X", kP_x);
   m_lightSubsystem->RedBlink();
   //make sure robot is robot centric
   finished = false;
@@ -52,6 +52,9 @@ void RightSideApriltagReefLineup::Execute()
   //   time = 0;
   // }
   frc::SmartDashboard::PutBoolean("AutoLineup", true);
+  kP_x = frc::SmartDashboard::GetNumber("KP_X", kP_x);
+
+
   // TODO: get list of tags from maple
   // Table: maple
   // Topic: tags: vector<vector<double>>  --- 4 numbers {tag_id, x, y, z, yaw}
@@ -165,7 +168,36 @@ void RightSideApriltagReefLineup::Execute()
   }
 
   outputX = -errorX * kP_x; //turn the kp positive? ^
+
+  double MaxLineupSpeed = 0.25;
+
+  if(outputX > (MaxSpeed.value() * MaxLineupSpeed))
+  {
+    outputX = (MaxSpeed.value() * MaxLineupSpeed);
+  }
+
+  if(outputX < (-MaxSpeed.value() * MaxLineupSpeed))
+  {
+    outputX = (-MaxSpeed.value() * MaxLineupSpeed);
+  }
+  
+  //std::cout << outputX << std::endl;
+  frc::SmartDashboard::PutNumber("output_x", outputX);
   outputY = errorY * kP_y;
+  
+  if(outputY > (MaxSpeed.value() * MaxLineupSpeed))
+  {
+    outputY = (MaxSpeed.value() * MaxLineupSpeed);
+  }
+
+  if(outputY < (-MaxSpeed.value() * MaxLineupSpeed))
+  {
+    outputY = (-MaxSpeed.value() * MaxLineupSpeed);
+  }
+  
+  //std::cout << outputY << std::endl;
+  frc::SmartDashboard::PutNumber("output_y", outputY);
+
   outputYaw = errorYaw * - kP_yaw;
 
   if(std::fabs(errorYaw) > 20)
@@ -183,7 +215,6 @@ void RightSideApriltagReefLineup::Execute()
   //outputX = 0;
   //outputYaw = 0;
 
-  frc::SmartDashboard::PutNumber("output_x", outputX);
   frc::SmartDashboard::PutNumber("outputYaw", outputYaw);
 
   _driveTrain->SetControl(robotCentricDrive.WithVelocityY(units::meters_per_second_t{outputX})
@@ -227,17 +258,16 @@ bool RightSideApriltagReefLineup::IsFinished()
   //   return true;
   // }
 
-  // if(errorX + errorYaw <= 0.03 && errorX + errorYaw >= -0.03) //within 5 cm
-  // {
-  //  //change lights
+   if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 1.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
+   {//change lights
   //  std::cout << "Done!" << std::endl << "\n";
   //  std::cout << errorX << std::endl << "\n";
   //  std::cout << errorYaw << std::endl << "\n";
-  //  return true; //end the command
-  // }
-  // else
-  // {
-  //  std::cout << "Nope!" << std::endl;
-  //  return false;
-  // }
+   return true; //end the command
+  }
+  else
+  {
+   std::cout << "Nope!" << std::endl;
+   return false;
+  }
 }

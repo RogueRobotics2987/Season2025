@@ -12,20 +12,20 @@
         "y": 1.4804609824275223
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Source2"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 2.85
+        "x": 3.685115131578947,
+        "y": 2.6587171052631584
       },
       "prevControl": {
-        "x": 2.6982722255382727,
-        "y": 1.6361192122700359
+        "x": 2.3833873571172197,
+        "y": 1.4448363175331942
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_C-D"
     }
   ],
   "rotationTargets": [],

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.566,
-        "y": 0.5
+        "x": 7.17,
+        "y": 0.49
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.932330549497888,
-        "y": 0.4889392585984577
+        "x": 6.5363305494978885,
+        "y": 0.4789392585984577
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Z3"
     },
     {
       "anchor": {
         "x": 6.3,
-        "y": 0.5
+        "y": 0.49
       },
       "prevControl": {
         "x": 6.951666267864806,
-        "y": 0.4886251229828906
+        "y": 0.4786251229828906
       },
       "nextControl": null,
       "isLocked": false,

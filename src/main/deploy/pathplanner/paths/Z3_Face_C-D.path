@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.18,
-        "y": 0.4826331967213116
+        "x": 7.17,
+        "y": 0.49
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.931369526157932,
-        "y": 0.508765312538225
+        "x": 6.921369526157932,
+        "y": 0.5161321158169134
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Z3"
     },
     {
       "anchor": {
-        "x": 3.993009868421052,
-        "y": 2.870394736842105
+        "x": 3.685115131578947,
+        "y": 2.6587171052631584
       },
       "prevControl": {
-        "x": 4.651421073484634,
-        "y": 0.7168287227205936
+        "x": 4.2046874999999995,
+        "y": 1.5522203947368416
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_C-D"
     }
   ],
   "rotationTargets": [],

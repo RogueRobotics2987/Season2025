@@ -7,13 +7,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L"
+            "pathName": "Z3_Face_C-D"
           }
         },
         {
-          "type": "wait",
+          "type": "race",
           "data": {
-            "waitTime": 1.0
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RightLineUp"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
+                }
+              }
+            ]
           }
         },
         {
@@ -23,21 +36,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "PlaceCMD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
           }
         },
         {
@@ -45,17 +46,11 @@
           "data": {
             "name": "PoseL1CMD"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Face_K-L_S1"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TestAuto",
+  "folder": "Zone3",
   "choreoAuto": false
 }

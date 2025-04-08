@@ -27,10 +27,10 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
+
+  RightSideApriltagReefLineup();
   RightSideApriltagReefLineup(
-    subsystems::CommandSwerveDrivetrain &driveTrain, 
-    LightSubsystem &lightSubsystem,
-    frc2::CommandXboxController &driveStick, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
+  subsystems::CommandSwerveDrivetrain &driveTrain, LightSubsystem &lightSubsystem, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
@@ -55,25 +55,25 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   units::radians_per_second_t MaxAngularRate = 0.75_tps; // 3/4 of a rotation per second max angular velocity
 
   swerve::requests::RobotCentric robotCentricDrive = swerve::requests::RobotCentric{}
-  .WithDeadband(MaxSpeed * 0.03).WithRotationalDeadband(MaxAngularRate * 0.03) // Add a 10% deadband
+  .WithDeadband(MaxSpeed * 0.02).WithRotationalDeadband(MaxAngularRate * 0.02) // Add a 10% deadband
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
   subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
   LightSubsystem* m_lightSubsystem = nullptr;
-  frc2::CommandXboxController* _driveStick = nullptr;
 
  nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
  nt::DoubleArraySubscriber apriltags_xSub;
  nt::DoubleArraySubscriber apriltags_ySub;
  nt::DoubleArraySubscriber apriltags_yawSub;
 
+  double MaxLineupSpeed;
   double currentHeading = 0;
   double lastHeading = 0;
   double speedX = 0;
   double speedY = 0;
   double rot = 0; //some of these are in private some arent
-  double kP_x = 2; //tune these //max speed: 1.25 mps
-  double kP_y = 1.5;
+  double kP_x = 2.7; //tune these //max speed: 1.25 mps //2.5
+  double kP_y = 2.5;
   double kP_yaw = 2.0; //tune these //max output: 90* max // max error: 60*
   double errorX;
   double errorY; //still need to calculate even though its not in PID

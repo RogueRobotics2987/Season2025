@@ -11,8 +11,6 @@
 
 using namespace ctre::phoenix6;
 
-//TunerSwerveDrivetrain();
-
 namespace subsystems {
 
 /**
@@ -130,6 +128,7 @@ public:
         }
 
         ConfigureAutoBuilder();
+        // TODO: MapleInit();
     }
 
     /**
@@ -157,6 +156,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
+        // TODO: MapleInit();
     }
 
     /**
@@ -191,6 +191,7 @@ public:
             StartSimThread();
         }
         ConfigureAutoBuilder();
+        // TODO: MapleInit();
     }
 
     /**
@@ -257,7 +258,7 @@ public:
 
     private:
         void ConfigureAutoBuilder();
-        void StartSimThread();
         void MapleInit();
+        void StartSimThread();
     };
 }

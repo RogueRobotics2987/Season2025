@@ -3,32 +3,33 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
+#include "commands/PoseL4CMD.h"
+#include "commands/RightSideApriltagReefLineup.h"
 #include "subsystems/CoralSubsystem.h"
 #include "subsystems/ClimberSubsystem.h" 
 #include <frc/smartdashboard/SmartDashboard.h>
-
-#include "commands/RightSideApriltagReefLineup.h"
-#include <frc/smartdashboard/SmartDashboard.h>
-
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
+
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandPtr.h>
-// #include <frc2/command/Command.h> // TODO: Removed during auto line up merge
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <memory> 
 
 using namespace pathplanner;
-     
+
 RobotContainer::RobotContainer()
 {
     NamedCommands::registerCommand("PlaceCMD", std::move(PlaceCMD(m_coralSubsystem).ToPtr())); //NEEDS TO BE ABOVE CHOOSER
     NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
+    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr()));
+    NamedCommands::registerCommand("LeftLineUp", std::move(RightSideApriltagReefLineup(drivetrain, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr()));
+
+    
 
     // Initialize all of your commands and subsystems here
     m_chooser = pathplanner::AutoBuilder::buildAutoChooser("tests"); //change name
@@ -45,10 +46,11 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // and Y is defined as to the left according to WPILib convention.
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
-        drivetrain.ApplyRequest([this]() -> auto &&
+         drivetrain.ApplyRequest([this]() -> auto &&
                                 {
                                     units::volt_t value{DriveStick.GetRightTriggerAxis() + 0.25 > 1 ? 1 : DriveStick.GetRightTriggerAxis() + 0.25};
                                     units::volt_t outputMult = filter.Calculate(value);
+
 
                                     return drive.WithVelocityX(-DriveStick.GetLeftY() * MaxSpeed * outputMult.value())      // Drive forward with positive Y (forward)
                                         .WithVelocityY(-DriveStick.GetLeftX() * MaxSpeed * outputMult.value())              // Drive left with positive X (left)
@@ -117,23 +119,23 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     //                                .ToPtr());
 
     DriveStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(-0.5); })
+                                                   { m_climberSubsystem.SetClimber(ClimberSpeed); })
                                     .ToPtr());
 
     DriveStick.X().ToggleOnFalse(frc2::InstantCommand([this]() -> void
                                                    { m_climberSubsystem.SetClimber(0); })
                                     .ToPtr());
 
-    DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(0.5); })
-                                    .ToPtr());
+    // DriveStick.Y().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+    //                                                { m_climberSubsystem.SetClimber(-20); })
+    //                                 .ToPtr());
 
-    DriveStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(0); })
-                                    .ToPtr());                    
+    // DriveStick.Y().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+    //                                                { m_climberSubsystem.SetClimber(0); })
+    //                                 .ToPtr());                    
 
     AuxStick.RightBumper().ToggleOnTrue(frc2::InstantCommand([this]() -> void
-                                                   { m_climberSubsystem.SetClimber(0.5); })
+                                                   { m_climberSubsystem.SetClimber(ClimberSpeed); })
                                     .ToPtr());
 
     AuxStick.RightBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
@@ -182,8 +184,8 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // reset the field-centric heading on left bumper press
     DriveStick.Back().WhileTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
     //TODO: look at last years code and find out why its not being scheduled
-    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, DriveStick, 0.2, 0.35, 0).ToPtr());
-    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, DriveStick, -0.2, 0.35, 0).ToPtr());
+    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr());
+    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr());
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     // drivetrain.GetState().Pose; // TODO: Removed during auto line up merge

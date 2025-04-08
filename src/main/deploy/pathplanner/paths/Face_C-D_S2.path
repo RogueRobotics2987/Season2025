@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.0,
-        "y": 2.85
+        "x": 3.685115131578947,
+        "y": 2.6587171052631584
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.157799878056465,
-        "y": 1.9146420045788373
+        "x": 3.021217105263158,
+        "y": 1.8986019736842104
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_C-D"
     },
     {
       "anchor": {
@@ -20,12 +20,12 @@
         "y": 0.69
       },
       "prevControl": {
-        "x": 2.073038926192506,
-        "y": 1.142938283582975
+        "x": 3.021217105263158,
+        "y": 1.917845394736842
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Source2"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 53.46012023925481
+    "rotation": 53.46
   },
   "reversed": false,
   "folder": "GeneralMovement",
