@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.030999999998455,
-        "y": 7.56
+        "x": 3.858,
+        "y": 5.516365131578947
       },
       "prevControl": {
-        "x": 5.849999999998455,
-        "y": 7.564250000002187
+        "x": 4.00725,
+        "y": 6.0725
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_K-L"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -59.99999999999999
   },
   "reversed": false,
   "folder": "Zone1",
