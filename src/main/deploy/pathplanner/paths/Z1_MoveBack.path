@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.17,
+        "x": 5.63,
         "y": 7.56
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.340698382332899,
+        "x": 6.51390633381833,
         "y": 7.56
       },
       "isLocked": false,
-      "linkedName": "Z1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.63,
+        "x": 7.17,
         "y": 7.56
       },
       "prevControl": {
-        "x": 6.428424943727128,
-        "y": 7.56
+        "x": 6.417681019744963,
+        "y": 7.585035860583247
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Z1"
     }
   ],
   "rotationTargets": [],
@@ -50,5 +50,5 @@
     "velocity": 0,
     "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
