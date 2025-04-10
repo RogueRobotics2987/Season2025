@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.29,
-        "y": 5.04
+        "x": 5.46639344262295,
+        "y": 5.63734631147541
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.606597864622734,
-        "y": 5.588363587094389
+        "x": 5.782991307245684,
+        "y": 6.185709898569799
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_I-J"
     },
     {
       "anchor": {
@@ -48,7 +48,7 @@
   "folder": "GeneralMovement",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -122.0
+    "rotation": -119.51149855709032
   },
   "useDefaultConstraints": true
 }

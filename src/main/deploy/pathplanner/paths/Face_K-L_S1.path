@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.858,
-        "y": 5.516365131578947
+        "x": 3.668237704918033,
+        "y": 5.63734631147541
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.669322604944307,
-        "y": 5.680379888826574
+        "x": 3.4795603098623396,
+        "y": 5.801361068723037
       },
       "isLocked": false,
       "linkedName": "Face_K-L"
@@ -48,7 +48,7 @@
   "folder": "GeneralMovement",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -60.4612177404419
   },
   "useDefaultConstraints": false
 }
