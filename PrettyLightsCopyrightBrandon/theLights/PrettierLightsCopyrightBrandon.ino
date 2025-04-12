@@ -10,7 +10,7 @@
 #define DATAPIN    8
 #define CLOCKPIN   9
 Adafruit_DotStar strip(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
-const int buttonPin = 0; // the number of the pushbutton pin
+const int buttonPin = 4; // the number of the pushbutton pin
 const int buttonPin2 = 2;
 const int buttonPin3 = 6;
 int buttonState = digitalRead(buttonPin);         // variable for reading the pushbutton status
@@ -35,6 +35,7 @@ void setup() {
   pinMode(buttonPin, INPUT);
   pinMode(buttonPin2, INPUT);
   pinMode(buttonPin3, INPUT);
+//  Serial.begin(9600);
   strip.begin();
   strip.clear();
   strip.show();
@@ -50,6 +51,7 @@ void Idle () {
     buttonState = digitalRead(buttonPin); 
     buttonState2 = digitalRead(buttonPin2);
     buttonState3 = digitalRead(buttonPin3);
+//    Serial.println("Idle");
     if (!(buttonState == 1 && buttonState2 == 1 && buttonState3 == 1)) {
       return;
     } 
@@ -92,14 +94,14 @@ void Green() {
 }
 
 void Red() {
-  uint32_t red = strip.Color(0, 0, 50);
+  uint32_t red = strip.Color(0, 50, 0);
   strip.fill(red, 0, NUMPIXELS);
   strip.show();
   Serial.println("Red");
 }
 
 void RedBlink() {
-  uint32_t red = strip.Color(0, 0, 50);
+  uint32_t red = strip.Color(0, 50, 0);
   uint32_t off = strip.Color(0, 0, 0);
   strip.fill(red , 0, NUMPIXELS);
   delay(100);
@@ -116,13 +118,13 @@ void RedBlink() {
 }
 
 void Blue() {
-  uint32_t blue = strip.Color(0, 50, 0);
+  uint32_t blue = strip.Color(0, 0, 50);
   strip.fill(blue, 0, NUMPIXELS);
   strip.show();
 }
 
 void BlueBlink() {
-  uint32_t blue = strip.Color(0, 50, 0);
+  uint32_t blue = strip.Color(0, 0, 50);
   uint32_t off = strip.Color(0, 0, 0);
   strip.fill(blue , 0, NUMPIXELS);
   delay(100);
@@ -142,7 +144,10 @@ void loop() {
   buttonState = digitalRead(buttonPin); 
   buttonState2 = digitalRead(buttonPin2);
   buttonState3 = digitalRead(buttonPin3);
-
+  Serial.print(buttonState);
+  Serial.print(buttonState2);
+  Serial.println(buttonState3);
+  
   if (buttonState == 0 && buttonState2 == 0 && buttonState3 == 0) {
     Off();
   }
