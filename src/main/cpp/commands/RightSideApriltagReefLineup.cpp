@@ -36,6 +36,7 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
 // Called when the command is initially scheduled.
 void RightSideApriltagReefLineup::Initialize() 
 {
+  frc::SmartDashboard::PutBoolean("AutoLineup", true);
   std::cout << "this command is being run" << std::endl;
   frc::SmartDashboard::PutNumber("KP_X", kP_x);
   if(_isRightSideLineUp)
@@ -62,7 +63,6 @@ void RightSideApriltagReefLineup::Execute()
   //   finished = true;
   //   time = 0;
   // }
-  frc::SmartDashboard::PutBoolean("AutoLineup", true);
   kP_x = frc::SmartDashboard::GetNumber("KP_X", kP_x);
 
 
@@ -77,16 +77,24 @@ void RightSideApriltagReefLineup::Execute()
   //    type: vector<vector<double>>
 
   // is this done? 
- std::cout << "getting data" << std::endl;
+ //std::cout << "getting data" << std::endl;
  std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
  std::vector<double> apriltags_x = apriltags_xSub.Get();
  std::vector<double> apriltags_y = apriltags_ySub.Get();
  std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
 
- if(apriltags_id.empty())
+ if(apriltags_id.size() == apriltags_x.size()
+    && apriltags_id.size() == apriltags_y.size()
+    && apriltags_id.size() == apriltags_yaw.size())
+ {
+   if(apriltags_id.empty())
+   {
+    finished = true;
+    return;
+   }
+ } else
  {
    finished = true;
-
    return;
  }
 

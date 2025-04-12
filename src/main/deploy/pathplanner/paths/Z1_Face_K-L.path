@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.858,
-        "y": 5.516365131578947
+        "x": 3.4027499999999997,
+        "y": 5.9555
       },
       "prevControl": {
-        "x": 4.00725,
-        "y": 6.0725
+        "x": 3.551999999999999,
+        "y": 6.511634868421052
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 1.5,
-    "rotation": -59.99999999999999
+    "rotation": -60.4612177404419
   },
   "reversed": false,
   "folder": "Zone1",
