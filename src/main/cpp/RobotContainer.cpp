@@ -104,7 +104,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
     AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Button off
                                    m_coralSubsystem.SetIntakeMotors(0);
-                                   m_lightSubsystem.Idle();
+                                   m_lightSubsystem.Off();
                                })
                                    .ToPtr());
 
