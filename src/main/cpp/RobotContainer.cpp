@@ -6,7 +6,7 @@
 #include "commands/PoseL4CMD.h"
 #include "commands/RightSideApriltagReefLineup.h"
 #include "subsystems/CoralSubsystem.h"
-#include "subsystems/ClimberSubsystem.h"
+#include "subsystems/ClimberSubsystem.h" 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 #include <frc2/command/InstantCommand.h>
@@ -26,8 +26,8 @@ RobotContainer::RobotContainer()
     NamedCommands::registerCommand("IntakeCMD", std::move(IntakeCMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL1CMD", std::move(PoseL1CMD(m_coralSubsystem).ToPtr()));
     NamedCommands::registerCommand("PoseL4CMD", std::move(PoseL4CMD(m_coralSubsystem).ToPtr()));
-    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr()));
-    NamedCommands::registerCommand("LeftLineUp", std::move(RightSideApriltagReefLineup(drivetrain, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr()));
+    NamedCommands::registerCommand("RightLineUp", std::move(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw, true).ToPtr()));
+    NamedCommands::registerCommand("LeftLineUp", std::move(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw, false).ToPtr()));
 
     
 
@@ -98,11 +98,13 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
     AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
                                m_coralSubsystem.SetIntakeMotors(0.6);
+                               m_lightSubsystem.GreenBlink();
                            })
                                .ToPtr());
 
     AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Button off
                                    m_coralSubsystem.SetIntakeMotors(0);
+                                   m_lightSubsystem.Off();
                                })
                                    .ToPtr());
 
@@ -182,8 +184,28 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     // reset the field-centric heading on left bumper press
     DriveStick.Back().WhileTrue(drivetrain.RunOnce([this] { drivetrain.SeedFieldCentric(); }));
     //TODO: look at last years code and find out why its not being scheduled
-    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw).ToPtr());
-    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw).ToPtr());
+    DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw, false).ToPtr());
+    DriveStick.LeftBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+                                                        {
+                                                            if (m_coralSubsystem.coralLoaded) {
+                                                                m_lightSubsystem.Green();
+                                                            }
+                                                            else {
+                                                                m_lightSubsystem.Off();
+                                                            }
+                                                        })
+                                  .ToPtr());
+    DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw, true).ToPtr());
+    DriveStick.RightBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+                                                        {
+                                                            if (m_coralSubsystem.coralLoaded) {
+                                                                m_lightSubsystem.Green();
+                                                            }
+                                                            else {
+                                                                m_lightSubsystem.Off();
+                                                            }
+                                                        })
+                                  .ToPtr());
 
     drivetrain.RegisterTelemetry([this](auto const &state) { logger.Telemeterize(state); });
     // drivetrain.GetState().Pose; // TODO: Removed during auto line up merge
