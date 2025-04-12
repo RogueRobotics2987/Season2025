@@ -125,10 +125,6 @@ void CoralSubsystem::SetAlgyArmManual(double algyPoseStepSize){
      _AlgyArmClosedLoopController.SetReference(algySetPoint, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
 
-// void CoralSubsystem::SetDesiredElevatorheight(double setElevatorHeight){
-//     _desiredElevatorHeight = setElevatorHeight;
-// }
-
 double CoralSubsystem::GetDesiredElevatorHeight(){
     return _desiredElevatorHeight;
 }
@@ -137,7 +133,7 @@ void CoralSubsystem::IncrementOffsets(double offsetElevator){
     double elevatorSetPoint = elevatorTotal + offsetElevator;
     elevatorOffset += offsetElevator;
 
-    // if (elevatorSetPoint > 21.16){ec c    
+    // if (elevatorSetPoint > 21.16){    
     //     elevatorSetPoint = 21.16;
     // }
 
@@ -229,9 +225,3 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
     frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
 }
-
-// frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
-//     return this->RunOnce(
-//         [this, DesiredLevel] {ElevatorLevel = DesiredLevel;}
-//     );
-// }       
