@@ -18,9 +18,12 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
 {
   _driveTrain = &driveTrain;
   AddRequirements({_driveTrain});
+  _lightSubsystem = &lightSubsystem;
+  AddRequirements({_lightSubsystem});
   _setPointX = setPointX;
   _setPointY = setPointY;
   _setPointYaw = setPointYaw;
+  _isRightSideLineUp = isRightSideLineup;
 
 // //maple handles lose tracking for 100 ms sends the same thing
  auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
@@ -35,7 +38,15 @@ void RightSideApriltagReefLineup::Initialize()
 {
   std::cout << "this command is being run" << std::endl;
   frc::SmartDashboard::PutNumber("KP_X", kP_x);
-  m_lightSubsystem->RedBlink();
+  if(_isRightSideLineUp)
+  {
+    _lightSubsystem->Red();
+  }
+  else
+  {
+    _lightSubsystem->Blue();
+  }
+
   //make sure robot is robot centric
   finished = false;
 }
@@ -251,7 +262,7 @@ void RightSideApriltagReefLineup::End(bool interrupted)
 bool RightSideApriltagReefLineup::IsFinished() 
 {
   //set all variables to what their start is just in case?
-  return false;
+  // return false;
   // if(finished)
   // {
   //   std::cout << "Done No Tag" << std::endl;
@@ -260,7 +271,13 @@ bool RightSideApriltagReefLineup::IsFinished()
 
    if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 2.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
    {
-    m_lightSubsystem->Red(); 
+    if(_isRightSideLineUp) {
+      _lightSubsystem->Red();
+    }
+    else {
+      _lightSubsystem->Blue();
+    }
+
   //  std::cout << "Done!" << std::endl << "\n";
   //  std::cout << errorX << std::endl << "\n";
   //  std::cout << errorYaw << std::endl << "\n";
