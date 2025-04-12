@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L"
+            "pathName": "Z1_MoveOut"
           }
         },
         {
@@ -49,9 +49,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "PoseL1CMD"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Z1_MoveBack"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PoseL1CMD"
+                }
+              }
+            ]
           }
         }
       ]
