@@ -8,7 +8,7 @@
 
 // Here's how to control the LEDs from any two pins:
 #define DATAPIN    8
-#define CLOCKPIN   9 
+#define CLOCKPIN   9
 Adafruit_DotStar strip(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
 const int buttonPin = 0; // the number of the pushbutton pin
 const int buttonPin2 = 2;
@@ -42,6 +42,7 @@ void setup() {
 
 void Off() {
   strip.clear();
+  strip.show();
 }
 
 void Idle () {
@@ -49,7 +50,7 @@ void Idle () {
     buttonState = digitalRead(buttonPin); 
     buttonState2 = digitalRead(buttonPin2);
     buttonState3 = digitalRead(buttonPin3);
-    if (buttonState == 1 && buttonState2 == 1 && buttonState3 == 1) {
+    if (!(buttonState == 1 && buttonState2 == 1 && buttonState3 == 1)) {
       return;
     } 
     strip.setPixelColor(i, 0, 25, 0);
@@ -59,7 +60,7 @@ void Idle () {
     buttonState = digitalRead(buttonPin); 
     buttonState2 = digitalRead(buttonPin2);
     buttonState3 = digitalRead(buttonPin3);
-    if (buttonState == 1 && buttonState2 == 1 && buttonState3 == 1) {
+    if (!(buttonState == 1 && buttonState2 == 1 && buttonState3 == 1)) {
       return;
     } 
     strip.setPixelColor(i, 0, 0, 25);
@@ -75,7 +76,7 @@ void GreenBlink() {
   buttonState = digitalRead(buttonPin); 
   buttonState2 = digitalRead(buttonPin2);
   buttonState3 = digitalRead(buttonPin3);
-  if (buttonState == 1 && buttonState2 == 0 && buttonState3 == 0) {
+  if (!(buttonState == 1 && buttonState2 == 0 && buttonState3 == 0)) {
     return;
   } 
   strip.show();
@@ -105,7 +106,7 @@ void RedBlink() {
   buttonState = digitalRead(buttonPin); 
   buttonState2 = digitalRead(buttonPin2);
   buttonState3 = digitalRead(buttonPin3);
-  if (buttonState == 0 && buttonState2 == 0 && buttonState3 == 1) {
+  if (!(buttonState == 0 && buttonState2 == 0 && buttonState3 == 1)) {
     return;
   } 
   strip.show();
@@ -128,7 +129,7 @@ void BlueBlink() {
   buttonState = digitalRead(buttonPin); 
   buttonState2 = digitalRead(buttonPin2);
   buttonState3 = digitalRead(buttonPin3);
-  if (buttonState == 1 && buttonState2 == 0 && buttonState3 == 1) {
+  if (!(buttonState == 1 && buttonState2 == 0 && buttonState3 == 1)) {
     return;
   } 
   strip.show();

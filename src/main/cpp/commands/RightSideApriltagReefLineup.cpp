@@ -14,7 +14,7 @@
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(){}
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(
   subsystems::CommandSwerveDrivetrain &driveTrain, 
-  LightSubsystem &lightSubsystem, double setPointX, double setPointY, double setPointYaw)
+  LightSubsystem &lightSubsystem, double setPointX, double setPointY, double setPointYaw, bool isRightSideLineup) 
 {
   _driveTrain = &driveTrain;
   AddRequirements({_driveTrain});
@@ -259,7 +259,8 @@ bool RightSideApriltagReefLineup::IsFinished()
   // }
 
    if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 1.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
-   {//change lights
+   {
+    m_lightSubsystem->Red();  
   //  std::cout << "Done!" << std::endl << "\n";
   //  std::cout << errorX << std::endl << "\n";
   //  std::cout << errorYaw << std::endl << "\n";
