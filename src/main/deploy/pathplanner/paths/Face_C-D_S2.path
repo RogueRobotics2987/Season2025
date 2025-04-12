@@ -3,45 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.0,
-        "y": 6.1
+        "x": 3.685115131578947,
+        "y": 2.6587171052631584
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.465517725557639,
-        "y": 6.1
+        "x": 3.021217105263158,
+        "y": 1.8986019736842104
       },
-      "isLocked": true,
-      "linkedName": null
+      "isLocked": false,
+      "linkedName": "Face_C-D"
     },
     {
       "anchor": {
-        "x": 3.2726434426229503,
-        "y": 6.1
+        "x": 1.57,
+        "y": 0.69
       },
       "prevControl": {
-        "x": 4.882020649819887,
-        "y": 6.1
+        "x": 3.021217105263158,
+        "y": 1.917845394736842
       },
       "nextControl": null,
-      "isLocked": true,
-      "linkedName": null
+      "isLocked": false,
+      "linkedName": "Source2"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "PoseL4CMD",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 2.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -49,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 53.46
   },
   "reversed": false,
-  "folder": "TestFolder",
+  "folder": "GeneralMovement",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 59.00000000000001
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

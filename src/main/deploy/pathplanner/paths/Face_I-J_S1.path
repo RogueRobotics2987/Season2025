@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.29,
-        "y": 5.04
+        "x": 5.489249999999999,
+        "y": 5.96525
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.606597864622734,
-        "y": 5.588363587094389
+        "x": 5.805847864622733,
+        "y": 6.513613587094389
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_I-J"
     },
     {
       "anchor": {
-        "x": 1.57,
-        "y": 7.35
+        "x": 1.5307499999999998,
+        "y": 7.3302499999999995
       },
       "prevControl": {
-        "x": 2.844990534301224,
-        "y": 6.885941396543193
+        "x": 2.805740534301223,
+        "y": 6.866191396543193
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Source"
     }
   ],
   "rotationTargets": [],
@@ -48,7 +48,7 @@
   "folder": "GeneralMovement",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -122.0
+    "rotation": -119.51149855709032
   },
   "useDefaultConstraints": true
 }

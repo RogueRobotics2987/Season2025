@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.0,
-        "y": 2.85
+        "x": 7.206661184210526,
+        "y": 4.053865131578948
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.157799878056465,
-        "y": 1.9146420045788373
+        "x": 6.6197368421052625,
+        "y": 4.053865131578948
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Z2"
     },
     {
       "anchor": {
-        "x": 1.57,
-        "y": 0.69
+        "x": 6.109786184210526,
+        "y": 4.053865131578948
       },
       "prevControl": {
-        "x": 2.073038926192506,
-        "y": 1.142938283582975
+        "x": 6.629358552631578,
+        "y": 4.063486842105263
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_G-H"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 53.46012023925481
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "GeneralMovement",
+  "folder": "Zone2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.00000000000001
+    "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

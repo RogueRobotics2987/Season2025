@@ -11,9 +11,22 @@
           }
         },
         {
-          "type": "wait",
+          "type": "race",
           "data": {
-            "waitTime": 0.25
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RightLineUp"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
           }
         },
         {
@@ -23,33 +36,15 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "PlaceCMD"
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "PoseL1CMD"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeCMD"
           }
         },
         {
@@ -59,15 +54,34 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "S1_Face_K-L_2_Coral"
+            "name": "IntakeCMD"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.25
+            "pathName": "S1_Face_K-L"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LeftLineUp"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
           }
         },
         {
@@ -77,21 +91,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "PlaceCMD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
           }
         },
         {
@@ -101,15 +103,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "IntakeCMD"
+            "pathName": "Face_K-L_S1"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Face_K-L_S1_2_Coral"
+            "name": "IntakeCMD"
           }
         }
       ]

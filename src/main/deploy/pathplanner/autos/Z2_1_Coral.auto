@@ -7,13 +7,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z1_Face_K-L_Side-L"
+            "pathName": "Z2_Face_G-H"
           }
         },
         {
-          "type": "wait",
+          "type": "race",
           "data": {
-            "waitTime": 0.5
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RightLineUp"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
+                }
+              }
+            ]
           }
         },
         {
@@ -23,21 +36,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "PlaceCMD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
           }
         },
         {
@@ -50,6 +51,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Zone1",
+  "folder": "Zone2",
   "choreoAuto": false
 }

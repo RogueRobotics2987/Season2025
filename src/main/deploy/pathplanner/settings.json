@@ -4,14 +4,11 @@
   "holonomicMode": true,
   "pathFolders": [
     "GeneralMovement",
-    "TestFolder",
     "Zone1",
     "Zone2",
     "Zone3"
   ],
   "autoFolders": [
-    "Not used",
-    "TestAuto",
     "Zone1",
     "Zone2",
     "Zone3"

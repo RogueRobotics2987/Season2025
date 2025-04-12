@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z2_Face_G-H_Side-R"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RightLineUp"
+            "pathName": "Z1_Face_K-L"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "TestAuto",
+  "folder": "Zone1",
   "choreoAuto": false
 }
