@@ -4,10 +4,12 @@
 
 #include "subsystems/LightSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
-#include  <chrono>
-#include <thread>
 
-LightSubsystem::LightSubsystem() = default;
+LightSubsystem::LightSubsystem(){
+    // _light1.Set(frc::SmartDashboard::GetBoolean("_light1", true));
+    // _light2.Set(frc::SmartDashboard::GetBoolean("_light2", false));
+    // _light3.Set(frc::SmartDashboard::GetBoolean("_light3", false));
+}
 
   void LightSubsystem::Off() {
     _light1.Set(false);
@@ -55,9 +57,4 @@ void LightSubsystem::Periodic() {
     frc::SmartDashboard::PutBoolean("_light1", _light1.Get());
     frc::SmartDashboard::PutBoolean("_light2", _light2.Get());
     frc::SmartDashboard::PutBoolean("_light3", _light3.Get());
-    std::this_thread::sleep_for(std::chrono::milliseconds(20));
-    // _light1.Set(frc::SmartDashboard::GetBoolean("_light1", true));
-    _light1.Set(false);
-    _light2.Set(frc::SmartDashboard::GetBoolean("_light2", false));
-    _light3.Set(frc::SmartDashboard::GetBoolean("_light3", false));
 }

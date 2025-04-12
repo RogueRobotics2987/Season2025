@@ -21,6 +21,7 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
   _setPointX = setPointX;
   _setPointY = setPointY;
   _setPointYaw = setPointYaw;
+  m_lightSubsystem = &lightSubsystem;
 
 // //maple handles lose tracking for 100 ms sends the same thing
  auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!

@@ -202,12 +202,8 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                 if (_intakeDelayCount >= 3) {
                     _intakeTop.Set(0);
                     _intakeDelayCount = 0;
-
-            if (!_clawBB.Get()) {
-                // turn on intake
-
-
-                if (_clawBB.Get()){       //while troughBB = true, if clawBB becomes true then the light1 turns off and
+                    coralLoaded = true;
+                    coralPlace = true;
                     _state = YES_CORAL;
                 }
 
@@ -230,10 +226,10 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
 
         default:
             _state = NO_CORAL;
-    }}
+    }
     frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
     frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
-}}
+}
 
 // frc2::CommandPtr CoralSubsystem::SetElevatorLevelCommand(int DesiredLevel){
 //     return this->RunOnce(
