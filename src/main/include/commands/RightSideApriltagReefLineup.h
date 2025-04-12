@@ -59,7 +59,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
   subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
-  LightSubsystem* m_lightSubsystem = nullptr;
+  LightSubsystem* _lightSubsystem = nullptr;
 
  nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
  nt::DoubleArraySubscriber apriltags_xSub;
@@ -86,5 +86,6 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   int currentx;
 
   bool NoJoystickInput = false;
+  bool _isRightSideLineUp = false;
   bool finished = false;
 };

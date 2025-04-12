@@ -191,11 +191,10 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             _elevatorLeader.GetEncoder().SetPosition(0);
             _elevatorFollower.GetEncoder().SetPosition(0);
             _state = NO_CORAL;
+            _light.Idle();
             break;
 
         case NO_CORAL:
-
-            _light.Off();
 
             if (!_clawBB.Get()){
                 frc::SmartDashboard::PutNumber("_state", _state);
@@ -205,6 +204,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                     coralLoaded = true;
                     coralPlace = true;
                     _state = YES_CORAL;
+                    _light.Green();
                 }
 
                 _intakeDelayCount++;
@@ -213,14 +213,13 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             break;
 
         case YES_CORAL:
-
-            _light.Green();
             
             if(_clawBB.Get()){
                 // turn intake off
                 coralLoaded = false;
                 coralPlace = false;
                 _state = NO_CORAL;
+                _light.Off();
             }
             break;
 
