@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.065778688524591,
-        "y": 6.512448770491802
+        "x": 5.85,
+        "y": 6.062749999999999
       },
       "isLocked": false,
       "linkedName": "Face_I-J_Start"
@@ -20,8 +20,8 @@
         "y": 5.96525
       },
       "prevControl": {
-        "x": 6.460254098360656,
-        "y": 7.331848360655737
+        "x": 6.8542499999999995,
+        "y": 7.115749999999999
       },
       "nextControl": null,
       "isLocked": false,
