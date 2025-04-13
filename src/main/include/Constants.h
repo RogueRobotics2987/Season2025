@@ -54,7 +54,7 @@ namespace CoralSubsystemConstants {
     inline constexpr double L2Height = 8;
     inline constexpr double L3Height = 23;
     inline constexpr double L4Height = 49; //48.5;
-    inline constexpr double intakeSpeed = 0.5;
+    inline constexpr double intakeSpeed = 0.4;
     inline constexpr double manualElevatorSpeedUp = 1;
     inline constexpr double manualElevatorSpeedDown = -0.8;
     inline constexpr double rightBranchSetPointX = -0.18;

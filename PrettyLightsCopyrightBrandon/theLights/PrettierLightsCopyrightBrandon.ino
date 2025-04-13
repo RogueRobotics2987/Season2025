@@ -100,6 +100,12 @@ void Red() {
   Serial.println("Red");
 }
 
+void Orange() {
+  uint32_t orange = strip.Color(5, 50, 0);
+  strip.fill(orange, 0, NUMPIXELS);
+  strip.show();
+}
+
 void RedBlink() {
   uint32_t red = strip.Color(0, 50, 0);
   uint32_t off = strip.Color(0, 0, 0);
@@ -158,13 +164,13 @@ void loop() {
     Green();
   }
   else if (buttonState == 0 && buttonState2 == 0 && buttonState3 == 1) {
-    RedBlink();
+    Orange();
   }
   else if (buttonState == 1 && buttonState2 == 1 && buttonState3 == 0) {
     Red();
   }
   else if (buttonState == 1 && buttonState2 == 0 && buttonState3 == 1) {
-    BlueBlink();
+    Orange();
   }
   else if (buttonState == 0 && buttonState2 == 1 && buttonState3 == 1) {
     Blue();

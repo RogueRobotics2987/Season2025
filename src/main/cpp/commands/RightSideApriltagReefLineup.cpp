@@ -280,10 +280,10 @@ bool RightSideApriltagReefLineup::IsFinished()
    if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 2.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
    {
     if(_isRightSideLineUp) {
-      _lightSubsystem->RedBlink();
+      _lightSubsystem->Green();
     }
     else {
-      _lightSubsystem->BlueBlink();
+      _lightSubsystem->Green();
     }
 
   //  std::cout << "Done!" << std::endl << "\n";
