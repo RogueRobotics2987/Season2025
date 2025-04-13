@@ -97,26 +97,26 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                          .ToPtr());
 
     AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
-                               m_coralSubsystem.SetIntakeMotors(0.6);
-                               m_lightSubsystem.GreenBlink();
+                               m_coralSubsystem.SetIntakeMotors(0.4);
+                            //    m_lightSubsystem.GreenBlink();
                            })
                                .ToPtr());
 
     AuxStick.A().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Intake Button off
                                    m_coralSubsystem.SetIntakeMotors(0);
-                                   m_lightSubsystem.Off();
+                                //    m_lightSubsystem.Off();
                                })
                                    .ToPtr());
 
-    // AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button on
-    //                               m_coralSubsystem.SetIntakeMotors(-0.5);
-    //                           })
-    //                               .ToPtr());
+    AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button on
+                                  m_coralSubsystem.SetIntakeMotors(-0.4);
+                              })
+                                  .ToPtr());
 
-    // AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Button off
-    //                                m_coralSubsystem.SetIntakeMotors(0);
-    //                            })
-    //                                .ToPtr());
+    AuxStick.B().ToggleOnFalse(frc2::InstantCommand([this]() -> void { // Eject Button off
+                                   m_coralSubsystem.SetIntakeMotors(0);
+                               })
+                                   .ToPtr());
 
     DriveStick.X().ToggleOnTrue(frc2::InstantCommand([this]() -> void
                                                    { m_climberSubsystem.SetClimber(ClimberSpeed); })
@@ -187,23 +187,13 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
     DriveStick.LeftBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, leftBranchSetPointX, leftBranchSetPointY, leftBranchSetPointYaw, false).ToPtr());
     DriveStick.LeftBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
                                                         {
-                                                            if (m_coralSubsystem.coralLoaded) {
-                                                                m_lightSubsystem.Green();
-                                                            }
-                                                            else {
-                                                                m_lightSubsystem.Off();
-                                                            }
+                                                            m_lightSubsystem.Off();
                                                         })
                                   .ToPtr());
     DriveStick.RightBumper().WhileTrue(RightSideApriltagReefLineup(drivetrain, m_lightSubsystem, rightBranchSetPointX, rightBranchSetPointY, rightBranchSetPointYaw, true).ToPtr());
     DriveStick.RightBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
                                                         {
-                                                            if (m_coralSubsystem.coralLoaded) {
-                                                                m_lightSubsystem.Green();
-                                                            }
-                                                            else {
-                                                                m_lightSubsystem.Off();
-                                                            }
+                                                            m_lightSubsystem.Off();
                                                         })
                                   .ToPtr());
 

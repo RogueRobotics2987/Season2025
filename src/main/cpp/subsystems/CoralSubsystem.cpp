@@ -187,7 +187,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
             _elevatorLeader.GetEncoder().SetPosition(0);
             _elevatorFollower.GetEncoder().SetPosition(0);
             _state = NO_CORAL;
-            _light.Idle();
+            // _light.Idle();
             break;
 
         case NO_CORAL:
@@ -200,7 +200,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                     coralLoaded = true;
                     coralPlace = true;
                     _state = YES_CORAL;
-                    _light.Green();
+                    // _light.Green();
                 }
 
                 _intakeDelayCount++;
@@ -215,7 +215,7 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
                 coralLoaded = false;
                 coralPlace = false;
                 _state = NO_CORAL;
-                _light.Off();
+                // _light.Off();
             }
             break;
 
