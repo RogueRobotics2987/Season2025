@@ -78,6 +78,7 @@ void RightSideApriltagReefLineup::Execute()
 
   // is this done? 
  //std::cout << "getting data" << std::endl;
+
  std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
  std::vector<double> apriltags_x = apriltags_xSub.Get();
  std::vector<double> apriltags_y = apriltags_ySub.Get();
@@ -279,10 +280,8 @@ bool RightSideApriltagReefLineup::IsFinished()
 
    if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 2.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
    {
-    if(_isRightSideLineUp) {
-      _lightSubsystem->Green();
-    }
-    else {
+    
+    if(apriltags_idSub.Get().size() > 0) {
       _lightSubsystem->Green();
     }
 

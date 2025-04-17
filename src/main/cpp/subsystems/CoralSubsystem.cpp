@@ -159,6 +159,10 @@ void CoralSubsystem::ManualElevator(double increaseHeight){
 
     _elevatorLeaderClosedLoopController.SetReference(elevatorTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
+
+int CoralSubsystem::GetState(){
+    return _state;
+}
  
  // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() { // TODO: should drivers be able to override evelator and arm all the time?

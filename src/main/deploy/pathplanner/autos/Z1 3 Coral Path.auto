@@ -68,15 +68,34 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "IntakeCMD"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeCMD"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "S1_Face_K-L"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCMD"
           }
         },
         {
@@ -137,15 +156,34 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "IntakeCMD"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeCMD"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Copy of 3 Coral Source Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCMD"
           }
         },
         {
