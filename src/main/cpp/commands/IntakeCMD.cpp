@@ -26,7 +26,7 @@ void IntakeCMD::Execute() {}
 // Called once the command ends or is interrupted.
 void IntakeCMD::End(bool interrupted) 
 {
-  // m_coralSubsystem->SetIntakeMotors(0);
+  m_coralSubsystem->SetIntakeMotors(0);
 }
 
 // Returns true when the command should end.

@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Z2_Face_G-H"
@@ -17,13 +23,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "RightLineUp"
+                  "name": "LeftLineUp"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 5.0
+                  "waitTime": 2.0
                 }
               }
             ]
