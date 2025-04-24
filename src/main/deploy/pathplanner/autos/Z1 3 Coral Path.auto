@@ -27,7 +27,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "RightLineUp"
+                        "name": "LeftLineUp"
                       }
                     },
                     {
@@ -171,7 +171,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 1.5
                       }
                     }
                   ]
@@ -184,6 +184,12 @@
           "type": "named",
           "data": {
             "name": "PlaceCMD"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PoseL1CMD"
           }
         }
       ]
