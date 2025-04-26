@@ -97,7 +97,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                          .ToPtr());
 
     AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
-                               m_coralSubsystem.SetIntakeMotors(0.4);
+                               m_coralSubsystem.SetIntakeMotors(0.2);
                             //    m_lightSubsystem.GreenBlink();
                            })
                                .ToPtr());
@@ -109,7 +109,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                    .ToPtr());
 
     AuxStick.B().ToggleOnTrue(frc2::InstantCommand([this]() -> void { // Eject Button on
-                                  m_coralSubsystem.SetIntakeMotors(-0.4);
+                                  m_coralSubsystem.SetIntakeMotors(0.6);
                               })
                                   .ToPtr());
 
@@ -140,7 +140,15 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
 
     AuxStick.RightBumper().ToggleOnFalse(frc2::InstantCommand([this]() -> void
                                                    { m_climberSubsystem.SetClimber(0); })
-                                    .ToPtr());                                    
+                                    .ToPtr());
+
+    AuxStick.Start().ToggleOnTrue(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(-ClimberSpeed); })
+                                    .ToPtr());
+
+    AuxStick.Start().ToggleOnFalse(frc2::InstantCommand([this]() -> void
+                                                   { m_climberSubsystem.SetClimber(0); })
+                                    .ToPtr());                            
 
     AuxStick.Y().OnTrue(frc2::InstantCommand([this]() -> void
                                                    { m_coralSubsystem.SetAlgyArm(0.14); })

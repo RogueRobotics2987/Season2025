@@ -35,6 +35,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetAlgyArm(double algyPose);
   void SetAlgyArmManual(double algyPoseStepSize);
   void SetFunnelPin(double funnelPinSpeed);
+  int GetState();
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
@@ -98,6 +99,8 @@ class CoralSubsystem : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   private:
+
+
   
     LightSubsystem& _light;
 };
