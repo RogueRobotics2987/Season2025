@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.684,
-        "y": 0.638
+        "x": 1.57,
+        "y": 0.69
       },
       "prevControl": {
-        "x": 2.453736842105263,
-        "y": 0.6764868421052624
+        "x": 2.339736842105263,
+        "y": 0.7284868421052624
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Source2"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 53.897023898327305
+    "rotation": 53.46
   },
   "reversed": false,
   "folder": "GeneralMovement",
