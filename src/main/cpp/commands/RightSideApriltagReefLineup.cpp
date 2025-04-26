@@ -39,6 +39,12 @@ void RightSideApriltagReefLineup::Initialize()
   frc::SmartDashboard::PutBoolean("AutoLineup", true);
   std::cout << "this command is being run" << std::endl;
   frc::SmartDashboard::PutNumber("KP_X", kP_x);
+  frc::SmartDashboard::PutNumber("minkpDistance", minkp_Distance);
+  frc::SmartDashboard::PutNumber("maxkpDistance", maxkp_Distance);
+  frc::SmartDashboard::PutNumber("distance", distance);
+  frc::SmartDashboard::PutNumber("maxkpyawDistance", maxkpyaw_Distance);
+  frc::SmartDashboard::PutNumber("minkpyawDistance", minkpyaw_Distance);
+
   if(_isRightSideLineUp)
   {
     _lightSubsystem->Red();
@@ -174,6 +180,24 @@ void RightSideApriltagReefLineup::Execute()
   errorY = currentY - _setPointY; //0.35
   errorYaw = currentYaw - _setPointYaw; // our yaw will always be parallel with the tag //0
 
+  minkp_Distance = frc::SmartDashboard::GetNumber("minkpDistance", minkp_Distance);
+  maxkp_Distance = frc::SmartDashboard::GetNumber("maxkpDistance", maxkp_Distance);
+  distance = frc::SmartDashboard::GetNumber("distance", distance);
+  minkpyaw_Distance = frc::SmartDashboard::GetNumber("minkpyawDistance", minkpyaw_Distance);
+  maxkpyaw_Distance = frc::SmartDashboard::GetNumber("maxkpyawDistance", maxkpyaw_Distance);
+
+
+  if(errorY < distance)
+  {
+    kP_x = maxkp_Distance;
+    kP_yaw = maxkpyaw_Distance;
+  }
+  else
+  {
+    kP_x = minkp_Distance;
+    kP_yaw = minkpyaw_Distance;
+  }
+
   if(errorYaw > 180)
   {
     errorYaw = errorYaw + -360;
@@ -278,7 +302,7 @@ bool RightSideApriltagReefLineup::IsFinished()
   //   return true;
   // }
 
-   if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 2.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
+   if(std::fabs(errorX) < 0.025 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 2.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
    {
     
     if(apriltags_idSub.Get().size() > 0) {
