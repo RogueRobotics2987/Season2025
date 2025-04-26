@@ -33,7 +33,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 1.5
                       }
                     }
                   ]
@@ -102,7 +102,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 1.5
                       }
                     }
                   ]
