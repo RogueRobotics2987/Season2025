@@ -15,17 +15,12 @@
 using namespace rev::spark;
 using namespace CoralSubsystemConstants;
 
-enum PossibleStates {
-  ZERO,
-  NO_CORAL,
-  YES_CORAL
- };
 
 
 
 class CoralSubsystem : public frc2::SubsystemBase {
  public:
-  CoralSubsystem(LightSubsystem &lights);
+  CoralSubsystem();
 
   // these's are the functions we use
   void SetElevator(double setElevator);
@@ -35,7 +30,7 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetAlgyArm(double algyPose);
   void SetAlgyArmManual(double algyPoseStepSize);
   void SetFunnelPin(double funnelPinSpeed);
-  int GetState();
+  bool GetBB();
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
@@ -48,18 +43,12 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
  public:
-    enum PossibleStates _state = ZERO;
 
     int ElevatorLevel = 0;
     double elevatorOffset = 0;
     double elevatorTotal = 0;
     double algyPose = 0.35;
     double algySetPoint = 0.35;
-
-    int _intakeDelayCount = 0;
-
-    bool coralLoaded = false;
-    bool coralPlace = false;
 
     // the motors on the robot
     
@@ -99,8 +88,4 @@ class CoralSubsystem : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   private:
-
-
-  
-    LightSubsystem& _light;
 };

@@ -81,7 +81,7 @@ private:
 
   // The robot's subsystems are defined here...
   LightSubsystem m_lightSubsystem;
-  CoralSubsystem m_coralSubsystem{m_lightSubsystem};
+  CoralSubsystem m_coralSubsystem;
   ClimberSubsystem m_climberSubsystem;
 
 

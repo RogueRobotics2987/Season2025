@@ -34,6 +34,7 @@ class IntakeCMD
   bool IsFinished() override;
 
   private:
-  CoralSubsystem* m_coralSubsystem = nullptr;
+    int _intakeDelayCount = 0;
+    CoralSubsystem* m_coralSubsystem = nullptr;
 
 };

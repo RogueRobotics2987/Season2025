@@ -8,7 +8,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <rev/config/SparkMaxConfig.h>
 
-CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light{lights}{
+CoralSubsystem::CoralSubsystem(){
 
     SparkMaxConfig _elevatorLeaderConfig;
     SparkMaxConfig _elevatorFollowerConfig;
@@ -97,12 +97,19 @@ CoralSubsystem::CoralSubsystem(LightSubsystem &lights): _light{lights}{
     
     SetFunnelPin(0);
     SetAlgyArm(0.38);
+    _elevatorLeader.GetEncoder().SetPosition(0);
+    _elevatorFollower.GetEncoder().SetPosition(0);
 } 
 
 void CoralSubsystem::SetFunnelPin(double funnelPinSpeed){
     frc::SmartDashboard::PutNumber("Funnel Pin Speed: ", funnelPinSpeed);
     _funnelPin.Set(funnelPinSpeed);
 }
+
+bool CoralSubsystem::GetBB(){
+    return _clawBB.Get();
+}
+
 void CoralSubsystem::SetIntakeMotors(double intakeSpeed){
     _intakeTop.Set(-intakeSpeed);
     // _intakeRight.Set(intakeSpeed);
@@ -159,16 +166,12 @@ void CoralSubsystem::ManualElevator(double increaseHeight){
 
     _elevatorLeaderClosedLoopController.SetReference(elevatorTotal, SparkMax::ControlType::kPosition, ClosedLoopSlot::kSlot0);
 }
-
-int CoralSubsystem::GetState(){
-    return _state;
-}
  
  // This method will be called once per scheduler run
 void CoralSubsystem::Periodic() { // TODO: should drivers be able to override evelator and arm all the time?
     frc::SmartDashboard::PutString("Periodic Running", "true");        
     frc::SmartDashboard::PutBoolean("_clawBB", _clawBB.Get()); 
-    frc::SmartDashboard::PutNumber("_state", _state); 
+
 
 
     // _funnelBB = frc::SmartDashboard::GetBoolean("Funnel Beam Break", false);
@@ -183,49 +186,5 @@ void CoralSubsystem::Periodic() { // TODO: should drivers be able to override ev
         _elevatorFollower.GetEncoder().SetPosition(0);
     }
 
-    // TODO: reconsider using a state machine
-    switch (_state) {
-
-        case ZERO:
-            // set motor encoders to 0
-            _elevatorLeader.GetEncoder().SetPosition(0);
-            _elevatorFollower.GetEncoder().SetPosition(0);
-            _state = NO_CORAL;
-            // _light.Idle();
-            break;
-
-        case NO_CORAL:
-
-            if (!_clawBB.Get()){
-                frc::SmartDashboard::PutNumber("_state", _state);
-                if (_intakeDelayCount >= 3) {
-                    _intakeTop.Set(0);
-                    _intakeDelayCount = 0;
-                    coralLoaded = true;
-                    coralPlace = true;
-                    _state = YES_CORAL;
-                    // _light.Green();
-                }
-
-                _intakeDelayCount++;
-            }
-
-            break;
-
-        case YES_CORAL:
-            
-            if(_clawBB.Get()){
-                // turn intake off
-                coralLoaded = false;
-                coralPlace = false;
-                _state = NO_CORAL;
-                // _light.Off();
-            }
-            break;
-
-        default:
-            _state = NO_CORAL;
-    }
-    frc::SmartDashboard::PutNumber("Current Coral State: ", _state);
     frc::SmartDashboard::PutNumber("Current Elevator Level: ", ElevatorLevel);
 }

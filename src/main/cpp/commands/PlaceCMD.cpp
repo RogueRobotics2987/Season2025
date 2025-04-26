@@ -16,8 +16,7 @@ PlaceCMD::PlaceCMD(CoralSubsystem &CoralSubsystem)
 // Called when the command is initially scheduled.
 void PlaceCMD::Initialize() 
 {
-  m_coralSubsystem->coralPlace = true;
-  m_coralSubsystem->SetIntakeMotors(intakeSpeed);
+  m_coralSubsystem->SetIntakeMotors(placingSpeed);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -32,5 +31,5 @@ void PlaceCMD::End(bool interrupted)
 // Returns true when the command should end.
 bool PlaceCMD::IsFinished() 
 {
-  return !m_coralSubsystem->coralPlace;
+  return m_coralSubsystem->GetBB();
 }
