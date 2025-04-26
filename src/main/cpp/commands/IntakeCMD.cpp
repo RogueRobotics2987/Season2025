@@ -16,7 +16,6 @@ IntakeCMD::IntakeCMD(CoralSubsystem &CoralSubsystem)
 void IntakeCMD::Initialize() 
 {
   m_coralSubsystem->SetIntakeMotors(intakeSpeed);
-  _intakeDelayCount = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -31,13 +30,5 @@ void IntakeCMD::End(bool interrupted)
 // Returns true when the command should end.
 bool IntakeCMD::IsFinished() 
 {
-    if (m_coralSubsystem->GetBB()){
-      if (_intakeDelayCount >= 3) {
-        _intakeDelayCount = 0;
-        return true;
-      }
-    _intakeDelayCount++;
-  }
-
-  return false;
+  return !m_coralSubsystem->GetBB();
 }
