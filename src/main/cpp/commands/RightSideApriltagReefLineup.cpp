@@ -132,22 +132,41 @@ void RightSideApriltagReefLineup::Execute()
   //take networktable and get the apriltags it sees
   for(std::vector<double> currentTag: mapleTags)
   {
-    bool allowedTag = false;
-
-    for(int currentReefTagID: _reefTags)
+    if(closestReefTag > 0)
     {
-      if(currentTag[0] == currentReefTagID)
+      if(currentTag[0] = closestReefTag)
       {
-        allowedTag = true;
+        allowedMapleTags.emplace_back(currentTag);
       }
     }
-    if (allowedTag)
-    {
-      //add to new vector 
-      allowedMapleTags.emplace_back(currentTag);
-      allowedTag = false;
+    else{
+        bool allowedTag = false;
+
+      for(int currentReefTagID: _reefTags)
+      {
+        if(currentTag[0] == currentReefTagID)
+        {
+          allowedTag = true;
+        }
+      }
+      if (allowedTag)
+      {
+        //add to new vector 
+        allowedMapleTags.emplace_back(currentTag);
+        allowedTag = false;
+      }
     }
+  
   }
+
+  //if allowedMapleTags vector is empty, set isfinished to true and end command
+   if(allowedMapleTags.empty())
+   {
+    finished = true;
+    return;
+   }
+
+
 
   //another network table getting our pose??
   std::cout << "idk" << std::endl;
@@ -161,6 +180,8 @@ void RightSideApriltagReefLineup::Execute()
       closestAprilTag = currentTag;
     }
   }
+
+  closestReefTag = closestAprilTag[0];
 
   frc::SmartDashboard::PutNumber("Tag_ID", closestAprilTag[0]);
   frc::SmartDashboard::PutNumber("Tag_X", closestAprilTag[1]);
