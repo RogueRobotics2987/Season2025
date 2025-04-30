@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.966730769230768,
-        "y": 2.8381410256410255
+        "x": 3.699460227272727,
+        "y": 3.0228551136363633
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.6684577429149785,
-        "y": 1.6931574730094474
+        "x": 2.283494318181819,
+        "y": 1.5670028409090908
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_C-D"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.7493323863636363
       },
       "prevControl": {
-        "x": 2.225589114832536,
-        "y": 0.7878192284688987
+        "x": 1.7006818181818184,
+        "y": 0.9781818181818188
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -47,8 +47,8 @@
   "reversed": false,
   "folder": "GeneralMovement",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 118.66395711028153
+    "velocity": 1.0,
+    "rotation": 59.00000000000001
   },
   "useDefaultConstraints": false
 }

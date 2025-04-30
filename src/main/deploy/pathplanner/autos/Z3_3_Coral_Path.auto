@@ -76,6 +76,75 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Z3_3_Coral_3rd_Place"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "PoseL4CMD"
+                }
+              },
+              {
+                "type": "race",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "LeftLineUp"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.75
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PlaceCMD"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Z3_3_Coral_3rd_Source"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PoseL1CMD"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCMD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Z3_3_Coral_2nd_Place"
           }
         },
@@ -118,72 +187,9 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Z3_3_Coral_2nd_Source"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "PoseL1CMD"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "IntakeCMD"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Z3_3_Coral_3rd_Place"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "PoseL4CMD"
-                }
-              },
-              {
-                "type": "race",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "LeftLineUp"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.75
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PlaceCMD"
+            "name": "PoseL1CMD"
           }
         }
       ]
