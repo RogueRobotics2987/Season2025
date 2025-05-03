@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5755113636363638,
-        "y": 7.360497159090909
+        "x": 7.187417763157893,
+        "y": 7.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6825329498211252,
-        "y": 7.134562699367525
+        "x": 6.71595394736842,
+        "y": 6.934210526315789
       },
       "isLocked": false,
-      "linkedName": "Source"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.440198863636364,
-        "y": 5.9245880681818175
+        "x": 5.493,
+        "y": 5.604
       },
       "prevControl": {
-        "x": 3.232864157746328,
-        "y": 6.0642745733764585
+        "x": 5.771728901224841,
+        "y": 5.90194999517032
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Face_K-L"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.5,
-    "rotation": -60.4612177404419
+    "velocity": 1.0,
+    "rotation": -120.114
   },
   "reversed": false,
   "folder": "MasterPaths1",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": false
 }
