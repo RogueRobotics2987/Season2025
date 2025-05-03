@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.455852272727273,
-        "y": 0.7493323863636363
+        "x": 3.699460227272727,
+        "y": 3.0228551136363633
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.215766746411483,
-        "y": 1.6150659389952153
+        "x": 2.283494318181819,
+        "y": 1.5670028409090908
       },
       "isLocked": false,
-      "linkedName": "Source2"
+      "linkedName": "Face_C-D"
     },
     {
       "anchor": {
-        "x": 3.2108522727272732,
-        "y": 2.235099431818181
+        "x": 1.455852272727273,
+        "y": 0.7493323863636363
       },
       "prevControl": {
-        "x": 2.9703095095693786,
-        "y": 1.9656915370813395
+        "x": 1.7006818181818184,
+        "y": 0.9781818181818188
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Source2"
     }
   ],
   "rotationTargets": [],
@@ -34,21 +34,21 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.5,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
-    "rotation": 59.036243467926546
-  },
-  "reversed": false,
-  "folder": "MasterPaths3",
-  "idealStartingState": {
-    "velocity": 1.0,
+    "velocity": 0,
     "rotation": 53.46
   },
-  "useDefaultConstraints": true
+  "reversed": false,
+  "folder": "CopiedPaths3",
+  "idealStartingState": {
+    "velocity": 1.0,
+    "rotation": 59.00000000000001
+  },
+  "useDefaultConstraints": false
 }
