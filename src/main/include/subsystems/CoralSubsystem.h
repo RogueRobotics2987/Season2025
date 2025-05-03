@@ -10,6 +10,7 @@
 #include <frc/DigitalInput.h>
 #include <frc/DigitalOutput.h>
 #include <frc2/command/CommandPtr.h>
+#include "subsystems/LightSubsystem.h"
 
 using namespace rev::spark;
 using namespace CoralSubsystemConstants;
@@ -24,7 +25,7 @@ enum PossibleStates {
 
 class CoralSubsystem : public frc2::SubsystemBase {
  public:
-  CoralSubsystem();
+  CoralSubsystem(LightSubsystem &lights);
 
   // these's are the functions we use
   void SetElevator(double setElevator);
@@ -35,16 +36,12 @@ class CoralSubsystem : public frc2::SubsystemBase {
   void SetAlgyArm(double algyPose);
   void SetAlgyArmManual(double algyPoseStepSize);
   void SetFunnelPin(double funnelPinSpeed);
+  int GetState();
 
   frc2::CommandPtr SetElevatorLevelCommand(int DesiredLevel);
   double GetDesiredElevatorHeight();
   double GetDesiredArmAngle();
-  void LightsOff();
-  void RBSwap();
-  void LightsPink();
-  void LightsCyan();
-  void PinkBlink();
-  void CyanBlink();
+
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -95,13 +92,16 @@ class CoralSubsystem : public frc2::SubsystemBase {
     // frc::DigitalInput _troughSensor{1};
     frc::DigitalInput _clawBB{3};
 
-    frc::DigitalOutput _light1{4};
-    frc::DigitalOutput _light2{5};
-    frc::DigitalOutput _light3{6};
+
 
     double _elevatorHeight = CoralSubsystemConstants::restingElevatorHeight;
     double _desiredElevatorHeight = restingElevatorHeight;
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+  private:
+
+
+  
+    LightSubsystem& _light;
 };

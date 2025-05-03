@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include "subsystems/CommandSwerveDrivetrain.h"
+#include "subsystems/LightSubsystem.h"
 #include "ctre/phoenix6/swerve/SwerveDrivetrain.hpp"
 #include "RobotContainer.h"
 #include "Telemetry.h"
@@ -29,7 +30,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
 
   RightSideApriltagReefLineup();
   RightSideApriltagReefLineup(
-  subsystems::CommandSwerveDrivetrain &driveTrain, double setPointX, double setPointY, double setPointYaw); // needs xbox perm? //dont think we need drivepose
+  subsystems::CommandSwerveDrivetrain &driveTrain, LightSubsystem &lightSubsystem, double setPointX, double setPointY, double setPointYaw, bool isRightSideLineup); // needs xbox perm? //dont think we need drivepose
 
   void Initialize() override;
 
@@ -54,10 +55,11 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   units::radians_per_second_t MaxAngularRate = 0.75_tps; // 3/4 of a rotation per second max angular velocity
 
   swerve::requests::RobotCentric robotCentricDrive = swerve::requests::RobotCentric{}
-  .WithDeadband(MaxSpeed * 0.02).WithRotationalDeadband(MaxAngularRate * 0.02) // Add a 10% deadband
+  .WithDeadband(MaxSpeed * 0.01).WithRotationalDeadband(MaxAngularRate * 0.01) // Add a 10% deadband
   .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
 
   subsystems::CommandSwerveDrivetrain* _driveTrain = nullptr;
+  LightSubsystem* _lightSubsystem = nullptr;
 
  nt::DoubleArraySubscriber apriltags_idSub;// Creates the variables that hold the apriltag data
  nt::DoubleArraySubscriber apriltags_xSub;
@@ -70,7 +72,7 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   double speedX = 0;
   double speedY = 0;
   double rot = 0; //some of these are in private some arent
-  double kP_x = 2.7; //tune these //max speed: 1.25 mps //2.5
+  double kP_x = 2.9; //tune these //max speed: 1.25 mps //2.5
   double kP_y = 2.5;
   double kP_yaw = 2.0; //tune these //max output: 90* max // max error: 60*
   double errorX;
@@ -84,5 +86,6 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   int currentx;
 
   bool NoJoystickInput = false;
+  bool _isRightSideLineUp = false;
   bool finished = false;
 };

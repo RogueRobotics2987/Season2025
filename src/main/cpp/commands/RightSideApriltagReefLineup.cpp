@@ -7,18 +7,23 @@
 #include <networktables/NetworkTableInstance.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/RightSideApriltagReefLineup.h"
+#include "subsystems/LightSubsystem.h"
 
 #include <iostream>
 
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(){}
 RightSideApriltagReefLineup::RightSideApriltagReefLineup(
-  subsystems::CommandSwerveDrivetrain &driveTrain, double setPointX, double setPointY, double setPointYaw)
+  subsystems::CommandSwerveDrivetrain &driveTrain, 
+  LightSubsystem &lightSubsystem, double setPointX, double setPointY, double setPointYaw, bool isRightSideLineup) 
 {
   _driveTrain = &driveTrain;
   AddRequirements({_driveTrain});
+  _lightSubsystem = &lightSubsystem;
+  AddRequirements({_lightSubsystem});
   _setPointX = setPointX;
   _setPointY = setPointY;
   _setPointYaw = setPointYaw;
+  _isRightSideLineUp = isRightSideLineup;
 
 // //maple handles lose tracking for 100 ms sends the same thing
  auto table = nt::NetworkTableInstance::GetDefault().GetTable("MAPLE"); //might cause loop overrun problems!!!
@@ -31,9 +36,18 @@ RightSideApriltagReefLineup::RightSideApriltagReefLineup(
 // Called when the command is initially scheduled.
 void RightSideApriltagReefLineup::Initialize() 
 {
+  frc::SmartDashboard::PutBoolean("AutoLineup", true);
   std::cout << "this command is being run" << std::endl;
   frc::SmartDashboard::PutNumber("KP_X", kP_x);
-  //change lights
+  if(_isRightSideLineUp)
+  {
+    _lightSubsystem->Red();
+  }
+  else
+  {
+    _lightSubsystem->Blue();
+  }
+
   //make sure robot is robot centric
   finished = false;
 }
@@ -49,7 +63,6 @@ void RightSideApriltagReefLineup::Execute()
   //   finished = true;
   //   time = 0;
   // }
-  frc::SmartDashboard::PutBoolean("AutoLineup", true);
   kP_x = frc::SmartDashboard::GetNumber("KP_X", kP_x);
 
 
@@ -64,16 +77,25 @@ void RightSideApriltagReefLineup::Execute()
   //    type: vector<vector<double>>
 
   // is this done? 
- std::cout << "getting data" << std::endl;
+ //std::cout << "getting data" << std::endl;
+
  std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
  std::vector<double> apriltags_x = apriltags_xSub.Get();
  std::vector<double> apriltags_y = apriltags_ySub.Get();
  std::vector<double> apriltags_yaw = apriltags_yawSub.Get();
 
- if(apriltags_id.empty())
+ if(apriltags_id.size() == apriltags_x.size()
+    && apriltags_id.size() == apriltags_y.size()
+    && apriltags_id.size() == apriltags_yaw.size())
+ {
+   if(apriltags_id.empty())
+   {
+    finished = true;
+    return;
+   }
+ } else
  {
    finished = true;
-
    return;
  }
 
@@ -249,15 +271,20 @@ void RightSideApriltagReefLineup::End(bool interrupted)
 bool RightSideApriltagReefLineup::IsFinished() 
 {
   //set all variables to what their start is just in case?
-  return false;
+  // return false;
   // if(finished)
   // {
   //   std::cout << "Done No Tag" << std::endl;
   //   return true;
   // }
 
-   if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 1.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
-   {//change lights
+   if(std::fabs(errorX) < 0.02 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 2.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
+   {
+    
+    if(apriltags_idSub.Get().size() > 0) {
+      _lightSubsystem->Green();
+    }
+
   //  std::cout << "Done!" << std::endl << "\n";
   //  std::cout << errorX << std::endl << "\n";
   //  std::cout << errorYaw << std::endl << "\n";
