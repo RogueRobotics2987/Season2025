@@ -59,12 +59,12 @@ namespace CoralSubsystemConstants {
     inline constexpr double manualElevatorSpeedDown = -0.8;
     
     inline constexpr double OverideDown = -0.3;
-    inline constexpr double rightBranchSetPointX = -0.18;
+    inline constexpr double rightBranchSetPointX = -0.17;
     inline constexpr double rightBranchSetPointY = 0.42;
-    inline constexpr double rightBranchSetPointYaw = 6.2;
+    inline constexpr double rightBranchSetPointYaw = -1.2;
     
-    inline constexpr double leftBranchSetPointX = 0.18;
-    inline constexpr double leftBranchSetPointY = 0.42;
+    inline constexpr double leftBranchSetPointX = 0.19;
+    inline constexpr double leftBranchSetPointY = 0.48;
     inline constexpr double leftBranchSetPointYaw = 0;
 
     inline constexpr double ClimberSpeed = 1; // Jeff-"Don't be dumb." the number only goes between -1 and 1 

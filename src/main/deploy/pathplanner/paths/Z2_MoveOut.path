@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 6.47,
-        "y": 4.054
+        "x": 6.35,
+        "y": 3.87
       },
       "prevControl": {
-        "x": 6.957860443672163,
-        "y": 4.054
+        "x": 6.837860443672162,
+        "y": 3.87
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face_G-H"
     }
   ],
   "rotationTargets": [],
