@@ -96,6 +96,11 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                      })
                                          .ToPtr());
 
+    AuxStick.Back().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator down
+                                         m_coralSubsystem.ElevatorOveride(OverideDown);
+                                     })
+                                         .ToPtr());
+
     AuxStick.A().WhileTrue(frc2::InstantCommand([this]() -> void { // Intake Button and Place on
                                m_coralSubsystem.SetIntakeMotors(0.2);
                             //    m_lightSubsystem.GreenBlink();
