@@ -96,7 +96,7 @@ void RobotContainer::ConfigureBindings() // more needs to be added somewhere in 
                                      })
                                          .ToPtr());
 
-    AuxStick.Start().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator down
+    AuxStick.Back().WhileTrue(frc2::RunCommand([this]() -> void { // Manual Elevator down
                                          m_coralSubsystem.ElevatorOveride(OverideDown);
                                      })
                                          .ToPtr());
