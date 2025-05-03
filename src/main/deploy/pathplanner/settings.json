@@ -3,7 +3,9 @@
   "robotLength": 0.812,
   "holonomicMode": true,
   "pathFolders": [
+    "CopiedPaths1",
     "GeneralMovement",
+    "MasterPaths1",
     "Zone1",
     "Zone2",
     "Zone3"
