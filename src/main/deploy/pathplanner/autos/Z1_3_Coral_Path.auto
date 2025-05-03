@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "3 Coral Start Path"
+            "pathName": "3_Coral_Start_Path"
           }
         },
         {
@@ -33,7 +33,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 1.5
                       }
                     }
                   ]
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "3 Coral Source Path"
+                  "pathName": "3_Coral_Source_Path"
                 }
               },
               {
@@ -102,7 +102,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 1.5
                       }
                     }
                   ]
@@ -124,7 +124,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Face_K-L_S1 Unlinked Left"
+                  "pathName": "Face_K-L_S1_Unlinked_Left"
                 }
               },
               {
@@ -145,7 +145,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of 3 Coral Source Path"
+            "pathName": "Copy_of_3_Coral_Source_Path"
           }
         },
         {
