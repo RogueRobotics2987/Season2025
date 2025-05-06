@@ -93,5 +93,4 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
 
   bool NoJoystickInput = false;
   bool _isRightSideLineUp = false;
-  bool finished = false;
 };

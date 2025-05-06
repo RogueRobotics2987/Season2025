@@ -54,25 +54,15 @@ void RightSideApriltagReefLineup::Initialize()
     _lightSubsystem->Blue();
   }
 
-  //make sure robot is robot centric
-  finished = false;
+  closestReefTag = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void RightSideApriltagReefLineup::Execute() 
 {
-  // std::cout << "this command is being run" << std::endl;
-
-  // time++;
-  // if(time > 200)
-  // {
-  //   finished = true;
-  //   time = 0;
-  // }
   kP_x = frc::SmartDashboard::GetNumber("KP_X", kP_x);
 
 
-  // TODO: get list of tags from maple
   // Table: maple
   // Topic: tags: vector<vector<double>>  --- 4 numbers {tag_id, x, y, z, yaw}
   //         an exampe will look like {{3, 0, 1.0, 0.0, 0.8}, {4, 0, 0.5, 0.0, 0.2}, {}, {} }
@@ -81,9 +71,6 @@ void RightSideApriltagReefLineup::Execute()
   // Table: MAPLE
   // Topic: apriltags
   //    type: vector<vector<double>>
-
-  // is this done? 
- //std::cout << "getting data" << std::endl;
 
  std::vector<double> apriltags_id = apriltags_idSub.Get();// Putting apriltag data into vectors
  std::vector<double> apriltags_x = apriltags_xSub.Get();
@@ -96,12 +83,10 @@ void RightSideApriltagReefLineup::Execute()
  {
    if(apriltags_id.empty())
    {
-    finished = true;
     return;
    }
  } else
  {
-   finished = true;
    return;
  }
 
@@ -128,13 +113,12 @@ void RightSideApriltagReefLineup::Execute()
 
   int minDistance = 99999;
 
-
   //take networktable and get the apriltags it sees
   for(std::vector<double> currentTag: mapleTags)
   {
     if(closestReefTag > 0)
     {
-      if(currentTag[0] = closestReefTag)
+      if(currentTag[0] == closestReefTag)
       {
         allowedMapleTags.emplace_back(currentTag);
       }
@@ -162,11 +146,8 @@ void RightSideApriltagReefLineup::Execute()
   //if allowedMapleTags vector is empty, set isfinished to true and end command
    if(allowedMapleTags.empty())
    {
-    finished = true;
     return;
    }
-
-
 
   //another network table getting our pose??
   std::cout << "idk" << std::endl;
@@ -188,10 +169,9 @@ void RightSideApriltagReefLineup::Execute()
   frc::SmartDashboard::PutNumber("Tag_Y", closestAprilTag[2]);
   frc::SmartDashboard::PutNumber("Tag_Yaw", closestAprilTag[3]);
 
-
-  double currentX = closestAprilTag[1]; // i dont think its supposed to be minDistanceTagID
+  double currentX = closestAprilTag[1];
   double currentY = closestAprilTag[2];
-  double currentYaw = closestAprilTag[3]; //placeholder, dont know the how to get the value yet
+  double currentYaw = closestAprilTag[3];
   double outputX = 0;
   double outputY = 0;
   double outputYaw = 0;
@@ -206,7 +186,6 @@ void RightSideApriltagReefLineup::Execute()
   distance = frc::SmartDashboard::GetNumber("distance", distance);
   minkpyaw_Distance = frc::SmartDashboard::GetNumber("minkpyawDistance", minkpyaw_Distance);
   maxkpyaw_Distance = frc::SmartDashboard::GetNumber("maxkpyawDistance", maxkpyaw_Distance);
-
 
   if(errorY < distance)
   {
@@ -246,7 +225,6 @@ void RightSideApriltagReefLineup::Execute()
     outputX = (-MaxSpeed.value() * MaxLineupSpeed);
   }
   
-  //std::cout << outputX << std::endl;
   frc::SmartDashboard::PutNumber("output_x", outputX);
   outputY = errorY * kP_y;
   
@@ -260,7 +238,6 @@ void RightSideApriltagReefLineup::Execute()
     outputY = (-MaxSpeed.value() * MaxLineupSpeed);
   }
   
-  //std::cout << outputY << std::endl;
   frc::SmartDashboard::PutNumber("output_y", outputY);
 
   outputYaw = errorYaw * - kP_yaw;
@@ -277,32 +254,18 @@ void RightSideApriltagReefLineup::Execute()
  {
   outputYaw = outputYaw + 6;
  }
-  //outputX = 0;
-  //outputYaw = 0;
 
   frc::SmartDashboard::PutNumber("outputYaw", outputYaw);
 
   _driveTrain->SetControl(robotCentricDrive.WithVelocityY(units::meters_per_second_t{outputX})
         .WithVelocityX(units::meters_per_second_t{outputY})
-        // .WithVelocityX(units::meters_per_second_t{- _driveStick->GetLeftY()})
         .WithRotationalRate(units::degrees_per_second_t{outputYaw})
    );
-
 
   frc::SmartDashboard::PutNumber("error_x", errorX);
   frc::SmartDashboard::PutNumber("error_y", errorY);
   frc::SmartDashboard::PutNumber("error_Yaw", errorYaw);
 
-  //TODO: 
-  // now that we have all our apriltags:
-  // lock x and fill in with PID
-  // lock yaw and fill in with PID
-  // allow free y movement
-
-  // TODO: right side only for right now
-  //errorx = currentx - desiredx;
-  //erroryaw = currentyaw - desiredyaw;
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  std::cout << "end of execute" << std::endl;
 }
 
@@ -315,13 +278,6 @@ void RightSideApriltagReefLineup::End(bool interrupted)
 // Returns true when the command should end.
 bool RightSideApriltagReefLineup::IsFinished() 
 {
-  //set all variables to what their start is just in case?
-  // return false;
-  // if(finished)
-  // {
-  //   std::cout << "Done No Tag" << std::endl;
-  //   return true;
-  // }
 
    if(std::fabs(errorX) < 0.025 && std::fabs(errorY) < 0.03 && std::fabs(errorYaw) < 2.5) //within 5 cm //make another one for the yaw and case if the tag is lost for auto to make sure itll still run
    {
@@ -330,10 +286,7 @@ bool RightSideApriltagReefLineup::IsFinished()
       _lightSubsystem->Green();
     }
 
-  //  std::cout << "Done!" << std::endl << "\n";
-  //  std::cout << errorX << std::endl << "\n";
-  //  std::cout << errorYaw << std::endl << "\n";
-   return true; //end the command
+   return true;
   }
   else
   {
