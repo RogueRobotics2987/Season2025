@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy_of_3_Coral_Start_Path"
+            "pathName": "3_Coral_Start_Path"
           }
         },
         {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy_of_3_Coral_Source_Path"
+                  "pathName": "3_Coral_Source_Path"
                 }
               },
               {
@@ -76,7 +76,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy_of_S1_Face_K-L"
+            "pathName": "S1_Face_K-L"
           }
         },
         {
@@ -124,7 +124,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Copy_of_Face_K-L_S1_Unlinked_Left"
+                  "pathName": "Face_K-L_S1_Unlinked_Left"
                 }
               },
               {
@@ -145,7 +145,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy_of_New_3_Coral_Source_Path"
+            "pathName": "New_3_Coral_Source_Path"
           }
         },
         {
