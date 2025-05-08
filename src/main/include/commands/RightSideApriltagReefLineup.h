@@ -83,10 +83,10 @@ class RightSideApriltagReefLineup : public frc2::CommandHelper<frc2::Command, Ri
   double _setPointY = 0;
   double _setPointYaw = 0;
   double minkp_Distance = 2.9;
-  double maxkp_Distance = 10;
+  double maxkp_Distance = 8;
   double distance = 0.2;
   double minkpyaw_Distance = 2.0;
-  double maxkpyaw_Distance = 8;
+  double maxkpyaw_Distance = 6;
   int closestReefTag = 0;
 
   int currentx;
