@@ -58,6 +58,7 @@ namespace CoralSubsystemConstants {
     inline constexpr double manualElevatorSpeedUp = 1;
     inline constexpr double manualElevatorSpeedDown = -0.8;
     
+    inline constexpr double OverideDown = -0.3;
     inline constexpr double rightBranchSetPointX = -0.17;
     inline constexpr double rightBranchSetPointY = 0.42;
     inline constexpr double rightBranchSetPointYaw = -1.2;
