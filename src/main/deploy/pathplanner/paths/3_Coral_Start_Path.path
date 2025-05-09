@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.783522727272728,
-        "y": 5.50578125
+        "x": 5.658205128205128,
+        "y": 5.635
       },
       "prevControl": {
-        "x": 6.062552332535887,
-        "y": 5.8040542763157905
+        "x": 5.936934029429969,
+        "y": 5.932949995170319
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": -120.114
   },
   "reversed": false,
-  "folder": "GeneralMovement",
+  "folder": "MasterPaths1",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0

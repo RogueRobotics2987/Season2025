@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 2.215766746411483,
-        "y": 1.6150659389952156
+        "y": 1.6150659389952153
       },
       "isLocked": false,
       "linkedName": "Source2"
@@ -45,7 +45,7 @@
     "rotation": 59.036243467926546
   },
   "reversed": false,
-  "folder": "GeneralMovement",
+  "folder": "MasterPaths3",
   "idealStartingState": {
     "velocity": 1.0,
     "rotation": 53.46

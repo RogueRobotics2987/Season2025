@@ -185,6 +185,25 @@
           "data": {
             "name": "PlaceCMD"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy_of_Face_K-L_S1_Unlinked_Right"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PoseL1CMD"
+                }
+              }
+            ]
+          }
         }
       ]
     }

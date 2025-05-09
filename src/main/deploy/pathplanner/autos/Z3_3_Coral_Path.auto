@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z3_3_Coral_Start"
+            "pathName": "Copy_of_Z3_3_Coral_Start"
           }
         },
         {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Z3_3_Coral_1st_Source"
+                  "pathName": "Copy_of_Z3_3_Coral_1st_Source"
                 }
               },
               {
@@ -76,7 +76,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Z3_3_Coral_3rd_Place"
+            "pathName": "Copy_of_Z3_3_Coral_3rd_Place"
           }
         },
         {
@@ -124,7 +124,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Z3_3_Coral_3rd_Source"
+                  "pathName": "Copy_of_Z3_3_Coral_3rd_Source"
                 }
               },
               {
@@ -171,7 +171,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 1.5
                       }
                     }
                   ]
@@ -181,9 +181,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "PlaceCMD"
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PlaceCMD"
+                }
+              }
+            ]
           }
         },
         {
